@@ -1,30 +1,35 @@
 import React from "react";
-import type { RootState } from "./redux/store";
-import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "./redux/stateSlices/counterSlice";
-
-function Counter() {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
-
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import Login from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Search from "./pages/Search";
+import Navbar from "./components/Navbar";
+import AboutUs from "./pages/AboutUs";
+import Collaborate from "./pages/Collaborate";
+import { observer } from "mobx-react-lite";
+const App = observer(() => {
   return (
-    <div>
-      <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          Decrement
-        </button>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Switch>
+        <Route path={"/login"}>
+          <Login />
+        </Route>
+        <ProtectedRoute path={"/search"}>
+          <Search />
+        </ProtectedRoute>
+        <ProtectedRoute path={"/collaborate"}>
+          <Collaborate />
+        </ProtectedRoute>
+        <ProtectedRoute path={"/aboutUs"}>
+          <AboutUs />
+        </ProtectedRoute>
+        <Route path={"/"}>
+          <MainPage />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
-}
-export default Counter;
+});
+export default App;
