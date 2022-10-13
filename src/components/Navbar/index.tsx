@@ -34,7 +34,7 @@ const NavbarItems: NavbarItem[] = [
   {
     caption: "Sign Up",
     key: "signUp",
-    linkTo: "/login",
+    linkTo: "/signup",
     isProtected: false,
   },
   {
@@ -49,7 +49,7 @@ const Navbar = observer(() => {
   const onHandleClick = (item: NavbarItem) => {
     if (item.isProtected && !User.isAuth) {
       alert.openAlert(
-        3000,
+        5000,
         "error",
         `you need to authorize first before viewing ${item.caption} page`
       );
@@ -80,15 +80,19 @@ const Navbar = observer(() => {
             </Menu.Item>
           ))}
           <Menu.Item key="logIn" className="tw-w-36">
-            <Link to={"/login"}>
-              <Button
-                className="tw-w-24"
-                size="large"
-                style={{ borderRadius: "20px" }}
-              >
-                Log in
-              </Button>
-            </Link>
+            {User.isAuth ? (
+              <div> Welcome, {User.name} </div>
+            ) : (
+              <Link to={"/login"}>
+                <Button
+                  className="tw-w-24"
+                  size="large"
+                  style={{ borderRadius: "20px" }}
+                >
+                  Log in
+                </Button>
+              </Link>
+            )}
           </Menu.Item>
         </Menu>
       </div>
