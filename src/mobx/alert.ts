@@ -18,9 +18,6 @@ class alert {
     this.message = message;
     setTimeout(() => {
       this.isOpen = false;
-      this.TTL = 0;
-      this.type = "error";
-      this.message = "error";
     }, TTL);
   }
 }
