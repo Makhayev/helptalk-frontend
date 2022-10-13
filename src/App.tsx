@@ -9,6 +9,8 @@ import AboutUs from "./pages/AboutUs";
 import Collaborate from "./pages/Collaborate";
 import { observer } from "mobx-react-lite";
 import SignUp from "./pages/SignUp";
+import Footer from "./components/Footer";
+
 const App = observer(() => {
   return (
     <BrowserRouter>
@@ -33,6 +35,7 @@ const App = observer(() => {
           <MainPage />
         </Route>
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 });

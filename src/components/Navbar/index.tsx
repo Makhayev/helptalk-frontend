@@ -65,6 +65,7 @@ const Navbar = observer(() => {
         <img src={"/helptalkLogo.svg"} />
         <Menu
           mode={"horizontal"}
+          selectable={false}
           className="tw-items-center tw-mr-8 tw-border-0"
         >
           {NavbarItems.map((NavBarItem) => (
