@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import { useHistory } from "react-router-dom";
-const Login = observer(() => {
-  const history = useHistory();
+
+const SignUp = observer(() => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const onHandleSubmit = () => {
     //fetching is done here
     if (email === "admin" && password === "1234512345") {
@@ -18,14 +18,13 @@ const Login = observer(() => {
         isAuth: true,
       });
     }
-    history.push("/");
   };
 
   return (
-    <div className={"tw-flex tw-justify-center"}>
+    <div className={"tw-flex tw-justify-center"} style={{ height: "70vh" }}>
       <div
         className={
-          "tw-mt-20 tw-border tw-drop-shadow-md tw-border-secondary tw-h-96 tw-w-1/2 tw-rounded"
+          "tw-mt-10 tw-border tw-drop-shadow-md tw-border-secondary tw-h-full tw-w-1/2 tw-rounded"
         }
       >
         <div
@@ -33,7 +32,14 @@ const Login = observer(() => {
             "tw-flex-col tw-flex tw-justify-center tw-items-center tw-h-full"
           }
         >
-          <div className={"tw-font-bold tw-text-3xl"}>Log In</div>
+          <div className={"tw-font-bold tw-text-3xl tw-mb-4"}>
+            Create Your Account
+          </div>
+          <CustomInput
+            setValue={setFullName}
+            topText={"Full Name"}
+            placeholder={"Full Name"}
+          />
           <CustomInput
             setValue={setEmail}
             topText={"E-Mail"}
@@ -44,22 +50,23 @@ const Login = observer(() => {
             topText={"Password"}
             placeholder={"Password"}
           />
+          <CustomInput
+            setValue={setConfirmPassword}
+            topText={"Confirm Password"}
+            placeholder={"Confirm Password"}
+          />
           <button
             onClick={onHandleSubmit}
             className={
-              "tw-w-1/2 tw-bg-main tw-text-white tw-h-12 tw-rounded-2xl tw-mt-4"
+              "tw-w-1/2 tw-bg-main tw-text-white tw-h-12 tw-rounded-2xl tw-mt-6"
             }
           >
-            Confirm
+            Register Account
           </button>
-          <div className={"tw-mt-4"}>
-            Dont have an account?{" "}
-            <button className={"tw-text-main"}>Sign up</button>
-          </div>
         </div>
       </div>
     </div>
   );
 });
 
-export default Login;
+export default SignUp;

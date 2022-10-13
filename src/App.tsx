@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import AboutUs from "./pages/AboutUs";
 import Collaborate from "./pages/Collaborate";
 import { observer } from "mobx-react-lite";
+import SignUp from "./pages/SignUp";
 const App = observer(() => {
   return (
     <BrowserRouter>
@@ -15,6 +16,9 @@ const App = observer(() => {
       <Switch>
         <Route path={"/login"}>
           <Login />
+        </Route>
+        <Route path={"/signup"}>
+          <SignUp />
         </Route>
         <ProtectedRoute path={"/search"}>
           <Search />
