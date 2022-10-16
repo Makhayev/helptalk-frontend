@@ -25,7 +25,7 @@ const Login = observer(() => {
     <div className={"tw-flex tw-justify-center"}>
       <div
         className={
-          "tw-mt-20 tw-border tw-drop-shadow-md tw-border-secondary tw-h-96 tw-w-1/2 tw-rounded"
+          "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-h-96 tw-w-1/2 tw-rounded"
         }
       >
         <div
@@ -54,7 +54,14 @@ const Login = observer(() => {
           </button>
           <div className={"tw-mt-4"}>
             Dont have an account?{" "}
-            <button className={"tw-text-main"}>Sign up</button>
+            <button
+              className={"tw-text-main"}
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              Sign up
+            </button>
           </div>
         </div>
       </div>
