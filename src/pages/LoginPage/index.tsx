@@ -18,7 +18,9 @@ const Login = observer(() => {
         isAuth: true,
       });
     }
-    history.push("/");
+    console.log(User);
+    history.push(User.pageToRedirect);
+    User.pageToRedirect = "/";
   };
 
   return (

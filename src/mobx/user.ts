@@ -6,9 +6,13 @@ class User {
   surname: string = "";
   id: number = 0;
   isAuth: boolean = false;
-
+  pageToRedirect: string = "/";
   constructor() {
     makeAutoObservable(this);
+  }
+
+  assignPageToRedirect(path: string) {
+    this.pageToRedirect = path;
   }
 
   assignUser(user: UserType) {
@@ -16,6 +20,8 @@ class User {
     this.surname = user.surname;
     this.id = user.id;
     this.isAuth = true;
+    this.pageToRedirect =
+      this.pageToRedirect !== "/" ? this.pageToRedirect : "/";
   }
 }
 export default new User();

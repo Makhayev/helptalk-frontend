@@ -1,7 +1,8 @@
 import React from "react";
+import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
 
-const MainPage = () => {
+const MainPage = observer(() => {
   return (
     <div>
       <div className="tw-h-96 tw-bg-secondary">
@@ -63,6 +64,6 @@ const MainPage = () => {
       </div>
     </div>
   );
-};
+});
 
 export default MainPage;

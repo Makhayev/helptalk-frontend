@@ -59,7 +59,17 @@ const Navbar = observer(() => {
   return (
     <React.Fragment>
       {alert.isOpen && (
-        <Alert banner type={alert.type} message={alert.message} />
+        <Alert
+          banner
+          type={alert.type}
+          message={alert.message}
+          showIcon={false}
+          style={{
+            textAlign: "center",
+            position: "absolute",
+            width: "100%",
+          }}
+        />
       )}
       <div className={"tw-flex tw-justify-between"}>
         <img src={"/helptalkLogo.svg"} />
