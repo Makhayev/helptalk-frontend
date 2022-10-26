@@ -14,7 +14,10 @@ class User {
   assignPageToRedirect(path: string) {
     this.pageToRedirect = path;
   }
-
+  logOutUser() {
+    (this.name = ""), (this.surname = ""), (this.id = 0), (this.isAuth = false);
+    this.pageToRedirect = "/";
+  }
   assignUser(user: UserType) {
     this.name = user.name;
     this.surname = user.surname;

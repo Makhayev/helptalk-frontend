@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
 import { useHistory } from "react-router-dom";
+import {
+  GoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+  GoogleLogout,
+} from "react-google-login";
+import { gapi } from "gapi-script";
+const clientId =
+  "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com";
 const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
@@ -23,6 +32,38 @@ const Login = observer(() => {
     User.pageToRedirect = "/";
   };
 
+  const onSuccess = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ): void => {
+    console.log(response);
+    if ("profileObj" in response) {
+      User.assignUser({
+        surname: response?.profileObj?.familyName,
+        name: response?.profileObj?.givenName,
+        id: 123,
+        isAuth: true,
+      });
+    }
+  };
+  const onLogoutSuccess = () => {
+    console.log("logout success");
+    User.logOutUser();
+  };
+  const onFailure = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ): void => {
+    console.log(response);
+  };
+
+  useEffect(() => {
+    const start = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", start);
+  }, []);
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
@@ -64,6 +105,19 @@ const Login = observer(() => {
             >
               Sign up
             </button>
+            <GoogleLogin
+              clientId={clientId}
+              buttonText={"Login"}
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+              isSignedIn={true}
+              cookiePolicy={"single_host_origin"}
+            />
+            <GoogleLogout
+              clientId={clientId}
+              buttonText={"logout"}
+              onLogoutSuccess={onLogoutSuccess}
+            />
           </div>
         </div>
       </div>
