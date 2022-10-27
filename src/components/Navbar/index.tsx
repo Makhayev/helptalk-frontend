@@ -76,7 +76,7 @@ const Navbar = observer(() => {
         <Menu
           mode={"horizontal"}
           selectable={false}
-          className="tw-items-center tw-mr-8 tw-border-0"
+          className="tw-items-center tw-mr-16 tw-border-0"
         >
           {NavbarItems.map((NavBarItem) => (
             <Menu.Item key={NavBarItem.key}>
@@ -90,13 +90,22 @@ const Navbar = observer(() => {
               </Link>
             </Menu.Item>
           ))}
-          <Menu.Item key="logIn" className="tw-w-36">
+          <Menu.Item key="logIn" className="tw-w-60">
             {User.isAuth ? (
-              <div> Welcome, {User.name} </div>
+              <Button
+                onClick={() => {
+                  User.logOutUser();
+                }}
+                className="tw-w-48"
+                size="large"
+                style={{ borderRadius: "20px" }}
+              >
+                Welcome, {User.name}{" "}
+              </Button>
             ) : (
               <Link to={"/login"}>
                 <Button
-                  className="tw-w-24"
+                  className="tw-w-48"
                   size="large"
                   style={{ borderRadius: "20px" }}
                 >

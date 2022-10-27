@@ -68,8 +68,11 @@ const Login = observer(() => {
     <div className={"tw-flex tw-justify-center"}>
       <div
         className={
-          "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-h-96 tw-w-1/2 tw-rounded"
+          "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
         }
+        style={{
+          height: "32rem",
+        }}
       >
         <div
           className={
@@ -105,20 +108,26 @@ const Login = observer(() => {
             >
               Sign up
             </button>
-            <GoogleLogin
-              clientId={clientId}
-              buttonText={"Login"}
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              isSignedIn={true}
-              cookiePolicy={"single_host_origin"}
-            />
-            <GoogleLogout
-              clientId={clientId}
-              buttonText={"logout"}
-              onLogoutSuccess={onLogoutSuccess}
-            />
           </div>
+          <div className="tw-my-4">
+            {User.isAuth ? (
+              <GoogleLogout
+                clientId={clientId}
+                buttonText={"logout"}
+                onLogoutSuccess={onLogoutSuccess}
+              />
+            ) : (
+              <GoogleLogin
+                clientId={clientId}
+                buttonText={"Login"}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                isSignedIn={true}
+                cookiePolicy={"single_host_origin"}
+              />
+            )}
+          </div>
+          <div></div>
         </div>
       </div>
     </div>
