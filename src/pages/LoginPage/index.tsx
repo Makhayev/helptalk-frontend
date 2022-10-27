@@ -16,7 +16,7 @@ const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [hidePassword, setHidePassword] = useState(true);
   const onHandleSubmit = () => {
     //fetching is done here
     if (email === "admin" && password === "1234512345") {
@@ -86,6 +86,7 @@ const Login = observer(() => {
             placeholder={"Email"}
           />
           <CustomInput
+            isPassword
             setValue={setPassword}
             topText={"Password"}
             placeholder={"Password"}
