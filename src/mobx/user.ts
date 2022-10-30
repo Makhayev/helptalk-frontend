@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import UserType from "../types/User";
-
+import { useGoogleLogout } from "react-google-login";
 class User {
   name: string = "";
   surname: string = "";

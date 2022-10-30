@@ -4,58 +4,22 @@ import { Menu, Button, Alert } from "antd";
 import { Link } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
-
-interface NavbarItem {
-  caption: string;
-  key: string;
-  linkTo: string;
-  isProtected: boolean;
-}
-
-const NavbarItems: NavbarItem[] = [
-  {
-    caption: "Home",
-    key: "home",
-    linkTo: "/",
-    isProtected: false,
-  },
-  {
-    caption: "About Us",
-    key: "aboutUs",
-    linkTo: "/aboutUs",
-    isProtected: true,
-  },
-  {
-    caption: "Collaborate",
-    key: "collaborate",
-    linkTo: "/collaborate",
-    isProtected: true,
-  },
-  {
-    caption: "Sign Up",
-    key: "signUp",
-    linkTo: "/signup",
-    isProtected: false,
-  },
-  {
-    caption: "Search",
-    key: "search",
-    linkTo: "/search",
-    isProtected: true,
-  },
-];
+import { useGoogleLogout } from "react-google-login";
 
 const Navbar = observer(() => {
-  const onHandleClick = (item: NavbarItem) => {
-    if (item.isProtected && !User.isAuth) {
+  const onHandleClick = (isProtected: boolean, caption: string) => {
+    if (isProtected && !User.isAuth) {
       alert.openAlert(
         5000,
         "error",
-        `you need to authorize first before viewing ${item.caption} page`
+        `you need to authorize first before viewing ${caption} page`
       );
     }
   };
-
+  const { signOut } = useGoogleLogout({
+    clientId:
+      "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com",
+  });
   return (
     <React.Fragment>
       {alert.isOpen && (
@@ -72,35 +36,86 @@ const Navbar = observer(() => {
         />
       )}
       <div className={"tw-flex tw-justify-between"}>
-        <img src={"/helptalkLogo.svg"} />
+        <img src={"/helptalkLogo.svg"} alt="logo" />
         <Menu
           mode={"horizontal"}
           selectable={false}
-          className="tw-items-center tw-mr-16 tw-border-0"
+          multiple={false}
+          className="tw-items-center tw-w-1/2 tw-mr-16 tw-border-0"
         >
-          {NavbarItems.map((NavBarItem) => (
-            <Menu.Item key={NavBarItem.key}>
+          {/* Had to write sh1t code because ant would behave strangely
+                if decomposed with components
+                //TODO fix it
+          */}
+          <Menu.Item key={"home"}>
+            <Link
+              to={"/"}
+              onClick={() => {
+                onHandleClick(false, "home");
+              }}
+            >
+              {"Home"}
+            </Link>
+          </Menu.Item>
+          <Menu.Item key={"aboutUs"}>
+            <Link
+              to={"/aboutUs"}
+              onClick={() => {
+                onHandleClick(true, "About Us");
+              }}
+            >
+              {"About Us"}
+            </Link>
+          </Menu.Item>
+          <Menu.Item key={"collaborate"}>
+            <Link
+              to={"/collaborate"}
+              onClick={() => {
+                onHandleClick(true, "collaborate");
+              }}
+            >
+              {"Collaborate"}
+            </Link>
+          </Menu.Item>
+          <Menu.Item key={"search"}>
+            <Link
+              to={"/search"}
+              onClick={() => {
+                onHandleClick(true, "search");
+              }}
+            >
+              {"Search"}
+            </Link>
+          </Menu.Item>
+          {User.isAuth ? (
+            <Menu.Item
+              onClick={() => {
+                User.logOutUser();
+                signOut();
+              }}
+            >
+              Log Out
+            </Menu.Item>
+          ) : (
+            <Menu.Item key={"signUp"}>
               <Link
-                to={NavBarItem.linkTo}
+                to={"/signUp"}
                 onClick={() => {
-                  onHandleClick(NavBarItem);
+                  onHandleClick(false, "Sign Up");
                 }}
               >
-                {NavBarItem.caption}
+                {"Sign Up"}
               </Link>
             </Menu.Item>
-          ))}
+          )}
           <Menu.Item key="logIn" className="tw-w-60">
             {User.isAuth ? (
               <Button
-                onClick={() => {
-                  User.logOutUser();
-                }}
                 className="tw-w-48"
                 size="large"
                 style={{ borderRadius: "20px" }}
               >
-                Welcome, {User.name}{" "}
+                Welcome, {User.name}
               </Button>
             ) : (
               <Link to={"/login"}>

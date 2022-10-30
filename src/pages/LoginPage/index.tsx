@@ -16,7 +16,6 @@ const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [hidePassword, setHidePassword] = useState(true);
   const onHandleSubmit = () => {
     //fetching is done here
     if (email === "admin" && password === "1234512345") {
@@ -43,6 +42,7 @@ const Login = observer(() => {
         id: 123,
         isAuth: true,
       });
+      history.push(User.pageToRedirect);
     }
   };
   const onLogoutSuccess = () => {
@@ -123,7 +123,6 @@ const Login = observer(() => {
                 buttonText={"Login"}
                 onSuccess={onSuccess}
                 onFailure={onFailure}
-                isSignedIn={true}
                 cookiePolicy={"single_host_origin"}
               />
             )}
