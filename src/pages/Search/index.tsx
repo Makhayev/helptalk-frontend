@@ -1,10 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import SearchPageCard from "../../components/SearchPageCard";
 
 const Search = observer(() => {
   return (
     <div>
-      <div className={"tw-h-96"}>
+      <div className={"tw-h-24"}>
         <div className={"tw-flex tw-justify-center tw-mt-10 tw-items-center"}>
           <input
             placeholder={"Share your problem with us"}
@@ -20,6 +21,11 @@ const Search = observer(() => {
             search
           </button>
         </div>
+      </div>
+      <div className="tw-flex tw-flex-col tw-items-center tw-justify-center">
+        <SearchPageCard />
+        <SearchPageCard />
+        <SearchPageCard />
       </div>
     </div>
   );

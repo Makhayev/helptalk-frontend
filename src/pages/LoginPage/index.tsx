@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 import {
   GoogleLogin,
@@ -17,7 +18,6 @@ const Login = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onHandleSubmit = () => {
-    //fetching is done here
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
@@ -55,6 +55,19 @@ const Login = observer(() => {
     console.log(response);
   };
 
+  const makeRequest = () => {
+    axios
+      .post("http://localhost:5431/register/patient", {
+        email: "asd@gmail.com",
+        password: "something",
+        first_name: "kek",
+        last_name: "lol",
+      })
+      .then((response) => {
+        console.log(response);
+        alert("success");
+      });
+  };
   useEffect(() => {
     const start = () => {
       gapi.client.init({
@@ -65,7 +78,7 @@ const Login = observer(() => {
     gapi.load("client:auth2", start);
   }, []);
   return (
-    <div className={"tw-flex tw-justify-center"}>
+    <div className={"tw-flex tw-justify-center tw-flex-col tw-items-center"}>
       <div
         className={
           "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
@@ -130,6 +143,7 @@ const Login = observer(() => {
           <div></div>
         </div>
       </div>
+      <button onClick={makeRequest}>Click me pls</button>
     </div>
   );
 });
