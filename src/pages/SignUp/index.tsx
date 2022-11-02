@@ -21,11 +21,14 @@ const SignUp = observer(() => {
   };
 
   return (
-    <div className={"tw-flex tw-justify-center"} style={{ height: "70vh" }}>
+    <div className={"tw-flex tw-justify-center"}>
       <div
         className={
-          "tw-mt-10 tw-border tw-drop-shadow-md tw-border-secondary tw-h-full tw-w-1/2 tw-rounded"
+          "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
         }
+        style={{
+          height: "70vh",
+        }}
       >
         <div
           className={
