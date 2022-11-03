@@ -74,7 +74,7 @@ const Navbar = observer(() => {
                 onHandleClick(true, "collaborate");
               }}
             >
-              {"Collaborate"}
+              {"OpenAI"}
             </Link>
           </Menu.Item>
           <Menu.Item key={"search"}>
