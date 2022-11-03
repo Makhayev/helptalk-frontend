@@ -25,10 +25,31 @@ const Login = observer(() => {
         id: 123,
         isAuth: true,
       });
+      history.push(User.pageToRedirect);
+      User.pageToRedirect = "/";
+      return;
     }
-    console.log(User);
-    history.push(User.pageToRedirect);
-    User.pageToRedirect = "/";
+    axios
+      .post("http://localhost:5431/login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response);
+        alert("success");
+        User.assignUser({
+          surname: "",
+          name: response?.data?.name,
+          id: 123,
+          isAuth: true,
+        });
+        history.push(User.pageToRedirect);
+        User.pageToRedirect = "/";
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("failure");
+      });
   };
 
   const onSuccess = (
@@ -55,19 +76,7 @@ const Login = observer(() => {
     console.log(response);
   };
 
-  const makeRequest = () => {
-    axios
-      .post("http://localhost:5431/register/patient", {
-        email: "asd@gmail.com",
-        password: "something",
-        first_name: "kek",
-        last_name: "lol",
-      })
-      .then((response) => {
-        console.log(response);
-        alert("success");
-      });
-  };
+  const makeRequest = () => {};
   useEffect(() => {
     const start = () => {
       gapi.client.init({
@@ -143,7 +152,6 @@ const Login = observer(() => {
           <div></div>
         </div>
       </div>
-      <button onClick={makeRequest}>Click me pls</button>
     </div>
   );
 });

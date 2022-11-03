@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
+import axios from "axios";
 
 const SignUp = observer(() => {
   const [fullName, setFullName] = useState("");
@@ -9,7 +10,7 @@ const SignUp = observer(() => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const onHandleSubmit = () => {
-    //fetching is done here
+    const kek = fullName?.split(" ");
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
@@ -17,7 +18,28 @@ const SignUp = observer(() => {
         id: 123,
         isAuth: true,
       });
+      return;
     }
+    axios
+      .post("http://localhost:5431/register/patient", {
+        email: email,
+        password: password,
+        first_name: kek[0],
+        last_name: kek[1],
+      })
+      .then((response) => {
+        User.assignUser({
+          surname: kek[1],
+          name: kek[0],
+          id: 123,
+          isAuth: true,
+        });
+        alert("success");
+      })
+      .catch((err) => {
+        alert("failure");
+        console.log(err);
+      });
   };
 
   return (
