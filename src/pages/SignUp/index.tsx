@@ -3,14 +3,15 @@ import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
 import axios from "axios";
-
+import alert from "../../mobx/alert";
+import { useHistory } from "react-router-dom";
 const SignUp = observer(() => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const history = useHistory();
   const onHandleSubmit = () => {
-    const kek = fullName?.split(" ");
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
@@ -18,27 +19,37 @@ const SignUp = observer(() => {
         id: 123,
         isAuth: true,
       });
+      alert?.openAlert(5000, "success", "Welcome admin");
+
+      history.push("/");
       return;
     }
+    if (confirmPassword !== password) {
+      alert.openAlert(5000, "error", "Passwords dont match!");
+      return;
+    }
+    const nameSurname = fullName?.split(" ");
+
     axios
-      .post("http://localhost:5431/register/patient", {
+      .post(`${import.meta.env.VITE_ENDPOINT}/register/patient`, {
         email: email,
         password: password,
-        first_name: kek[0],
-        last_name: kek[1],
+        first_name: nameSurname[0],
+        last_name: nameSurname[1],
       })
       .then((response) => {
         User.assignUser({
-          surname: kek[1],
-          name: kek[0],
+          surname: nameSurname[1],
+          name: nameSurname[0],
           id: 123,
           isAuth: true,
         });
-        alert("success");
+        alert?.openAlert(5000, "success", "registration successful");
+        history.push("/");
       })
       .catch((err) => {
-        alert("failure");
         console.log(err);
+        alert?.openAlert(5000, "error", "Could not register");
       });
   };
 
@@ -71,11 +82,13 @@ const SignUp = observer(() => {
             placeholder={"Email"}
           />
           <CustomInput
+            isPassword
             setValue={setPassword}
             topText={"Password"}
             placeholder={"Password"}
           />
           <CustomInput
+            isPassword
             setValue={setConfirmPassword}
             topText={"Confirm Password"}
             placeholder={"Confirm Password"}

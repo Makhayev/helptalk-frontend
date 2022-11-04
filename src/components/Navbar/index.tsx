@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { useGoogleLogout } from "react-google-login";
-
+import { useHistory } from "react-router-dom";
 const Navbar = observer(() => {
+  const history = useHistory();
   const onHandleClick = (isProtected: boolean, caption: string) => {
     if (isProtected && !User.isAuth) {
       alert.openAlert(
@@ -17,8 +18,7 @@ const Navbar = observer(() => {
     }
   };
   const { signOut } = useGoogleLogout({
-    clientId:
-      "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com",
+    clientId: import.meta.env.VITE_CLIENTID,
   });
   return (
     <React.Fragment>
@@ -92,6 +92,7 @@ const Navbar = observer(() => {
               onClick={() => {
                 User.logOutUser();
                 signOut();
+                alert.openAlert(5000, "success", "Log out successful");
               }}
             >
               Log Out
@@ -114,6 +115,9 @@ const Navbar = observer(() => {
                 className="tw-w-48"
                 size="large"
                 style={{ borderRadius: "20px" }}
+                onClick={() => {
+                  history.push("/profile");
+                }}
               >
                 Welcome, {User.name}
               </Button>

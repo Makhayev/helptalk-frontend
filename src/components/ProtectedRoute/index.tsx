@@ -12,7 +12,6 @@ const ProtectedRoute = observer(({ path, children }: protectedRouteProps) => {
     return <Route path={path}>{children}</Route>;
   } else {
     User.assignPageToRedirect(path);
-    console.log(User);
     return <Redirect to={"/login"} />;
   }
 });

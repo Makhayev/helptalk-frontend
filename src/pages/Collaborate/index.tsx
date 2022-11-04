@@ -5,13 +5,10 @@ const Collaborate = () => {
   const [stringFromDB, setStringFromDB] = useState("");
   const fetchStuff = () => {
     axios
-      .post("http://localhost:5431/openai", {
+      .post(`${import.meta.env.VITE_ENDPOINT}/openai`, {
         prompt: prompt,
       })
       .then((response) => {
-        console.log(response);
-        console.log("success");
-        console.log(response?.data?.message);
         setStringFromDB(response?.data?.message);
         alert("success");
       })

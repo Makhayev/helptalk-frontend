@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import UserType from "../types/User";
-import { useGoogleLogout } from "react-google-login";
 class User {
   name: string = "";
   surname: string = "";
@@ -9,6 +8,7 @@ class User {
   pageToRedirect: string = "/";
   constructor() {
     makeAutoObservable(this);
+    // TODO: fetch verify JWT on backend and login user if ok
   }
 
   assignPageToRedirect(path: string) {

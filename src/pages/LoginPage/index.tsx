@@ -11,8 +11,9 @@ import {
   GoogleLogout,
 } from "react-google-login";
 import { gapi } from "gapi-script";
-const clientId =
-  "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com";
+import alert from "../../mobx/alert";
+const clientId = import.meta.env.VITE_CLIENTID;
+
 const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
@@ -26,36 +27,36 @@ const Login = observer(() => {
         isAuth: true,
       });
       history.push(User.pageToRedirect);
+      alert.openAlert(4000, "success", "Login success");
       User.pageToRedirect = "/";
       return;
     }
     axios
-      .post("http://localhost:5431/login", {
+      .post(`${import.meta.env.VITE_ENDPOINT}/login`, {
         email: email,
         password: password,
       })
       .then((response) => {
         console.log(response);
-        alert("success");
         User.assignUser({
           surname: "",
           name: response?.data?.name,
           id: 123,
           isAuth: true,
         });
+        alert.openAlert(4000, "success", "Login success");
         history.push(User.pageToRedirect);
         User.pageToRedirect = "/";
       })
       .catch((err) => {
         console.log(err);
-        alert("failure");
+        alert.openAlert(4000, "error", "Login fail");
       });
   };
 
   const onSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
-    console.log(response);
     if ("profileObj" in response) {
       User.assignUser({
         surname: response?.profileObj?.familyName,
@@ -76,7 +77,6 @@ const Login = observer(() => {
     console.log(response);
   };
 
-  const makeRequest = () => {};
   useEffect(() => {
     const start = () => {
       gapi.client.init({
