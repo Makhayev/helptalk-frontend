@@ -32,7 +32,7 @@ const Login = observer(() => {
       return;
     }
     axios
-      .post(`${import.meta.env.VITE_ENDPOINT}/login`, {
+      .post(`${import.meta.env.VITE_VERCEL_URL}/login`, {
         email: email,
         password: password,
       })

@@ -31,7 +31,7 @@ const SignUp = observer(() => {
     const nameSurname = fullName?.split(" ");
 
     axios
-      .post(`${import.meta.env.VITE_ENDPOINT}/register/patient`, {
+      .post(`${import.meta.env.VITE_VERCEL_URL}/register/patient`, {
         email: email,
         password: password,
         first_name: nameSurname[0],

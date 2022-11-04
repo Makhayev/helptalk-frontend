@@ -5,7 +5,7 @@ const Collaborate = () => {
   const [stringFromDB, setStringFromDB] = useState("");
   const fetchStuff = () => {
     axios
-      .post(`${import.meta.env.VITE_ENDPOINT}/openai`, {
+      .post(`${import.meta.env.VITE_VERCEL_URL}/openai`, {
         prompt: prompt,
       })
       .then((response) => {
