@@ -19,6 +19,7 @@ const Login = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onHandleSubmit = () => {
+    console.log(clientId);
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
