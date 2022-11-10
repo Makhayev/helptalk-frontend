@@ -26,6 +26,8 @@
     "react-google-login": "^5.2.2",
     "react-icons": "^4.4.0",
     "react-router-dom": "^5.3.4",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "tailwindcss": "^3.1.8"
   },
   "devDependencies": {
