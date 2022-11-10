@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
+import CustomCarousel from "../../components/Carousel";
 
 const MainPage = observer(() => {
   return (
@@ -61,6 +62,18 @@ const MainPage = observer(() => {
             enableRightBar={false}
           />
         </div>
+      </div>
+      <div className="tw-text-center tw-flex tw-flex-col tw-items-center">
+        <div className={"tw-font-bold tw-text-4xl tw-mt-16 tw-mb-8"}>
+          Meet our specialists
+        </div>
+        <div className={"tw-text-dark tw-text-lg tw-w-3/4"}>
+          Thoroughly picked experts of their field will help you overcome your
+          problems with mental health
+        </div>
+      </div>
+      <div>
+        <CustomCarousel />
       </div>
     </div>
   );
