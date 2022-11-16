@@ -4,9 +4,11 @@ import { Input } from "antd";
 interface CustomInputProps {
   placeholder: string;
   topText: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
   isHidden?: boolean;
   isPassword?: boolean;
+  className?: string;
+  inputProps?: object;
 }
 
 const CustomInput = ({
@@ -14,9 +16,11 @@ const CustomInput = ({
   topText,
   setValue,
   isPassword = false,
+  className = "",
+  inputProps,
 }: CustomInputProps) => {
   return (
-    <div className="tw-w-1/2 tw-my-2">
+    <div className={className}>
       <div className={"tw-mb-1"}>{topText}</div>
       {isPassword ? (
         <Input.Password
@@ -35,6 +39,7 @@ const CustomInput = ({
           onChange={(e) => {
             setValue(e.target.value);
           }}
+          {...inputProps}
         />
       )}
     </div>

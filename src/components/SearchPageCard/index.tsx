@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Tag from "./Tags";
+import PsychologistModal from "../PsychologistModal";
+import { Modal } from "antd";
 
 interface searchPageCardProps {
   name?: string;
@@ -18,8 +20,9 @@ const SearchPageCard = ({
   score = "4.8",
   imageURL = "defaultPsychologistImage.png",
 }: searchPageCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
-    <div className="tw-grid tw-grid-cols-4 tw-w-2/3 tw-h-48 tw-my-4 tw-border-2 tw-rounded-xl tw-border-secondary tw-drop-shadow-sm">
+    <div className="tw-z-0 tw-grid tw-grid-cols-4 tw-w-2/3 tw-h-48 tw-my-4 tw-border-2 tw-rounded-xl tw-border-secondary tw-drop-shadow-sm">
       <div className="tw-flex tw-justify-center tw-items-center">
         <img
           src={imageURL}
@@ -53,10 +56,26 @@ const SearchPageCard = ({
           className={
             "tw-text-main tw-text-lg tw-w-full tw-text-center tw-underline tw-font-bold"
           }
+          onClick={() => {
+            setIsModalOpen((prevState) => !prevState);
+          }}
         >
           Make a booking
         </div>
       </div>
+      <Modal
+        open={isModalOpen}
+        keyboard={true}
+        onCancel={() => setIsModalOpen(false)}
+        width={"550px"}
+        footer={null}
+      >
+        <PsychologistModal
+          className={"tw-pt-8"}
+          psychologistName={"ARman Zhankin"}
+          psychologistID={21321}
+        />
+      </Modal>
     </div>
   );
 };

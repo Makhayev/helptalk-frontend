@@ -75,22 +75,26 @@ const SignUp = observer(() => {
             setValue={setFullName}
             topText={"Full Name"}
             placeholder={"Full Name"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
             setValue={setEmail}
             topText={"E-Mail"}
             placeholder={"Email"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
             isPassword
             setValue={setPassword}
             topText={"Password"}
             placeholder={"Password"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
             isPassword
             setValue={setConfirmPassword}
             topText={"Confirm Password"}
+            className={"tw-w-1/2 tw-my-2"}
             placeholder={"Confirm Password"}
           />
           <button

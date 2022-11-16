@@ -107,12 +107,14 @@ const Login = observer(() => {
             setValue={setEmail}
             topText={"E-Mail"}
             placeholder={"Email"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
             isPassword
             setValue={setPassword}
             topText={"Password"}
             placeholder={"Password"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <button
             onClick={onHandleSubmit}
