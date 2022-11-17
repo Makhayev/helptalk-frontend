@@ -11,17 +11,21 @@ import { observer } from "mobx-react-lite";
 import SignUp from "./pages/SignUp";
 import Footer from "./components/Footer";
 import PsychologistPage from "./pages/PsychologistPage";
+import SignUpSpecialist from "./pages/SignUpSpecialist";
 
 const App = observer(() => {
   return (
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route path={"/login"}>
+        <Route exact path={"/login"}>
           <Login />
         </Route>
-        <Route path={"/signup"}>
+        <Route exact path={"/signup"}>
           <SignUp />
+        </Route>
+        <Route exact path={"/signUpSpecialist"}>
+          <SignUpSpecialist />
         </Route>
         <ProtectedRoute path={"/search"}>
           <Search />

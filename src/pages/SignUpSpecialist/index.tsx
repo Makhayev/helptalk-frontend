@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
-import axios from "axios";
-import alert from "../../mobx/alert";
+import CustomInput from "../../components/CustomInput";
 import { Link, useHistory } from "react-router-dom";
-const SignUp = observer(() => {
+import User from "../../mobx/user";
+import alert from "../../mobx/alert";
+import axios from "axios";
+
+const signUpSpecialist = observer(() => {
   const [fullName, setFullName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [price, setPrice] = useState<number>();
+  const [specialization, setSpecialization] = useState<string>("");
   const history = useHistory();
+
   const onHandleSubmit = () => {
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
@@ -28,6 +32,11 @@ const SignUp = observer(() => {
       alert.openAlert(5000, "error", "Passwords dont match!");
       return;
     }
+    if (isNaN(price ?? 0)) {
+      console.log(price);
+      alert.openAlert(5000, "error", "Price must be a number!");
+      return;
+    }
     if (email.split("@").length !== 2) {
       alert.openAlert(5000, "error", "Email is incorrect");
       return;
@@ -42,11 +51,13 @@ const SignUp = observer(() => {
       return;
     }
     axios
-      .post(`${import.meta.env.VITE_VERCEL_URL}/register/patient`, {
+      .post(`${import.meta.env.VITE_VERCEL_URL}/register/specialist`, {
         email: email,
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
+        specialization_name: specialization,
+        price: price,
       })
       .then((response) => {
         User.assignUser({
@@ -63,7 +74,6 @@ const SignUp = observer(() => {
         alert?.openAlert(5000, "error", "Could not register");
       });
   };
-
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
@@ -71,7 +81,7 @@ const SignUp = observer(() => {
           "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
         }
         style={{
-          height: "70vh",
+          height: "100vh",
         }}
       >
         <div
@@ -80,7 +90,7 @@ const SignUp = observer(() => {
           }
         >
           <div className={"tw-font-bold tw-text-3xl tw-mb-4"}>
-            Create Patient Account
+            Create Specialist Account
           </div>
           <CustomInput
             setValue={setFullName}
@@ -92,6 +102,18 @@ const SignUp = observer(() => {
             setValue={setEmail}
             topText={"E-Mail"}
             placeholder={"Email"}
+            className={"tw-w-1/2 tw-my-2"}
+          />
+          <CustomInput
+            setValue={setSpecialization}
+            topText={"Specialization"}
+            placeholder={"Specialization"}
+            className={"tw-w-1/2 tw-my-2"}
+          />
+          <CustomInput
+            setValue={setPrice}
+            topText={"Price"}
+            placeholder={"Price"}
             className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
@@ -114,13 +136,13 @@ const SignUp = observer(() => {
               "tw-w-1/2 tw-bg-main tw-text-white tw-h-12 tw-rounded-2xl tw-mt-6"
             }
           >
-            Register Patient Account
+            Register Specialist Account
           </button>
           <div className="tw-mt-4">
-            Are you a specialist?{" "}
-            <Link to={"/signUpSpecialist"} className={"tw-text-main"}>
+            Are you a patient?
+            <Link to={"/signUp"} className={"tw-text-main"}>
               Click here
-            </Link>{" "}
+            </Link>
           </div>
         </div>
       </div>
@@ -128,4 +150,4 @@ const SignUp = observer(() => {
   );
 });
 
-export default SignUp;
+export default signUpSpecialist;

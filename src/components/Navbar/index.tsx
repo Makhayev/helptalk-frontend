@@ -30,8 +30,10 @@ const Navbar = observer(() => {
           showIcon={false}
           style={{
             textAlign: "center",
-            position: "absolute",
+            position: "sticky",
             width: "100%",
+            top: "0px",
+            zIndex: 100,
           }}
         />
       )}

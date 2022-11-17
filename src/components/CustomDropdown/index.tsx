@@ -1,7 +1,6 @@
 import React from "react";
-import { Button, Dropdown, MenuProps, Space, message, Menu } from "antd";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Simulate } from "react-dom/test-utils";
+import { Button, Dropdown, Space, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 interface timeslotPropType {
   dropdownItems: string[];
