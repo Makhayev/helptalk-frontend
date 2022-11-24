@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
 import CustomCarousel from "../../components/Carousel";
+import { Link } from "react-router-dom";
 
 const MainPage = observer(() => {
   return (
@@ -74,6 +75,37 @@ const MainPage = observer(() => {
       </div>
       <div>
         <CustomCarousel />
+      </div>
+      <div className="tw-text-center tw-flex tw-flex-col tw-items-center tw-mb-20">
+        <div className={"tw-font-bold tw-text-4xl tw-mt-16 tw-mb-8"}>
+          Work with us!
+        </div>
+        <div className="tw-text-center tw-flex tw-flex-row tw-items-center tw-w-full tw-justify-around">
+          <img src={"/WorkWithUs.svg"} />
+          <div className="tw-text-left tw-text-2xl tw-flex-col">
+            <div className="tw-flex tw-mb-5">
+              <img className="tw-mr-5" src={"SetPrices.svg"} />
+              Set your own prices
+            </div>
+            <div className="tw-flex tw-mb-5">
+              <img className="tw-mr-5" src={"DecideSchedule.svg"} />
+              Decide on your schedule
+            </div>
+            <div className="tw-flex tw-mb-5">
+              <img className="tw-mr-5" src={"HelpPeople.svg"} />
+              Help struggling people
+            </div>
+            <button
+              className={
+                "tw-bg-main tw-text-white tw-rounded-2xl tw-text-xl tw-h-16 tw-w-2/5"
+              }
+            >
+              <Link className="tw-text-white tw-text-xl" to={"/aboutUs"}>
+                {"Apply"}
+              </Link>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

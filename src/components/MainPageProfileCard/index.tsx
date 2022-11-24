@@ -1,5 +1,10 @@
 import React from "react";
 
+const contentStyle: React.CSSProperties = {
+  height: 300,
+  width: 300,
+};
+
 interface MainPageProfileCardProps {
   fullname: string;
   logoPath: string;
@@ -13,8 +18,9 @@ const MainPageProfileCard = ({
   return (
     <div className={"tw-flex "}>
       <div
+        style={contentStyle}
         className={
-          "tw-flex tw-flex-col tw-items-center tw-justify-between tw-px-5 tw-shadow-inner"
+          "tw-flex tw-flex-col tw-items-center tw-justify-center tw-px-5 tw-shadow-xl"
         }
       >
         <div

@@ -8,7 +8,7 @@ import { FieldTimeOutlined } from "@ant-design/icons";
 interface psychologistModalPropsType {
   psychologistName: string;
   psychologistID: number;
-  className: string;
+  className?: string;
 }
 const mockTimeslots = [
   "13:00-14:00",

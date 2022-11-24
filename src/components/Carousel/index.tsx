@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import MainPageProfileCard from "../MainPageProfileCard";
 
 const contentStyle: React.CSSProperties = {
-  height: "350px",
+  height: "270px",
   color: "#7B7B7B",
   lineHeight: "50px",
   textAlign: "center",

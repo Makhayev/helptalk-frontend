@@ -63,7 +63,7 @@ const Navbar = observer(() => {
             <Link
               to={"/aboutUs"}
               onClick={() => {
-                onHandleClick(true, "About Us");
+                onHandleClick(false, "About Us");
               }}
             >
               {"About Us"}

@@ -33,9 +33,9 @@ const App = observer(() => {
         <ProtectedRoute path={"/collaborate"}>
           <Collaborate />
         </ProtectedRoute>
-        <ProtectedRoute path={"/aboutUs"}>
+        <Route path={"/aboutUs"}>
           <AboutUs />
-        </ProtectedRoute>
+        </Route>
         <ProtectedRoute path={"/profile"}>
           <PsychologistPage />
         </ProtectedRoute>
