@@ -18,6 +18,7 @@ const SignUp = observer(() => {
         name: "admin",
         id: 123,
         isAuth: true,
+        role: "patient",
       });
       alert?.openAlert(5000, "success", "Welcome admin");
 
@@ -54,6 +55,7 @@ const SignUp = observer(() => {
           name: nameSurname[0],
           id: 123,
           isAuth: true,
+          role: "patient",
         });
         alert?.openAlert(5000, "success", "registration successful");
         history.push("/");

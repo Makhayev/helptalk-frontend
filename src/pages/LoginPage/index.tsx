@@ -12,6 +12,7 @@ import {
 } from "react-google-login";
 import { gapi } from "gapi-script";
 import alert from "../../mobx/alert";
+
 const clientId = import.meta.env.VITE_CLIENTID;
 
 const Login = observer(() => {
@@ -26,6 +27,7 @@ const Login = observer(() => {
         name: "admin",
         id: 123,
         isAuth: true,
+        role: "admin",
       });
       history.push(User.pageToRedirect);
       alert.openAlert(4000, "success", "Login success");
@@ -44,6 +46,7 @@ const Login = observer(() => {
           name: response?.data?.name,
           id: 123,
           isAuth: true,
+          role: response?.data?.role,
         });
         alert.openAlert(4000, "success", "Login success");
         history.push(User.pageToRedirect);
@@ -64,6 +67,7 @@ const Login = observer(() => {
         name: response?.profileObj?.givenName,
         id: 123,
         isAuth: true,
+        role: "patient",
       });
       history.push(User.pageToRedirect);
     }
