@@ -6,6 +6,7 @@ import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
+import api from "../../api/Api";
 const Navbar = observer(() => {
   const history = useHistory();
   const onHandleClick = (isProtected: boolean, caption: string) => {
@@ -20,6 +21,18 @@ const Navbar = observer(() => {
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });
+  const checkIfLogged = () => {
+    api
+      .get(`${import.meta.env.VITE_VERCEL_URL}/protected`)
+      .then((res) => {
+        console.log(res);
+        window.alert("SEEMS GUCCI");
+      })
+      .catch((err) => {
+        console.log(err);
+        window.alert("SHIT HIT THE FAN");
+      });
+  };
   return (
     <React.Fragment>
       {alert.isOpen && (
@@ -45,10 +58,6 @@ const Navbar = observer(() => {
           multiple={false}
           className="tw-items-center tw-w-1/2 tw-mr-16 tw-border-0"
         >
-          {/* Had to write sh1t code because ant would behave strangely
-                if decomposed with components
-                //TODO fix it
-          */}
           <Menu.Item key={"home"}>
             <Link
               to={"/"}
@@ -68,6 +77,9 @@ const Navbar = observer(() => {
             >
               {"About Us"}
             </Link>
+          </Menu.Item>
+          <Menu.Item key={"Check"}>
+            <Button onClick={checkIfLogged}>Check</Button>
           </Menu.Item>
           {User.role === "admin" && (
             <Menu.Item key={"collaborate"}>
