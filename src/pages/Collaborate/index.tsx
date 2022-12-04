@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api/Api";
 const Collaborate = () => {
   const [prompt, setPrompt] = useState("");
   const [stringFromDB, setStringFromDB] = useState("");
   const fetchStuff = () => {
-    axios
+    api
       .post(`${import.meta.env.VITE_VERCEL_URL}/openai`, {
         prompt: prompt,
       })

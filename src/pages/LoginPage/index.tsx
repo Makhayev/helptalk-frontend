@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import axios from "axios";
+import api from "../../api/Api";
 import { useHistory } from "react-router-dom";
 import {
   GoogleLogin,
@@ -25,7 +25,7 @@ const Login = observer(() => {
       User.assignUser({
         surname: "adminov",
         name: "admin",
-        id: 123,
+        id: "admin@admin.com",
         isAuth: true,
         role: "admin",
       });
@@ -34,7 +34,7 @@ const Login = observer(() => {
       User.pageToRedirect = "/";
       return;
     }
-    axios
+    api
       .post(`${import.meta.env.VITE_VERCEL_URL}/login`, {
         email: email,
         password: password,
@@ -42,13 +42,18 @@ const Login = observer(() => {
       .then((response) => {
         console.log(response);
         User.assignUser({
-          surname: "",
-          name: response?.data?.name,
-          id: 123,
+          surname: response?.data?.last_name,
+          name: response?.data?.first_name,
+          id: response?.data?.email,
           isAuth: true,
           role: response?.data?.role,
         });
         alert.openAlert(4000, "success", "Login success");
+        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
+        localStorage.setItem(
+          "refreshToken",
+          response?.data?.token?.refreshToken
+        );
         history.push(User.pageToRedirect);
         User.pageToRedirect = "/";
       })
@@ -65,7 +70,7 @@ const Login = observer(() => {
       User.assignUser({
         surname: response?.profileObj?.familyName,
         name: response?.profileObj?.givenName,
-        id: 123,
+        id: response?.profileObj?.email,
         isAuth: true,
         role: "patient",
       });

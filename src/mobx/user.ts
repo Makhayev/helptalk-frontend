@@ -1,23 +1,44 @@
 import { makeAutoObservable } from "mobx";
 import UserType from "../types/User";
+import api from "../api/Api";
 class User {
   name: string = "";
   surname: string = "";
-  id: number = 0;
+  id: string = "";
   isAuth: boolean = false;
   pageToRedirect: string = "/";
   role: "admin" | "specialist" | "patient" | "" = "";
   constructor() {
     makeAutoObservable(this);
-    // TODO: fetch verify JWT on backend and login user if ok
+    const jwtToken = localStorage.getItem("accessToken");
+    if (jwtToken) {
+      api
+        .get(`${import.meta.env.VITE_VERCEL_URL}/loginByAccessToken`)
+        .then((response) => {
+          const { first_name, last_name, role, email } = response?.data;
+          this.assignUser({
+            name: first_name,
+            surname: last_name,
+            id: email,
+            role: role,
+          } as UserType);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   assignPageToRedirect(path: string) {
     this.pageToRedirect = path;
   }
   logOutUser() {
-    (this.name = ""), (this.surname = ""), (this.id = 0), (this.isAuth = false);
+    this.name = "";
+    this.surname = "";
+    this.id = "";
+    this.isAuth = false;
     this.pageToRedirect = "/";
+    localStorage.removeItem("accessToken");
   }
   assignUser(user: UserType) {
     this.name = user.name;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import axios from "axios";
+import api from "../../api/Api";
 import alert from "../../mobx/alert";
 import { Link, useHistory } from "react-router-dom";
 const SignUp = observer(() => {
@@ -16,7 +16,7 @@ const SignUp = observer(() => {
       User.assignUser({
         surname: "adminov",
         name: "admin",
-        id: 123,
+        id: "admin@admin.com",
         isAuth: true,
         role: "patient",
       });
@@ -42,7 +42,7 @@ const SignUp = observer(() => {
       );
       return;
     }
-    axios
+    api
       .post(`${import.meta.env.VITE_VERCEL_URL}/register/patient`, {
         email: email,
         password: password,
@@ -53,10 +53,15 @@ const SignUp = observer(() => {
         User.assignUser({
           surname: nameSurname[1],
           name: nameSurname[0],
-          id: 123,
+          id: email,
           isAuth: true,
           role: "patient",
         });
+        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
+        localStorage.setItem(
+          "refreshToken",
+          response?.data?.token?.refreshToken
+        );
         alert?.openAlert(5000, "success", "registration successful");
         history.push("/");
       })

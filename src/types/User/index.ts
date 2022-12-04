@@ -1,7 +1,7 @@
 export default interface UserType {
   name: string;
   surname: string;
-  id: number;
+  id: string;
   role: "admin" | "specialist" | "patient";
   isAuth: boolean;
 }

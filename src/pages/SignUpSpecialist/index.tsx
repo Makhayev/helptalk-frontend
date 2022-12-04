@@ -4,9 +4,8 @@ import CustomInput from "../../components/CustomInput";
 import { Link, useHistory } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
-import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
-// import { randomUUID } from "crypto";
+import api from "../../api/Api";
 
 const signUpSpecialist = observer(() => {
   const supabase = createClient(
@@ -58,7 +57,7 @@ const signUpSpecialist = observer(() => {
       User.assignUser({
         surname: "adminov",
         name: "admin",
-        id: 123,
+        id: "admin@admin.com",
         isAuth: true,
         role: "specialist",
       });
@@ -96,7 +95,7 @@ const signUpSpecialist = observer(() => {
       alert.openAlert(5000, "error", "Upload file!");
       return;
     }
-    axios
+    api
       .post(`${import.meta.env.VITE_VERCEL_URL}/register/specialist`, {
         email: email,
         password: password,
@@ -110,10 +109,15 @@ const signUpSpecialist = observer(() => {
         User.assignUser({
           surname: nameSurname[1],
           name: nameSurname[0],
-          id: 123,
+          id: email,
           isAuth: true,
           role: "specialist",
         });
+        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
+        localStorage.setItem(
+          "refreshToken",
+          response?.data?.token?.refreshToken
+        );
         alert?.openAlert(5000, "success", "registration successful");
         history.push("/");
       })
