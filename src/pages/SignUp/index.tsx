@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
@@ -70,6 +70,18 @@ const SignUp = observer(() => {
         alert?.openAlert(5000, "error", "Could not register");
       });
   };
+
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onHandleSubmit();
+      }
+    };
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    };
+  }, []);
 
   return (
     <div className={"tw-flex tw-justify-center"}>
