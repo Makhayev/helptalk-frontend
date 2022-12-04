@@ -21,18 +21,6 @@ const Navbar = observer(() => {
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });
-  const checkIfLogged = () => {
-    api
-      .get(`${import.meta.env.VITE_VERCEL_URL}/protected`)
-      .then((res) => {
-        console.log(res);
-        window.alert("SEEMS GUCCI");
-      })
-      .catch((err) => {
-        console.log(err);
-        window.alert("SHIT HIT THE FAN");
-      });
-  };
   return (
     <React.Fragment>
       {alert.isOpen && (
@@ -77,9 +65,6 @@ const Navbar = observer(() => {
             >
               {"About Us"}
             </Link>
-          </Menu.Item>
-          <Menu.Item key={"Check"}>
-            <Button onClick={checkIfLogged}>Check</Button>
           </Menu.Item>
           {User.role === "admin" && (
             <Menu.Item key={"collaborate"}>
