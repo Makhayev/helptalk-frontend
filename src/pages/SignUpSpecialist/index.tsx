@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../components/CustomInput";
 import { Link, useHistory } from "react-router-dom";
@@ -141,6 +141,18 @@ const signUpSpecialist = observer(() => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onHandleSubmit();
+      }
+    };
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    };
+  }, []);
 
   return (
     <div className={"tw-flex tw-justify-center"}>

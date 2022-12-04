@@ -96,6 +96,19 @@ const Login = observer(() => {
     };
     gapi.load("client:auth2", start);
   }, []);
+
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onHandleSubmit();
+      }
+    };
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    };
+  }, []);
+
   return (
     <div className={"tw-flex tw-justify-center tw-flex-col tw-items-center"}>
       <div

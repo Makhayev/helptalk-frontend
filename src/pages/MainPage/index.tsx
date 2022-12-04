@@ -1,25 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
 import CustomCarousel from "../../components/Carousel";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import searchString from "../../mobx/searchString";
 
 const MainPage = observer(() => {
+  const history = useHistory();
+  const [search, setSearch] = useState<string>("");
+  const onSearchClick = () => {
+    searchString.setSearchString(search);
+    history.push("/search");
+  };
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onSearchClick();
+      }
+    };
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    };
+  }, []);
   return (
     <div>
       <div className="tw-h-96 tw-bg-secondary">
         <div className="tw-text-main tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full">
           <div>
             <div className="tw-font-bold tw-text-4xl">Welcome to HelpTalk</div>
-            <div>Psychological help for everyone who needs it!</div>
+            <div className="tw-text-center">
+              Psychological help for everyone who needs it!
+            </div>
           </div>
           <div className="tw-flex tw-flex-row tw-bg-white tw-w-2/5 tw-items-center tw-justify-between tw-mt-16 tw-px-8 tw-rounded-xl tw-h-16">
             <input
               className="tw-text-dark tw-w-3/4 tw-outline-0"
               placeholder={"Share your problem with us"}
               type={"text"}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
-            <div className="">Search</div>
+            <div className="tw-cursor-pointer" onClick={onSearchClick}>
+              Search
+            </div>
           </div>
         </div>
       </div>
