@@ -109,7 +109,7 @@ const signUpSpecialist = observer(() => {
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
-        specialization_name: specialization,
+        specializations: [1, 2],
         price: price,
         description: description,
         path: filePath,
