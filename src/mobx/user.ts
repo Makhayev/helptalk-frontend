@@ -16,13 +16,15 @@ class User {
         .get(`${import.meta.env.VITE_VERCEL_URL}/loginByAccessToken`)
         .then((response) => {
           const { first_name, last_name, role, email } = response?.data;
-          this.assignUser({
-            name: first_name,
-            surname: last_name,
-            id: email,
-            role: role,
-            isAuth: true,
-          } as UserType);
+          if (first_name && role && email && last_name) {
+            this.assignUser({
+              name: first_name,
+              surname: last_name,
+              id: email,
+              role: role,
+              isAuth: true,
+            } as UserType);
+          }
         })
         .catch((err) => {
           console.log(err);

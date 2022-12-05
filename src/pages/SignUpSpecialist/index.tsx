@@ -6,6 +6,8 @@ import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { createClient } from "@supabase/supabase-js";
 import api from "../../api/Api";
+import { Button, Dropdown, Input, Menu, Space } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
 const signUpSpecialist = observer(() => {
   const supabase = createClient(
@@ -20,7 +22,13 @@ const signUpSpecialist = observer(() => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [price, setPrice] = useState<number>();
   const [specialization, setSpecialization] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [fileToUpload, setFileToUpload] = useState<File>();
+  const [socialMediaAcc, setSocialMediaAcc] = useState<string>("");
+  const [chosenSocialMedia, setChosenSocialMedia] = useState<any>();
+  const [socialMedias, setSocialMedias] = useState<any>();
+  const [phone, setPhone] = useState<string>("");
+
   const history = useHistory();
 
   const validatePassword = (pass: string) => {
@@ -101,9 +109,13 @@ const signUpSpecialist = observer(() => {
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
-        specialization_name: specialization,
+        specializations: [1, 2],
         price: price,
+        description: description,
         path: filePath,
+        phone: phone,
+        socialmedia_id: chosenSocialMedia.id,
+        socialmedia_account: socialMediaAcc,
       })
       .then((response) => {
         User.assignUser({
@@ -148,12 +160,24 @@ const signUpSpecialist = observer(() => {
         onHandleSubmit();
       }
     };
+    api.get("/socialMedia/getAll").then((res) => {
+      setSocialMedias(res.data);
+    });
     document.addEventListener("keydown", eventHandler);
     return () => {
       document.removeEventListener("keydown", eventHandler);
     };
   }, []);
-
+  const menuItems = socialMedias?.map((socialMedia: any) => {
+    return {
+      label: socialMedia.name,
+      key: socialMedia.id,
+      onClick: () => {
+        setChosenSocialMedia(socialMedia);
+      },
+    };
+  });
+  const items = <Menu items={menuItems} />;
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
@@ -161,7 +185,7 @@ const signUpSpecialist = observer(() => {
           "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
         }
         style={{
-          height: "85vh",
+          height: "130vh",
         }}
       >
         <div
@@ -196,6 +220,41 @@ const signUpSpecialist = observer(() => {
             placeholder={"Price"}
             className={"tw-w-1/2 tw-my-2"}
           />
+          <CustomInput
+            placeholder={"Telegram username, whatsapp number, etc"}
+            topText={"Social Media Account"}
+            setValue={setSocialMediaAcc}
+            className={"tw-w-1/2 tw-my-2"}
+          />
+          <div className={"tw-w-1/2 tw-my-2"}>
+            <Dropdown overlay={items} className={"tw-w-full"}>
+              <Button className={"tw-w-full"}>
+                <Space>
+                  {chosenSocialMedia?.name ?? "Choose Social Media Type"}
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+          </div>
+          <div className={"tw-w-1/2"}>
+            <div>Your Phone Number</div>
+            <Input
+              className="tw-w-full tw-my-2"
+              bordered
+              placeholder={"8777555555"}
+              type="tel"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div>Description</div>
+          <div className={"tw-w-1/2 tw-"}>
+            <Input.TextArea
+              placeholder={"Describe Yourself in a few words..."}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+          </div>
           <CustomInput
             isPassword
             setValue={setPassword}

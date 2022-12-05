@@ -10,7 +10,6 @@ import Collaborate from "./pages/Collaborate";
 import { observer } from "mobx-react-lite";
 import SignUp from "./pages/SignUp";
 import Footer from "./components/Footer";
-import PsychologistPage from "./pages/PsychologistPageClientView";
 import SignUpSpecialist from "./pages/SignUpSpecialist";
 import Profile from "./pages/Profile";
 
@@ -39,8 +38,7 @@ const App = observer(() => {
           <AboutUs />
         </Route>
         <ProtectedRoute path={"/profile"}>
-          <PsychologistPage />
-          {/*<Profile />*/}
+          <Profile />
         </ProtectedRoute>
         <Route path={"/"}>
           <MainPage />
