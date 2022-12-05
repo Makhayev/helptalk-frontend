@@ -5,6 +5,7 @@ export const API_URL = import.meta.env.VITE_VERCEL_URL;
 
 const api = axios.create({
   baseURL: API_URL,
+  withCredentials: false,
 });
 
 api.interceptors.request.use((config) => {
@@ -12,7 +13,9 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
       "accessToken"
     )}`;
+    config.headers["Content-Type"] = "application/x-www-form-urlencoded";
   }
+
   return config;
 });
 //
