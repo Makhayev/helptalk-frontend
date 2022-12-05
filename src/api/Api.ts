@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
       "accessToken"
     )}`;
-    config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+    config.headers["Content-Type"] = "application/json";
   }
 
   return config;
