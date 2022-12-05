@@ -67,14 +67,35 @@ const Login = observer(() => {
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
     if ("profileObj" in response) {
-      User.assignUser({
-        surname: response?.profileObj?.familyName,
-        name: response?.profileObj?.givenName,
-        id: response?.profileObj?.googleId,
-        isAuth: true,
-        role: "patient",
-      });
-      history.push(User.pageToRedirect);
+      api
+        .post("/loginGoogle", {
+          email: response?.profileObj?.email,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.result) {
+            User.assignUser({
+              surname: response?.data?.last_name,
+              name: response?.data?.first_name,
+              id: response?.data?.id,
+              isAuth: true,
+              role: response?.data?.role,
+            });
+            alert.openAlert(4000, "success", "Login success");
+            localStorage.setItem(
+              "accessToken",
+              response?.data?.token?.accessToken
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response?.data?.token?.refreshToken
+            );
+            history.push(User.pageToRedirect);
+            User.pageToRedirect = "/";
+          } else {
+            alert.openAlert(4000, "error", "Register first!");
+          }
+        });
     }
   };
   const onLogoutSuccess = () => {
@@ -179,7 +200,6 @@ const Login = observer(() => {
               />
             )}
           </div>
-          <div></div>
         </div>
       </div>
     </div>
