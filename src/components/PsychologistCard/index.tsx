@@ -2,7 +2,32 @@ import React from "react";
 import PsychologistInfo from "../../components/PsychologistInfo";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
-const PsychologistPage = () => {
+
+interface psychologistPageProps {
+  imageURL?: string;
+  imageAlt?: string;
+  fullName?: string;
+  title?: string;
+  number?: string;
+  email?: string;
+  telegramUsername?: string;
+  description?: string;
+  price?: string;
+  rating?: string;
+}
+
+const PsychologistCard = ({
+  imageURL = "/defaultPsychologistImage.png",
+  imageAlt = "zhankin",
+  fullName = "Arman Zhankin",
+  title = "psychiatrist",
+  number = "87006641743",
+  email = "arman.zhankin@gmail.com",
+  telegramUsername = "@Zhankin",
+  description = "Hello! My name is Arman, I am a psychologist with 5 years of experience. I have worked for NU counselling and focus on people with eating disorders.",
+  price = "100$",
+  rating = "4.8",
+}: psychologistPageProps) => {
   return (
     <div className={"tw-flex tw-justify-center tw-mt-10"}>
       <div
@@ -12,54 +37,44 @@ const PsychologistPage = () => {
         }
       >
         <div className={"tw-flex tw-w-full tw-justify-start"}>
-          <img
-            src={"/SpecialistAvatar.svg"}
-            style={{ width: "20vw" }}
-            alt="Zhankeen"
-          />
+          <img src={imageURL} style={{ width: "20vw" }} alt={imageAlt} />
           <div
             className={
               "tw-flex tw-flex-col tw-justify-between tw-h-3/4 tw-ml-2"
             }
           >
-            <div className={"tw-text-xl tw-font-bold"}>Arman Zhankin</div>
-            <div className={"tw-font-medium tw-text-lg"}>Psychiatrist</div>
-            <div className={"tw-text-secondary"}>______</div>
+            <div className={"tw-text-xl tw-font-bold"}>{fullName}</div>
+            <div className={"tw-font-medium tw-text-lg"}>{title}</div>
+            <div className={"tw-text-secondary"}>___________</div>
             <div className={"tw-font-light tw-flex tw-items-center "}>
               <BsFillTelephoneFill color={"#5877C5"} size={20} />
-              <div className={"tw-text-lg tw-ml-2"}>87006641843</div>
+              <div className={"tw-text-lg tw-ml-2"}>{number}</div>
             </div>
             <div className={"tw-font-light tw-my-1  tw-flex tw-items-center "}>
               <GrMail color={"#5877C5"} size={20} />
-              <div className={"tw-text-lg tw-ml-2"}>
-                arman.zhankin@gmail.com
-              </div>
+              <div className={"tw-text-lg tw-ml-2"}>{email}</div>
             </div>
             <div className={"tw-font-light tw-my-1  tw-flex tw-items-center "}>
               <BsTelegram color={"#5877C5"} size={20} />
-              <div className={"tw-text-lg tw-ml-2"}>@Zhankin</div>
+              <div className={"tw-text-lg tw-ml-2"}>{telegramUsername}</div>
             </div>
           </div>
         </div>
         <div className={"tw-flex tw-flex-col"}>
           <div>About</div>
-          <div className="tw-text-main">____</div>
-          <div>
-            Hello! My name is Arman, I am a psychologist with 5 years of
-            experience. I have worked for NU counselling and focus on people
-            with eating disorders.
-          </div>
+          <div className="tw-text-main">________</div>
+          <div>{description}</div>
           <div className={"tw-flex tw-justify-between tw-my-8"}>
             <div>
-              <img src="public/money.svg" className={"tw-inline"} />
+              <img alt="money" src="/money.svg" className={"tw-inline"} />
               <span className={"tw-ml-2 tw-text-main tw-text-lg"}>
-                100$/hour
+                {price}/hour
               </span>
             </div>
             <div>
-              <img src="public/star.svg" className={"tw-inline"} />
+              <img alt={"stars"} src="/star.svg" className={"tw-inline"} />
               <span className={"tw-ml-2 tw-text-main tw-text-lg tw-ml-6"}>
-                4.8/5
+                {rating}/5
               </span>
             </div>
           </div>
@@ -71,4 +86,4 @@ const PsychologistPage = () => {
   );
 };
 
-export default PsychologistPage;
+export default PsychologistCard;

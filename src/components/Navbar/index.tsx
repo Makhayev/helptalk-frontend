@@ -6,7 +6,7 @@ import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
-import api from "../../api/Api";
+
 const Navbar = observer(() => {
   const history = useHistory();
   const onHandleClick = (isProtected: boolean, caption: string) => {

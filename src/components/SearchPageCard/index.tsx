@@ -44,7 +44,9 @@ const SearchPageCard = ({
       <div className={"tw-flex-col tw-flex tw-justify-around tw-items-start"}>
         <div className={"tw-flex tw-justify-start tw-items-center tw-ml-2"}>
           <img src="public/money.svg" className={"tw-inline"} />
-          <span className={"tw-ml-2 tw-text-main tw-text-lg"}>{pricing}</span>
+          <span className={"tw-ml-2 tw-text-main tw-text-lg"}>
+            {pricing}$ per hour
+          </span>
         </div>
         <div className="tw-flex tw-justify-end tw-items-center tw-ml-2">
           <img src="public/star.svg" className={"tw-inline"} />
@@ -54,7 +56,7 @@ const SearchPageCard = ({
         </div>
         <div
           className={
-            "tw-text-main tw-text-lg tw-w-full tw-text-center tw-underline tw-font-bold"
+            "tw-text-main tw-text-lg tw-w-full tw-text-center tw-underline tw-font-bold tw-cursor-pointer"
           }
           onClick={() => {
             setIsModalOpen((prevState) => !prevState);

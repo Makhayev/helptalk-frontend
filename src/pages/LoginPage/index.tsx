@@ -88,6 +88,11 @@ const Login = observer(() => {
   };
 
   useEffect(() => {
+    if (User.isAuth) {
+      history.push(User.pageToRedirect);
+    }
+  }, [User.isAuth]);
+  useEffect(() => {
     const start = () => {
       gapi.client.init({
         clientId: clientId,

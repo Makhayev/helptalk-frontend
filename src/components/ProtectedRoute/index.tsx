@@ -8,6 +8,7 @@ interface protectedRouteProps {
 }
 
 const ProtectedRoute = observer(({ path, children }: protectedRouteProps) => {
+  console.log(User.isAuth);
   if (User.isAuth) {
     return (
       <Route exact path={path}>

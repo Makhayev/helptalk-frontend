@@ -1,6 +1,4 @@
 import axios from "axios";
-import User from "../mobx/user";
-import UserType from "../types/User";
 
 export const API_URL = import.meta.env.VITE_VERCEL_URL;
 

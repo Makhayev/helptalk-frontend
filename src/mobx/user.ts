@@ -21,6 +21,7 @@ class User {
             surname: last_name,
             id: email,
             role: role,
+            isAuth: true,
           } as UserType);
         })
         .catch((err) => {

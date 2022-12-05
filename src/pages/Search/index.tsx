@@ -2,11 +2,18 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import SearchPageCard from "../../components/SearchPageCard";
 import searchString from "../../mobx/searchString";
+import api from "../../api/Api";
 
 const Search = observer(() => {
   const [search, setSearch] = useState<string>("");
+  const [specialists, setSpecialists] = useState<any[]>([]);
+
   useEffect(() => {
     setSearch(searchString.search);
+    api.get("/admin/getAll").then((response) => {
+      console.log(response.data);
+      setSpecialists(response.data);
+    });
   }, []);
   return (
     <div>
@@ -32,9 +39,13 @@ const Search = observer(() => {
         </div>
       </div>
       <div className="tw-flex tw-flex-col tw-items-center tw-justify-center">
-        <SearchPageCard />
-        <SearchPageCard />
-        <SearchPageCard />
+        {specialists.map((specialist: any) => (
+          <SearchPageCard
+            name={`${specialist.first_name} ${specialist.last_name}`}
+            pricing={String(specialist.price)}
+            description={specialist.email}
+          />
+        ))}
       </div>
     </div>
   );
