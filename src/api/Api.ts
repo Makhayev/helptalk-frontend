@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //const url = "https://helptalk-backend.up.railway.app/";
-export const API_URL = import.meta.env.VITE_VERCEL_URL;
+export const API_URL = "http://localhost:5431";
 
 const api = axios.create({
   baseURL: API_URL,
