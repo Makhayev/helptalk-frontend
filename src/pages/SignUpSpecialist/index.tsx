@@ -21,12 +21,13 @@ const signUpSpecialist = observer(() => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [price, setPrice] = useState<number>();
-  const [specialization, setSpecialization] = useState<string>("");
+  const [specialization, setSpecialization] = useState<any>();
   const [description, setDescription] = useState<string>("");
   const [fileToUpload, setFileToUpload] = useState<File>();
   const [socialMediaAcc, setSocialMediaAcc] = useState<string>("");
   const [chosenSocialMedia, setChosenSocialMedia] = useState<any>();
   const [socialMedias, setSocialMedias] = useState<any>();
+  const [specializations, setSpecializations] = useState<any[]>([]);
   const [phone, setPhone] = useState<string>("");
 
   const history = useHistory();
@@ -109,7 +110,7 @@ const signUpSpecialist = observer(() => {
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
-        specializations: [1, 2],
+        specializations: [specialization.id],
         price: price,
         description: description,
         path: filePath,
@@ -153,7 +154,7 @@ const signUpSpecialist = observer(() => {
       console.log(error);
     }
   };
-
+  console.log(specializations);
   useEffect(() => {
     const eventHandler = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
@@ -162,6 +163,9 @@ const signUpSpecialist = observer(() => {
     };
     api.get("/socialMedia/getAll").then((res) => {
       setSocialMedias(res.data);
+    });
+    api.get("/specialization/getAll").then((res) => {
+      setSpecializations(res.data);
     });
     document.addEventListener("keydown", eventHandler);
     return () => {
@@ -177,6 +181,16 @@ const signUpSpecialist = observer(() => {
       },
     };
   });
+  const menuItems2 = specializations.map((spec: any) => {
+    return {
+      label: spec.name,
+      key: spec.id,
+      onClick: () => {
+        setSpecialization(spec);
+      },
+    };
+  });
+  const items2 = <Menu items={menuItems2} />;
   const items = <Menu items={menuItems} />;
   return (
     <div className={"tw-flex tw-justify-center"}>
@@ -208,12 +222,16 @@ const signUpSpecialist = observer(() => {
             placeholder={"Email"}
             className={"tw-w-1/2 tw-my-2"}
           />
-          <CustomInput
-            setValue={setSpecialization}
-            topText={"Specialization"}
-            placeholder={"Specialization"}
-            className={"tw-w-1/2 tw-my-2"}
-          />
+          <div className={"tw-w-1/2 tw-my-2"}>
+            <Dropdown overlay={items2} className={"tw-w-full"}>
+              <Button className={"tw-w-full"}>
+                <Space>
+                  {specialization?.name ?? "Choose Specialization"}
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+          </div>
           <CustomInput
             setValue={setPrice}
             topText={"Price"}
