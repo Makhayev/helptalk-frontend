@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
 import api from "../../api/Api";
 import alert from "../../mobx/alert";
 import { Link, useHistory } from "react-router-dom";
+import { Button, Dropdown, Input, Menu, Space } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+
 const SignUp = observer(() => {
   const [fullName, setFullName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [socialMediaAcc, setSocialMediaAcc] = useState<string>("");
+  const [chosenSocialMedia, setChosenSocialMedia] = useState<any>();
+  const [socialMedias, setSocialMedias] = useState<any>();
+  const [phone, setPhone] = useState<string>("");
+
   const history = useHistory();
   const onHandleSubmit = () => {
     if (email === "admin" && password === "1234512345") {
@@ -48,6 +56,9 @@ const SignUp = observer(() => {
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
+        phone: phone,
+        socialmedia_id: chosenSocialMedia.id,
+        socialmedia_account: socialMediaAcc,
       })
       .then((response) => {
         User.assignUser({
@@ -77,11 +88,24 @@ const SignUp = observer(() => {
         onHandleSubmit();
       }
     };
+    api.get("/socialMedia/getAll").then((res) => {
+      setSocialMedias(res.data);
+    });
     document.addEventListener("keydown", eventHandler);
     return () => {
       document.removeEventListener("keydown", eventHandler);
     };
   }, []);
+  const menuItems = socialMedias?.map((socialMedia: any) => {
+    return {
+      label: socialMedia.name,
+      key: socialMedia.id,
+      onClick: () => {
+        setChosenSocialMedia(socialMedia);
+      },
+    };
+  });
+  const items = <Menu items={menuItems} />;
 
   return (
     <div className={"tw-flex tw-justify-center"}>
@@ -90,7 +114,7 @@ const SignUp = observer(() => {
           "tw-my-20 tw-border tw-drop-shadow-md tw-border-secondary tw-w-1/2 tw-rounded"
         }
         style={{
-          height: "70vh",
+          height: "90vh",
         }}
       >
         <div
@@ -114,6 +138,32 @@ const SignUp = observer(() => {
             className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
+            placeholder={"Telegram username, whatsapp number, etc"}
+            topText={"Social Media Account"}
+            setValue={setSocialMediaAcc}
+            className={"tw-w-1/2 tw-my-2"}
+          />
+          <div className={"tw-w-1/2 tw-my-2"}>
+            <Dropdown overlay={items} className={"tw-w-full"}>
+              <Button className={"tw-w-full"}>
+                <Space>
+                  {chosenSocialMedia?.name ?? "Choose Social Media Type"}
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+          </div>
+          <div className={"tw-w-1/2"}>
+            <div>Your Phone Number</div>
+            <Input
+              className="tw-w-full tw-my-2"
+              bordered
+              placeholder={"8777555555"}
+              type="tel"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <CustomInput
             isPassword
             setValue={setPassword}
             topText={"Password"}
@@ -136,10 +186,10 @@ const SignUp = observer(() => {
             Register Patient Account
           </button>
           <div className="tw-mt-4">
-            Are you a specialist?{" "}
+            Are you a specialist?
             <Link to={"/signUpSpecialist"} className={"tw-text-main"}>
               Click here
-            </Link>{" "}
+            </Link>
           </div>
         </div>
       </div>
