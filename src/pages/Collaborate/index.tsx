@@ -46,6 +46,7 @@ const Collaborate = () => {
         console.log(err);
       });
   };
+  console.log(specialists);
   console.log(User.id);
   return (
     <div>
@@ -90,7 +91,7 @@ const Collaborate = () => {
                   <SearchPageCard
                     name={`${specialist.first_name} ${specialist.last_name}`}
                     pricing={String(specialist.price)}
-                    description={specialist.email}
+                    description={specialist.description}
                     psychologistID={specialist.id}
                   />
                 ))}
