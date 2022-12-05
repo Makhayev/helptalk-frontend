@@ -44,7 +44,7 @@ const Login = observer(() => {
         User.assignUser({
           surname: response?.data?.last_name,
           name: response?.data?.first_name,
-          id: response?.data?.email,
+          id: response?.data?.id,
           isAuth: true,
           role: response?.data?.role,
         });
@@ -70,7 +70,7 @@ const Login = observer(() => {
       User.assignUser({
         surname: response?.profileObj?.familyName,
         name: response?.profileObj?.givenName,
-        id: response?.profileObj?.email,
+        id: response?.profileObj?.googleId,
         isAuth: true,
         role: "patient",
       });

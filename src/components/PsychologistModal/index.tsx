@@ -4,6 +4,9 @@ import { Calendar, Input } from "antd";
 import moment, { Moment } from "moment";
 import CustomDropdown from "../CustomDropdown";
 import { FieldTimeOutlined } from "@ant-design/icons";
+import api from "../../api/Api";
+import User from "../../mobx/user";
+import alert from "../../mobx/alert";
 
 interface psychologistModalPropsType {
   psychologistName: string;
@@ -28,6 +31,20 @@ const PsychologistModal = ({
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [subject, setSubject] = useState<string>();
   const [message, setMessage] = useState<string>();
+  const handleSubmit = () => {
+    api
+      .post("/book", {
+        patient_id: User.id,
+        specialist_id: psychologistID,
+        appointed_at: `${date?.format().split("+")?.[0]?.split("T")?.[0]}T${
+          timeSlot.split(":")?.[0]
+        }:00:00.001Z`,
+        comments: message,
+      })
+      .then((res) => {
+        alert.openAlert(5000, "success", "Appointment Created");
+      });
+  };
   return (
     <div className={className}>
       <div
@@ -98,6 +115,7 @@ const PsychologistModal = ({
           <button
             className={"tw-bg-main tw-text-white tw-w-40 tw-h-10 tw-ml-4"}
             style={{ borderRadius: "4px" }}
+            onClick={handleSubmit}
           >
             Make an appointment
           </button>

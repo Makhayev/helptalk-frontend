@@ -121,7 +121,7 @@ const signUpSpecialist = observer(() => {
         User.assignUser({
           surname: nameSurname[1],
           name: nameSurname[0],
-          id: email,
+          id: response.data.id,
           isAuth: true,
           role: "specialist",
         });

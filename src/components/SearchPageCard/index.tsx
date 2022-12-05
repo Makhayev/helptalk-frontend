@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Tag from "./Tags";
 import PsychologistModal from "../PsychologistModal";
 import { Modal } from "antd";
+import User from "../../mobx/user";
 
 interface searchPageCardProps {
   name?: string;
@@ -10,6 +11,7 @@ interface searchPageCardProps {
   pricing?: string;
   score?: string;
   imageURL?: string;
+  psychologistID?: number;
 }
 
 const SearchPageCard = ({
@@ -19,6 +21,7 @@ const SearchPageCard = ({
   pricing = "100$ per hour",
   score = "4.8",
   imageURL = "defaultPsychologistImage.png",
+  psychologistID = 1,
 }: searchPageCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
@@ -54,16 +57,18 @@ const SearchPageCard = ({
             {score}/5
           </span>
         </div>
-        <div
-          className={
-            "tw-text-main tw-text-lg tw-w-full tw-text-center tw-underline tw-font-bold tw-cursor-pointer"
-          }
-          onClick={() => {
-            setIsModalOpen((prevState) => !prevState);
-          }}
-        >
-          Make a booking
-        </div>
+        {User.role === "patient" && (
+          <div
+            className={
+              "tw-text-main tw-text-lg tw-w-full tw-text-center tw-underline tw-font-bold tw-cursor-pointer"
+            }
+            onClick={() => {
+              setIsModalOpen((prevState) => !prevState);
+            }}
+          >
+            Make a booking
+          </div>
+        )}
       </div>
       <Modal
         open={isModalOpen}
@@ -74,8 +79,8 @@ const SearchPageCard = ({
       >
         <PsychologistModal
           className={"tw-pt-8"}
-          psychologistName={"ARman Zhankin"}
-          psychologistID={21321}
+          psychologistName={name}
+          psychologistID={psychologistID}
         />
       </Modal>
     </div>

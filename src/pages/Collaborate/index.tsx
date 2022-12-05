@@ -4,6 +4,7 @@ import api from "../../api/Api";
 import SearchPageCard from "../../components/SearchPageCard";
 import Tag from "../../components/SearchPageCard/Tags";
 import searchString from "../../mobx/searchString";
+import User from "../../mobx/user";
 
 const Collaborate = () => {
   const [prompt, setPrompt] = useState("");
@@ -45,6 +46,7 @@ const Collaborate = () => {
         console.log(err);
       });
   };
+  console.log(User.id);
   return (
     <div>
       <div className={"tw-h-12"}>
@@ -89,6 +91,7 @@ const Collaborate = () => {
                     name={`${specialist.first_name} ${specialist.last_name}`}
                     pricing={String(specialist.price)}
                     description={specialist.email}
+                    psychologistID={specialist.id}
                   />
                 ))}
               </div>
