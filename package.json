@@ -22,6 +22,7 @@
     "gapi-script": "^1.2.0",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
+    "paint-by-the-numbers": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
