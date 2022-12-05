@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import axios from "axios";
+import api from "../../api/Api";
 import { useHistory } from "react-router-dom";
 import {
   GoogleLogin,
@@ -11,38 +11,91 @@ import {
   GoogleLogout,
 } from "react-google-login";
 import { gapi } from "gapi-script";
-const clientId =
-  "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com";
+import alert from "../../mobx/alert";
+
+const clientId = import.meta.env.VITE_CLIENTID;
+
 const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onHandleSubmit = () => {
+    console.log(clientId);
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
         name: "admin",
-        id: 123,
+        id: "admin@admin.com",
         isAuth: true,
+        role: "admin",
       });
+      history.push(User.pageToRedirect);
+      alert.openAlert(4000, "success", "Login success");
+      User.pageToRedirect = "/";
+      return;
     }
-    console.log(User);
-    history.push(User.pageToRedirect);
-    User.pageToRedirect = "/";
+    api
+      .post(`${import.meta.env.VITE_VERCEL_URL}/login`, {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response);
+        User.assignUser({
+          surname: response?.data?.last_name,
+          name: response?.data?.first_name,
+          id: response?.data?.id,
+          isAuth: true,
+          role: response?.data?.role,
+        });
+        alert.openAlert(4000, "success", "Login success");
+        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
+        localStorage.setItem(
+          "refreshToken",
+          response?.data?.token?.refreshToken
+        );
+        history.push(User.pageToRedirect);
+        User.pageToRedirect = "/";
+      })
+      .catch((err) => {
+        console.log(err);
+        alert.openAlert(4000, "error", "Login fail");
+      });
   };
 
   const onSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ): void => {
-    console.log(response);
     if ("profileObj" in response) {
-      User.assignUser({
-        surname: response?.profileObj?.familyName,
-        name: response?.profileObj?.givenName,
-        id: 123,
-        isAuth: true,
-      });
-      history.push(User.pageToRedirect);
+      api
+        .post("/loginGoogle", {
+          email: response?.profileObj?.email,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.result) {
+            User.assignUser({
+              surname: response?.data?.last_name,
+              name: response?.data?.first_name,
+              id: response?.data?.id,
+              isAuth: true,
+              role: response?.data?.role,
+            });
+            alert.openAlert(4000, "success", "Login success");
+            localStorage.setItem(
+              "accessToken",
+              response?.data?.token?.accessToken
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response?.data?.token?.refreshToken
+            );
+            history.push(User.pageToRedirect);
+            User.pageToRedirect = "/";
+          } else {
+            alert.openAlert(4000, "error", "Register first!");
+          }
+        });
     }
   };
   const onLogoutSuccess = () => {
@@ -55,19 +108,11 @@ const Login = observer(() => {
     console.log(response);
   };
 
-  const makeRequest = () => {
-    axios
-      .post("http://localhost:5431/register/patient", {
-        email: "asd@gmail.com",
-        password: "something",
-        first_name: "kek",
-        last_name: "lol",
-      })
-      .then((response) => {
-        console.log(response);
-        alert("success");
-      });
-  };
+  useEffect(() => {
+    if (User.isAuth) {
+      history.push(User.pageToRedirect);
+    }
+  }, [User.isAuth]);
   useEffect(() => {
     const start = () => {
       gapi.client.init({
@@ -77,6 +122,19 @@ const Login = observer(() => {
     };
     gapi.load("client:auth2", start);
   }, []);
+
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onHandleSubmit();
+      }
+    };
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    };
+  }, []);
+
   return (
     <div className={"tw-flex tw-justify-center tw-flex-col tw-items-center"}>
       <div
@@ -97,12 +155,14 @@ const Login = observer(() => {
             setValue={setEmail}
             topText={"E-Mail"}
             placeholder={"Email"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <CustomInput
             isPassword
             setValue={setPassword}
             topText={"Password"}
             placeholder={"Password"}
+            className={"tw-w-1/2 tw-my-2"}
           />
           <button
             onClick={onHandleSubmit}
@@ -140,10 +200,8 @@ const Login = observer(() => {
               />
             )}
           </div>
-          <div></div>
         </div>
       </div>
-      <button onClick={makeRequest}>Click me pls</button>
     </div>
   );
 });

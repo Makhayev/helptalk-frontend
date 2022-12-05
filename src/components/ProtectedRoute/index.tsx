@@ -8,12 +8,16 @@ interface protectedRouteProps {
 }
 
 const ProtectedRoute = observer(({ path, children }: protectedRouteProps) => {
+  console.log(User.isAuth);
   if (User.isAuth) {
-    return <Route path={path}>{children}</Route>;
+    return (
+      <Route exact path={path}>
+        {children}
+      </Route>
+    );
   } else {
     User.assignPageToRedirect(path);
-    console.log(User);
-    return <Redirect to={"/login"} />;
+    return <Redirect to={"/logIn"} />;
   }
 });
 

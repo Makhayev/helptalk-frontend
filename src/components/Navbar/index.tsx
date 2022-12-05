@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { useGoogleLogout } from "react-google-login";
+import { useHistory } from "react-router-dom";
 
 const Navbar = observer(() => {
+  const history = useHistory();
   const onHandleClick = (isProtected: boolean, caption: string) => {
     if (isProtected && !User.isAuth) {
       alert.openAlert(
@@ -17,8 +19,7 @@ const Navbar = observer(() => {
     }
   };
   const { signOut } = useGoogleLogout({
-    clientId:
-      "100816583468-qr2j2edfsofd3mor6lk9prnqbuqu7a1d.apps.googleusercontent.com",
+    clientId: import.meta.env.VITE_CLIENTID,
   });
   return (
     <React.Fragment>
@@ -30,8 +31,10 @@ const Navbar = observer(() => {
           showIcon={false}
           style={{
             textAlign: "center",
-            position: "absolute",
+            position: "sticky",
             width: "100%",
+            top: "0px",
+            zIndex: 100,
           }}
         />
       )}
@@ -43,10 +46,6 @@ const Navbar = observer(() => {
           multiple={false}
           className="tw-items-center tw-w-1/2 tw-mr-16 tw-border-0"
         >
-          {/* Had to write sh1t code because ant would behave strangely
-                if decomposed with components
-                //TODO fix it
-          */}
           <Menu.Item key={"home"}>
             <Link
               to={"/"}
@@ -61,22 +60,24 @@ const Navbar = observer(() => {
             <Link
               to={"/aboutUs"}
               onClick={() => {
-                onHandleClick(true, "About Us");
+                onHandleClick(false, "About Us");
               }}
             >
               {"About Us"}
             </Link>
           </Menu.Item>
-          <Menu.Item key={"collaborate"}>
-            <Link
-              to={"/collaborate"}
-              onClick={() => {
-                onHandleClick(true, "collaborate");
-              }}
-            >
-              {"Collaborate"}
-            </Link>
-          </Menu.Item>
+          {User.role === "admin" && (
+            <Menu.Item key={"collaborate"}>
+              <Link
+                to={"/collaborate"}
+                onClick={() => {
+                  onHandleClick(true, "collaborate");
+                }}
+              >
+                {"OpenAI"}
+              </Link>
+            </Menu.Item>
+          )}
           <Menu.Item key={"search"}>
             <Link
               to={"/search"}
@@ -92,6 +93,7 @@ const Navbar = observer(() => {
               onClick={() => {
                 User.logOutUser();
                 signOut();
+                alert.openAlert(5000, "success", "Log out successful");
               }}
             >
               Log Out
@@ -114,6 +116,9 @@ const Navbar = observer(() => {
                 className="tw-w-48"
                 size="large"
                 style={{ borderRadius: "20px" }}
+                onClick={() => {
+                  history.push("/profile");
+                }}
               >
                 Welcome, {User.name}
               </Button>
