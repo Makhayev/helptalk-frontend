@@ -41,21 +41,28 @@ const Login = observer(() => {
       })
       .then((response) => {
         console.log(response);
-        User.assignUser({
-          surname: response?.data?.last_name,
-          name: response?.data?.first_name,
-          id: response?.data?.id,
-          isAuth: true,
-          role: response?.data?.role,
-        });
-        alert.openAlert(4000, "success", "Login success");
-        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
-        localStorage.setItem(
-          "refreshToken",
-          response?.data?.token?.refreshToken
-        );
-        history.push(User.pageToRedirect);
-        User.pageToRedirect = "/";
+        if (response.data.result) {
+          User.assignUser({
+            surname: response?.data?.last_name,
+            name: response?.data?.first_name,
+            id: response?.data?.id,
+            isAuth: true,
+            role: response?.data?.role,
+          });
+          alert.openAlert(4000, "success", "Login success");
+          localStorage.setItem(
+            "accessToken",
+            response?.data?.token?.accessToken
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response?.data?.token?.refreshToken
+          );
+          history.push(User.pageToRedirect);
+          User.pageToRedirect = "/";
+        } else {
+          alert.openAlert(4000, "error", "Login fail");
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -46,8 +46,6 @@ const Collaborate = () => {
         console.log(err);
       });
   };
-  console.log(specialists);
-  console.log(User.id);
   return (
     <div>
       <div className={"tw-h-12"}>

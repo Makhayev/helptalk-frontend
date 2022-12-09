@@ -31,7 +31,6 @@ api.interceptors.request.use((config) => {
 //         const response = await axios.post(`${API_URL}/refresh`, {
 //           refreshToken,
 //         });
-//         console.log(response);
 //         const {
 //           accessToken,
 //           newRefreshToken,
