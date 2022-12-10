@@ -104,7 +104,7 @@ const signUpSpecialist = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/register/specialist`, {
+      .post(`/register/specialist`, {
         email: email,
         password: password,
         first_name: nameSurname[0],

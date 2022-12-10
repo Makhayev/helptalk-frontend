@@ -13,7 +13,7 @@ class User {
     const jwtToken = localStorage.getItem("accessToken");
     if (jwtToken) {
       api
-        .get(`${import.meta.env.VITE_VERCEL_URL}/loginByAccessToken`)
+        .get(`/loginByAccessToken`)
         .then((response) => {
           const { first_name, last_name, role, email, id } = response?.data;
           if (first_name && role && email && last_name) {

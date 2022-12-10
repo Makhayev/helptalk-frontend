@@ -51,7 +51,7 @@ const SignUp = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/register/patient`, {
+      .post(`/register/patient`, {
         email: email,
         password: password,
         first_name: nameSurname[0],
