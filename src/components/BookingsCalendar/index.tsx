@@ -25,7 +25,27 @@ const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
   const appointmentDates = bookings
     .filter((booking) => booking.approved)
     .map((booking) => booking.appointed_at?.split("T")?.[0]);
+  const unapprovedAppointmentDates = bookings
+    .filter((booking) => !booking.approved)
+    .map((booking) => booking.appointed_at?.split("T")?.[0]);
+
   const [selectedDate, setSelectedDate] = useState(moment());
+  const filteredBookings = bookings
+    .filter((booking) => booking.approved)
+    .filter((booking) => {
+      return (
+        booking.appointed_at.split("T")?.[0] ===
+        selectedDate.toDate().toISOString().split("T")?.[0]
+      );
+    });
+  const unapprovedBookings = bookings
+    .filter((booking) => !booking.approved)
+    .filter((booking) => {
+      return (
+        booking.appointed_at.split("T")?.[0] ===
+        selectedDate.toDate().toISOString().split("T")?.[0]
+      );
+    });
   return (
     <div
       className={"tw-w-full tw-border-secondary tw-border-2"}
@@ -67,6 +87,32 @@ const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
                 return (
                   <div
                     style={{
+                      background: "#D4E0FF",
+                      color: "black",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    {date.toDate().getDate()}
+                  </div>
+                );
+              }
+            } else if (unapprovedAppointmentDates.includes(currDate)) {
+              if (currDate === selDate) {
+                return (
+                  <div
+                    style={{
+                      background: "#5877C5",
+                      color: "white",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    {date.toDate().getDate()}
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    style={{
                       background: "#7B7B7B",
                       color: "white",
                       borderRadius: "10px",
@@ -89,31 +135,40 @@ const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
             }
           }}
         />
-        {bookings.length > 0 ? (
-          bookings
-            .filter((booking) => booking.approved)
-            .filter((booking) => {
-              return (
-                booking.appointed_at.split("T")?.[0] ===
-                selectedDate.toDate().toISOString().split("T")?.[0]
-              );
-            })
-            .map((booking) => (
-              <BookingCalendarCard
-                nameId={
-                  User.role === "patient"
-                    ? booking.specialist_id
-                    : booking.patient_id
-                }
-                comments={booking.comments}
-                id={booking.id}
-                appointed_at={booking.appointed_at}
-                end_time={booking.end_time}
-              />
-            ))
-        ) : (
-          <div> Empty...</div>
-        )}
+        {filteredBookings?.length > 0 &&
+          filteredBookings.map((booking) => (
+            <BookingCalendarCard
+              nameId={
+                User.role === "patient"
+                  ? booking.specialist_id
+                  : booking.patient_id
+              }
+              approved={booking.approved}
+              comments={booking.comments}
+              id={booking.id}
+              appointed_at={booking.appointed_at}
+              end_time={booking.end_time}
+              specialist_id={booking.specialist_id}
+              patient_id={booking.patient_id}
+            />
+          ))}
+        {unapprovedBookings?.length > 0 &&
+          unapprovedBookings.map((booking) => (
+            <BookingCalendarCard
+              nameId={
+                User.role === "patient"
+                  ? booking.specialist_id
+                  : booking.patient_id
+              }
+              approved={booking.approved}
+              comments={booking.comments}
+              id={booking.id}
+              appointed_at={booking.appointed_at}
+              end_time={booking.end_time}
+              specialist_id={booking.specialist_id}
+              patient_id={booking.patient_id}
+            />
+          ))}
       </div>
     </div>
   );

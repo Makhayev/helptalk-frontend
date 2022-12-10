@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import User from "../../mobx/user";
 import api from "../../api/Api";
 import BookingsCalendar from "../../components/BookingsCalendar";
-import PsychologistCard from "../../components/PsychologistCard";
 import PatientCard from "../../components/PatientCard";
 
 const PatientProfile = () => {
   const [bookings, setBookings] = useState([]);
   const [patient, setPatient] = useState<any>();
-  const [user, setUser] = useState<any>();
   useEffect(() => {
     api
       .post("/book/getbypatientid", {
         id: User.id,
       })
       .then((resp) => {
-        console.log(resp.data);
         setBookings(resp.data);
       });
   }, []);
@@ -25,7 +22,6 @@ const PatientProfile = () => {
         id: User.id,
       })
       .then((resp) => {
-        console.log(resp.data, "getById");
         setPatient(resp.data);
       });
   }, []);

@@ -4,13 +4,17 @@ import { Button } from "antd";
 import api from "../../api/Api";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
+import { Link } from "react-router-dom";
 
-interface BookingCalendarCardType {
+export interface BookingCalendarCardType {
   comments: string;
   id: number;
   appointed_at: string;
   nameId: number;
   end_time: string;
+  specialist_id?: number | string;
+  approved: boolean;
+  patient_id?: number | string;
 }
 
 const BookingCalendarCard = ({
@@ -19,6 +23,9 @@ const BookingCalendarCard = ({
   appointed_at,
   nameId,
   end_time,
+  patient_id,
+  specialist_id,
+  approved,
 }: BookingCalendarCardType) => {
   const momentAppoint = moment(appointed_at);
   const momentEnd = moment(end_time);
@@ -51,8 +58,6 @@ const BookingCalendarCard = ({
           id: nameId,
         })
         .then((response) => {
-          console.log("this");
-          console.log(nameId);
           setName(`${response.data.first_name} ${response.data.last_name}`);
         });
     }
@@ -65,7 +70,7 @@ const BookingCalendarCard = ({
       }
     >
       <div className={"tw-text-lg"}>
-        {momentAppoint.format("MMMM Do, YYYY")}
+        {momentAppoint.utc().format("MMMM Do, YYYY")}
       </div>
       <div>
         {momentAppoint.utc().format("HH:mm")} -{" "}
@@ -76,11 +81,28 @@ const BookingCalendarCard = ({
           "tw-border-secondary tw-border-2 tw-w-4/5 tw-flex-col tw-flex tw-justify-between tw-items-center"
         }
       >
-        <div>{name}</div>
-        <div>{comments}</div>
-        <div>
+        <div className={"tw-text-lg tw-my-2 tw-underline"}>
+          <Link
+            to={`/${
+              User.role === "patient"
+                ? "specialist"
+                : User.role === "specialist"
+                ? "patient"
+                : ""
+            }/${nameId}`}
+          >
+            {name}
+          </Link>
+        </div>
+        <div className={"tw-my-4"}>{comments}</div>
+        {approved ? (
+          <div className={"tw-text-main"}>Approved</div>
+        ) : (
+          <div className={"tw-text-dark"}> Not approved</div>
+        )}
+        <div></div>
+        <div className={"tw-my-4"}>
           <Button onClick={handleBookingDelete}>Delete </Button>
-          <Button>Rearrange time</Button>
         </div>
       </div>
     </div>

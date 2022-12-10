@@ -19,7 +19,10 @@ const Footer = () => {
           <div className={"tw-mt-5"}>
             <img src="/LogoInverted.svg" />
           </div>
-          <div>LOREM IPSUM LOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUM</div>
+          <div>
+            HelpTalk is a service that helps you find and an appropriate
+            psychological help or to find people that you could help.
+          </div>
           <div>Business Hour</div>
           <div>Monday-Friday</div>
         </div>

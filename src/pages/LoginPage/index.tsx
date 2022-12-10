@@ -20,7 +20,6 @@ const Login = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onHandleSubmit = () => {
-    console.log(clientId);
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
@@ -40,7 +39,6 @@ const Login = observer(() => {
         password: password,
       })
       .then((response) => {
-        console.log(response);
         if (response.data.result) {
           User.assignUser({
             surname: response?.data?.last_name,
@@ -79,7 +77,6 @@ const Login = observer(() => {
           email: response?.profileObj?.email,
         })
         .then((response) => {
-          console.log(response.data);
           if (response.data.result) {
             User.assignUser({
               surname: response?.data?.last_name,
@@ -106,14 +103,11 @@ const Login = observer(() => {
     }
   };
   const onLogoutSuccess = () => {
-    console.log("logout success");
     User.logOutUser();
   };
   const onFailure = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
-    console.log(response);
-  };
+  ): void => {};
 
   useEffect(() => {
     if (User.isAuth) {
