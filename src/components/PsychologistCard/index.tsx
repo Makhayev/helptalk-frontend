@@ -2,6 +2,9 @@ import React from "react";
 import PsychologistInfo from "../../components/PsychologistInfo";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
+import PendingBookingCard from "../PendingBookingCard";
+import User from "../../mobx/user";
+import PsychologistModal from "../PsychologistModal";
 
 interface psychologistPageProps {
   imageURL?: string;
@@ -14,6 +17,9 @@ interface psychologistPageProps {
   description?: string;
   price?: string;
   rating?: string;
+  isProfile?: boolean;
+  bookings?: any[];
+  id: number;
 }
 
 const PsychologistCard = ({
@@ -27,9 +33,13 @@ const PsychologistCard = ({
   description = "Hello! My name is Arman, I am a psychologist with 5 years of experience. I have worked for NU counselling and focus on people with eating disorders.",
   price = "100$",
   rating = "4.8",
+  isProfile = false,
+  bookings = [],
+  id,
 }: psychologistPageProps) => {
+  const filteredBookings = bookings?.filter((booking) => !booking?.approved);
   return (
-    <div className={"tw-flex tw-justify-center tw-mt-10"}>
+    <div className={"tw-flex tw-justify-center"}>
       <div
         style={{ height: "150vh", width: "40vw" }}
         className={
@@ -60,8 +70,8 @@ const PsychologistCard = ({
             </div>
           </div>
         </div>
-        <div className={"tw-flex tw-flex-col"}>
-          <div>About</div>
+        <div className={"tw-flex tw-flex-col tw-w-full tw-px-4"}>
+          <div className={"tw-text-lg tw-font-bold tw-mt-4"}>About</div>
           <div className="tw-text-main">________</div>
           <div>{description}</div>
           <div className={"tw-flex tw-justify-between tw-my-8"}>
@@ -78,9 +88,35 @@ const PsychologistCard = ({
               </span>
             </div>
           </div>
-          <div></div>
         </div>
-        <PsychologistInfo />
+        {!isProfile && (
+          <PsychologistModal psychologistName={fullName} psychologistID={id} />
+        )}
+        {isProfile && (
+          <>
+            <div className={"tw-font-bold tw-text-lg"}> Pending bookings</div>
+            {filteredBookings.length > 0 ? (
+              filteredBookings?.map((booking) => (
+                <PendingBookingCard
+                  approved={booking.approved}
+                  appointed_at={booking.appointed_at}
+                  end_time={booking.end_time}
+                  nameId={
+                    User.role === "patient"
+                      ? booking.specialist_id
+                      : booking.patient_id
+                  }
+                  id={booking.id}
+                  patient_id={booking.patient_id}
+                  specialist_id={booking.specialist_id}
+                  comments={booking.comments}
+                />
+              ))
+            ) : (
+              <div>Empty...</div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

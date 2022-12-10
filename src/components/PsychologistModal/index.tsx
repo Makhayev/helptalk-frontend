@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import CustomInput from "../CustomInput";
 import { Calendar, Input } from "antd";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 import CustomDropdown from "../CustomDropdown";
 import { FieldTimeOutlined } from "@ant-design/icons";
 import api from "../../api/Api";
@@ -12,6 +12,7 @@ interface psychologistModalPropsType {
   psychologistName: string;
   psychologistID: number;
   className?: string;
+  closeModal?: React.Dispatch<SetStateAction<boolean>>;
 }
 const mockTimeslots = [
   "13:00-14:00",
@@ -25,6 +26,7 @@ const PsychologistModal = ({
   psychologistName,
   psychologistID,
   className,
+  closeModal,
 }: psychologistModalPropsType) => {
   const [date, setDate] = useState<Moment>();
   const [timeSlot, setTimeSlot] = useState<string>("timeslots");
@@ -43,7 +45,14 @@ const PsychologistModal = ({
       })
       .then((res) => {
         alert.openAlert(5000, "success", "Appointment Created");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert.openAlert(5000, "error", "Something went wrong...");
       });
+    if (closeModal) {
+      closeModal(false);
+    }
   };
   return (
     <div className={className}>

@@ -99,7 +99,6 @@ const signUpSpecialist = observer(() => {
       return;
     }
     const filePath = await handleUpload();
-    console.log(filePath);
     if (!filePath) {
       alert.openAlert(5000, "error", "Upload file!");
       return;
@@ -148,13 +147,11 @@ const signUpSpecialist = observer(() => {
       .upload("public/" + fileToUpload?.name, fileToUpload as File);
 
     if (data) {
-      console.log(data);
       return starterPath + data?.path;
     } else if (error) {
       console.log(error);
     }
   };
-  console.log(specializations);
   useEffect(() => {
     const eventHandler = (e: KeyboardEvent) => {
       if (e.key === "Enter") {

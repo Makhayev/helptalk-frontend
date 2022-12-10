@@ -1,8 +1,8 @@
 import React from "react";
 import User from "../../mobx/user";
 
-const Profile = () => {
+const AdminProfile = () => {
   return <div>asd</div>;
 };
 
-export default Profile;
+export default AdminProfile;

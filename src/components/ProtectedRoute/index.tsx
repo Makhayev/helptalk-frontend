@@ -2,23 +2,43 @@ import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
+import alert from "../../mobx/alert";
 interface protectedRouteProps {
   path: string;
   children: React.ReactNode;
+  checkRoles?: string[];
 }
 
-const ProtectedRoute = observer(({ path, children }: protectedRouteProps) => {
-  console.log(User.isAuth);
-  if (User.isAuth) {
-    return (
-      <Route exact path={path}>
-        {children}
-      </Route>
-    );
-  } else {
-    User.assignPageToRedirect(path);
-    return <Redirect to={"/logIn"} />;
+const ProtectedRoute = observer(
+  ({ path, children, checkRoles }: protectedRouteProps) => {
+    if (User.isAuth) {
+      if (checkRoles) {
+        if (checkRoles?.includes(User.role)) {
+          return (
+            <Route exact path={path}>
+              {children}
+            </Route>
+          );
+        } else {
+          alert.openAlert(
+            5000,
+            "error",
+            "You are not privileged to view this page"
+          );
+          return <Redirect to={"/"} />;
+        }
+      } else {
+        return (
+          <Route exact path={path}>
+            {children}
+          </Route>
+        );
+      }
+    } else {
+      User.assignPageToRedirect(path);
+      return <Redirect to={"/logIn"} />;
+    }
   }
-});
+);
 
 export default ProtectedRoute;

@@ -81,6 +81,7 @@ const SearchPageCard = ({
           className={"tw-pt-8"}
           psychologistName={name}
           psychologistID={psychologistID}
+          closeModal={setIsModalOpen}
         />
       </Modal>
     </div>

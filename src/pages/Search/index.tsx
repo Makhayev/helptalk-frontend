@@ -11,7 +11,6 @@ const Search = observer(() => {
   useEffect(() => {
     setSearch(searchString.search);
     api.get("/specialist/getAll").then((response) => {
-      console.log(response.data);
       setSpecialists(response.data);
     });
   }, []);

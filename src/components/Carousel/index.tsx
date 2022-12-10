@@ -17,10 +17,7 @@ const contentStyle: React.CSSProperties = {
 const CustomCarousel: React.FC = () => {
   const ref = useRef<any>();
 
-  const onChange = (currentSlide: number) => {
-    console.log("onchange" + currentSlide);
-    console.log(ref?.current);
-  };
+  const onChange = (currentSlide: number) => {};
 
   return (
     <React.Fragment>

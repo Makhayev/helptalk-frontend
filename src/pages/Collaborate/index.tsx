@@ -18,7 +18,6 @@ const Collaborate = () => {
   useEffect(() => {
     setSearch(searchString.search);
     api.get("/specialist/getAll").then((response) => {
-      console.log(response.data);
       setSpecialists(response.data);
     });
   }, []);
@@ -33,7 +32,6 @@ const Collaborate = () => {
         setLoad(false);
         setRankedSpecs([]);
         setSpecVal(response?.data?.Specializations);
-        console.log(response?.data?.Specializations);
         for (let spec in response?.data?.Specializations) {
           // setRankedSpecs((prev) => [...prev, spec]);
           setRankedSpecs((prev) => [...prev, spec]);
@@ -46,8 +44,6 @@ const Collaborate = () => {
         console.log(err);
       });
   };
-  console.log(specialists);
-  console.log(User.id);
   return (
     <div>
       <div className={"tw-h-12"}>

@@ -125,7 +125,10 @@ const MainPage = observer(() => {
                 "tw-bg-main tw-text-white tw-rounded-2xl tw-text-xl tw-h-16 tw-w-2/5"
               }
             >
-              <Link className="tw-text-white tw-text-xl" to={"/aboutUs"}>
+              <Link
+                className="tw-text-white tw-text-xl"
+                to={"/signUpSpecialist"}
+              >
                 {"Apply"}
               </Link>
             </button>

@@ -20,7 +20,6 @@ const Login = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onHandleSubmit = () => {
-    console.log(clientId);
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
         surname: "adminov",
@@ -40,22 +39,28 @@ const Login = observer(() => {
         password: password,
       })
       .then((response) => {
-        console.log(response);
-        User.assignUser({
-          surname: response?.data?.last_name,
-          name: response?.data?.first_name,
-          id: response?.data?.id,
-          isAuth: true,
-          role: response?.data?.role,
-        });
-        alert.openAlert(4000, "success", "Login success");
-        localStorage.setItem("accessToken", response?.data?.token?.accessToken);
-        localStorage.setItem(
-          "refreshToken",
-          response?.data?.token?.refreshToken
-        );
-        history.push(User.pageToRedirect);
-        User.pageToRedirect = "/";
+        if (response.data.result) {
+          User.assignUser({
+            surname: response?.data?.last_name,
+            name: response?.data?.first_name,
+            id: response?.data?.id,
+            isAuth: true,
+            role: response?.data?.role,
+          });
+          alert.openAlert(4000, "success", "Login success");
+          localStorage.setItem(
+            "accessToken",
+            response?.data?.token?.accessToken
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response?.data?.token?.refreshToken
+          );
+          history.push(User.pageToRedirect);
+          User.pageToRedirect = "/";
+        } else {
+          alert.openAlert(4000, "error", "Login fail");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -72,7 +77,6 @@ const Login = observer(() => {
           email: response?.profileObj?.email,
         })
         .then((response) => {
-          console.log(response.data);
           if (response.data.result) {
             User.assignUser({
               surname: response?.data?.last_name,
@@ -99,14 +103,11 @@ const Login = observer(() => {
     }
   };
   const onLogoutSuccess = () => {
-    console.log("logout success");
     User.logOutUser();
   };
   const onFailure = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ): void => {
-    console.log(response);
-  };
+  ): void => {};
 
   useEffect(() => {
     if (User.isAuth) {
