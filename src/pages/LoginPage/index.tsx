@@ -34,7 +34,7 @@ const Login = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/login`, {
+      .post(`/login`, {
         email: email,
         password: password,
       })
