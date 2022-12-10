@@ -47,7 +47,7 @@ const PendingBookingCard = ({
   return (
     <div className={"tw-w-4/5 "}>
       <div>
-        {`${momentAppoint.format("MMMM Do, YYYY")} ${momentAppoint
+        {`${momentAppoint.utc().format("MMMM Do, YYYY")} ${momentAppoint
           .utc()
           .format("HH:mm")} - ${momentEnd.utc().format("HH:mm")}`}
       </div>
