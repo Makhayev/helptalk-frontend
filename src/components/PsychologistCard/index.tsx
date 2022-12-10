@@ -98,6 +98,7 @@ const PsychologistCard = ({
             {filteredBookings.length > 0 ? (
               filteredBookings?.map((booking) => (
                 <PendingBookingCard
+                  approved={booking.approved}
                   appointed_at={booking.appointed_at}
                   end_time={booking.end_time}
                   nameId={
