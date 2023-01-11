@@ -3,12 +3,12 @@ import axios from "axios";
 //const url = "https://helptalk-backend.up.railway.app/";
 // export const API_URL = "http://localhost:5431";
 export const API_URL = "https://helptalk-backend.up.railway.app";
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: false,
 });
 
-api.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
   if (config.headers) {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
       "accessToken"
@@ -56,4 +56,4 @@ api.interceptors.request.use((config) => {
 //   }
 // );
 
-export default api;
+export default axiosInstance;

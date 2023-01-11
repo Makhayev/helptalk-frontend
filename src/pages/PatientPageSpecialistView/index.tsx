@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PatientCard from "../../components/PatientCard";
 import { Input } from "antd";
 import User from "../../mobx/user";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import BookingsNoCalendar from "../../components/BookingsNoCalendar";
 import { useHistory } from "react-router-dom";
 const PatientPageSpecialistView = () => {

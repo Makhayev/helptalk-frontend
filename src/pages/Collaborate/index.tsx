@@ -1,6 +1,6 @@
 import FormItemLabel from "antd/es/form/FormItemLabel";
 import React, { useState, useEffect } from "react";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import SearchPageCard from "../../components/SearchPageCard";
 import Tag from "../../components/SearchPageCard/Tags";
 import searchString from "../../mobx/searchString";

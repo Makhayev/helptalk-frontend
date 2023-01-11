@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import UserType from "../types/User";
-import api from "../api/Api";
+import api from "../api/AxiosInstance";
 class User {
   name: string = "";
   surname: string = "";
