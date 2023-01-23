@@ -1,8 +1,8 @@
 import axios from "axios";
 
-//const url = "https://helptalk-backend.up.railway.app/";
-// export const API_URL = "http://localhost:5431";
-export const API_URL = "https://helptalk-backend.up.railway.app";
+// const url = "https://helptalk-backend.up.railway.app/";
+export const API_URL = "http://localhost:5431";
+// export const API_URL = "https://helptalk-backend.up.railway.app";
 const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: false,
