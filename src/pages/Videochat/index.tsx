@@ -4,7 +4,7 @@ import User from "../../mobx/user";
 import React, { LegacyRef, useRef } from "react";
 import Peer from "peerjs";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5431");
+const socket = io.connect("https://helptalk-backend.up.railway.app");
 
 const Videochat = observer(() => {
   const params = useParams<{ id?: string }>();
