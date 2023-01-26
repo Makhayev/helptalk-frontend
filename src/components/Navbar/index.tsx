@@ -48,7 +48,7 @@ const Navbar = observer(() => {
         >
           <Menu.Item key={"home"}>
             <Link
-              to={"/"}
+              to={"/videochat/1"}
               onClick={() => {
                 onHandleClick(false, "home");
               }}
