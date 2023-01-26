@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import alert from "../../mobx/alert";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Input, Menu, Space } from "antd";
@@ -51,7 +51,7 @@ const SignUp = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/register/patient`, {
+      .post(`/register/patient`, {
         email: email,
         password: password,
         first_name: nameSurname[0],

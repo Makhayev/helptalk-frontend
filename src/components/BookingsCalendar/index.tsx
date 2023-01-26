@@ -3,7 +3,7 @@ import { Calendar } from "antd";
 import moment from "moment";
 import BookingCalendarCard from "../BookingCalendarCard";
 import User from "../../mobx/user";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 
 interface BookingsCalendarPropsType {
   bookings: bookingType[];

@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { createClient } from "@supabase/supabase-js";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import { Button, Dropdown, Input, Menu, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
@@ -104,7 +104,7 @@ const signUpSpecialist = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/register/specialist`, {
+      .post(`/register/specialist`, {
         email: email,
         password: password,
         first_name: nameSurname[0],

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Button } from "antd";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { Link } from "react-router-dom";

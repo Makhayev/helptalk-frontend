@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import User from "../../mobx/user";
 import BookingsCalendar from "../../components/BookingsCalendar";
 import PsychologistCard from "../../components/PsychologistCard";
@@ -34,6 +34,7 @@ const SpecialistProfile = () => {
           price={String(specialist?.price)}
           fullName={`${specialist?.first_name} ${specialist?.last_name}`}
           bookings={bookings}
+          description={specialist?.description}
           isProfile={true}
           email={specialist?.email}
           id={parseInt(User.id)}

@@ -4,7 +4,7 @@ import { Calendar, Input } from "antd";
 import { Moment } from "moment";
 import CustomDropdown from "../CustomDropdown";
 import { FieldTimeOutlined } from "@ant-design/icons";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 
@@ -38,9 +38,9 @@ const PsychologistModal = ({
       .post("/book", {
         patient_id: User.id,
         specialist_id: psychologistID,
-        appointed_at: `${date?.format().split("+")?.[0]?.split("T")?.[0]}T${
-          timeSlot.split(":")?.[0]
-        }:00:00.001Z`,
+        appointed_at: `${
+          date?.utc().format().split("+")?.[0]?.split("T")?.[0]
+        }T${timeSlot.split(":")?.[0]}:00:00.001Z`,
         comments: message,
       })
       .then((res) => {
@@ -87,7 +87,7 @@ const PsychologistModal = ({
               onFocus: () => {
                 setShowCalendar(true);
               },
-              value: date?.format("DD.MM.YYYY"),
+              value: date?.utc().format("DD.MM.YYYY"),
             }}
           />
           <div className={"tw-w-1/2"}>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import { useHistory } from "react-router-dom";
 import {
   GoogleLogin,
@@ -34,7 +34,7 @@ const Login = observer(() => {
       return;
     }
     api
-      .post(`${import.meta.env.VITE_VERCEL_URL}/login`, {
+      .post(`/login`, {
         email: email,
         password: password,
       })
