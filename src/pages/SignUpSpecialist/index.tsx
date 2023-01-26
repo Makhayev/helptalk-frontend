@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { createClient } from "@supabase/supabase-js";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import { Button, Dropdown, Input, Menu, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
