@@ -16,6 +16,7 @@ import SpecialistProfile from "./pages/SpecialistProfile";
 import PatientProfile from "./pages/PatientProfile";
 import PatientPageSpecialistView from "./pages/PatientPageSpecialistView";
 import SpecialistPagePatientView from "./pages/SpecialistPagePatientView";
+import Videochat from "./pages/Videochat";
 
 const App = observer(() => {
   return (
@@ -62,6 +63,9 @@ const App = observer(() => {
             <Profile />
           )}
         </ProtectedRoute>
+        <Route path={"/videochat/:id"}>
+          <Videochat />
+        </Route>
         <Route path={"/"}>
           <MainPage />
         </Route>
