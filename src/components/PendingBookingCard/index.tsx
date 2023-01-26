@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BookingCalendarCardType } from "../BookingCalendarCard";
 import moment from "moment/moment";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import alert from "../../mobx/alert";

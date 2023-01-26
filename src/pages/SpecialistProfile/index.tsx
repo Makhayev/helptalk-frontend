@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../../api/Api";
+import api from "../../api/AxiosInstance";
 import User from "../../mobx/user";
 import BookingsCalendar from "../../components/BookingsCalendar";
 import PsychologistCard from "../../components/PsychologistCard";
