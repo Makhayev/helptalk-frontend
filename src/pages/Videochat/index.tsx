@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import User from "../../mobx/user";
-import React, { LegacyRef, useRef } from "react";
+import React, { useRef } from "react";
 import Peer from "peerjs";
 import io from "socket.io-client";
+//@ts-ignore
 const socket = io.connect("https://helptalk-backend.up.railway.app");
 
 const Videochat = observer(() => {
   const params = useParams<{ id?: string }>();
-  const myVideo = useRef<LegacyRef<HTMLVideoElement>>();
-  const userVideo = useRef<LegacyRef<HTMLVideoElement>>();
+  const myVideo = useRef<HTMLVideoElement>(null);
+  const userVideo = useRef<HTMLVideoElement>(null);
   const myPeer = new Peer(User.id);
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
