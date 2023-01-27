@@ -38,15 +38,17 @@ const Videochat = observer(() => {
   });
   return (
     <div>
-      <div>Hello guys</div>
-      <video
-        playsInline
-        muted
-        autoPlay
-        style={{ width: "300px" }}
-        ref={myVideo}
-      />
-      <video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} />
+      <div className="tw-flex tw-flex-col tw-items-center tw-mb-20 tw-mt-20">
+        <div className="tw-text-center tw-flex tw-flex-row tw-items-center tw-w-full tw-justify-around">
+          <video
+            playsInline
+            muted
+            autoPlay
+            ref={myVideo}
+          />
+          <video playsInline ref={userVideo} autoPlay />
+        </div>
+      </div>
     </div>
   );
 });
