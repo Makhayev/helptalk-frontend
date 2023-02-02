@@ -3,10 +3,14 @@ import User from "../../mobx/user";
 import api from "../../api/AxiosInstance";
 import BookingsCalendar from "../../components/BookingsCalendar";
 import PatientCard from "../../components/PatientCard";
+import { Spin } from "antd";
 
 const PatientProfile = () => {
   const [bookings, setBookings] = useState([]);
   const [patient, setPatient] = useState<any>();
+  const [gotBooking, setGotBooking] = useState<boolean>(false);
+  const [gotPatient, setGotPatent] = useState<boolean>(false);
+  
   useEffect(() => {
     api
       .post("/book/getbypatientid", {
@@ -14,6 +18,7 @@ const PatientProfile = () => {
       })
       .then((resp) => {
         setBookings(resp.data);
+        setGotBooking(true)
       });
   }, []);
   useEffect(() => {
@@ -23,11 +28,13 @@ const PatientProfile = () => {
       })
       .then((resp) => {
         setPatient(resp.data);
+        setGotPatent(true)
       });
   }, []);
+
   return (
     <div>
-      <div className={"tw-flex tw-justify-center tw-my-4"}>
+      {gotBooking && gotPatient ? <div className={"tw-flex tw-justify-center tw-my-4"}>
         <div className={"tw-w-1/2"}>
           <PatientCard
             email={patient?.email}
@@ -38,7 +45,10 @@ const PatientProfile = () => {
         <div className={"tw-w-1/4"}>
           <BookingsCalendar bookings={bookings} id={User.id} />
         </div>
-      </div>
+      </div> : <div className="tw-h-96 tw-flex tw-justify-center tw-items-center">
+        <Spin size="large"></Spin>
+      </div> }
+
     </div>
   );
 };

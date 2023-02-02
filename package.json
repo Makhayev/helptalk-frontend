@@ -39,9 +39,9 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.27",
     "@types/react-copy-to-clipboard": "^5.0.4",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.10",
     "@types/react-router-dom": "^5.3.3",
     "@types/simple-peer": "^9.11.5",
     "@vitejs/plugin-react": "^2.1.0",
