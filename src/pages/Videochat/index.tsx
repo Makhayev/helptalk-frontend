@@ -5,13 +5,14 @@ import React, { useRef } from "react";
 import Peer from "peerjs";
 import io from "socket.io-client";
 //@ts-ignore
-const socket = io.connect("https://helptalk-backend.up.railway.app");
+// const socket = io.connect("https://helptalk-backend.up.railway.app");
+const socket = io.connect("http://localhost:5431");
 
 const Videochat = observer(() => {
   const params = useParams<{ id?: string }>();
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
-  const myPeer = new Peer(User.id);
+  const myPeer = new Peer();
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
@@ -31,6 +32,9 @@ const Videochat = observer(() => {
           //@ts-ignore
           userVideo.current.srcObject = stream;
         });
+        call.on("close", () => {
+          userVideo?.current?.remove();
+        });
       });
     });
   myPeer.on("open", (id: any) => {
@@ -38,16 +42,20 @@ const Videochat = observer(() => {
   });
   return (
     <div>
-      <div className="tw-flex tw-flex-col tw-items-center tw-mb-20 tw-mt-20">
-        <div className="tw-text-center tw-flex tw-flex-row tw-items-center tw-w-full tw-justify-around">
-          <video
-            playsInline
-            muted
-            autoPlay
-            ref={myVideo}
-          />
-          <video playsInline ref={userVideo} autoPlay />
-        </div>
+      <div className="tw-flex tw-justify-evenly tw-my-20">
+        <video
+          playsInline
+          muted
+          autoPlay
+          style={{ width: "300px" }}
+          ref={myVideo}
+        />
+        <video
+          playsInline
+          ref={userVideo}
+          autoPlay
+          style={{ width: "300px" }}
+        />
       </div>
     </div>
   );

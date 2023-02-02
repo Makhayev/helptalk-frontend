@@ -15,6 +15,7 @@ export interface BookingCalendarCardType {
   specialist_id?: number | string;
   approved: boolean;
   patient_id?: number | string;
+  room_id: string;
 }
 
 const BookingCalendarCard = ({
@@ -22,9 +23,8 @@ const BookingCalendarCard = ({
   id,
   appointed_at,
   nameId,
+  room_id,
   end_time,
-  patient_id,
-  specialist_id,
   approved,
 }: BookingCalendarCardType) => {
   const momentAppoint = moment(appointed_at);
@@ -96,7 +96,14 @@ const BookingCalendarCard = ({
         </div>
         <div className={"tw-my-4"}>{comments}</div>
         {approved ? (
-          <div className={"tw-text-main"}>Approved</div>
+          <>
+            <div className={"tw-text-main"}>Approved</div>
+            <Link to={`/videochat/${room_id}`}>
+              <div className={"tw-text-main tw-underline"}>
+                Join Videochat room
+              </div>
+            </Link>
+          </>
         ) : (
           <div className={"tw-text-dark"}> Not approved</div>
         )}
