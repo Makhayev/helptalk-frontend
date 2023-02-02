@@ -68,6 +68,7 @@ const signUpSpecialist = observer(() => {
         name: "admin",
         id: "admin@admin.com",
         isAuth: true,
+        email: "admin@admin.com",
         role: "specialist",
       });
       alert?.openAlert(5000, "success", "Welcome admin");
@@ -123,6 +124,7 @@ const signUpSpecialist = observer(() => {
           name: nameSurname[0],
           id: response.data.id,
           isAuth: true,
+          email: email,
           role: "specialist",
         });
         localStorage.setItem("accessToken", response?.data?.token?.accessToken);
