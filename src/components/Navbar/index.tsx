@@ -39,7 +39,9 @@ const Navbar = observer(() => {
         />
       )}
       <div className={"tw-flex tw-justify-between"}>
-        <img src={"/helptalkLogo.svg"} alt="logo" />
+        <Link to={"/"}>
+          <img src={"/helptalkLogo.svg"} alt="logo" />
+        </Link>
         <Menu
           mode={"horizontal"}
           selectable={false}
@@ -48,7 +50,7 @@ const Navbar = observer(() => {
         >
           <Menu.Item key={"home"}>
             <Link
-              to={"/videochat/1"}
+              to={"/"}
               onClick={() => {
                 onHandleClick(false, "home");
               }}

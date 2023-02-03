@@ -5,6 +5,7 @@ class User {
   name: string = "";
   surname: string = "";
   id: string = "";
+  email: string = "";
   isAuth: boolean = false;
   pageToRedirect: string = "/";
   role: "admin" | "specialist" | "patient" | "" = "";
@@ -22,6 +23,7 @@ class User {
               surname: last_name,
               id: id,
               role: role,
+              email: email,
               isAuth: true,
             } as UserType);
           }
@@ -48,6 +50,7 @@ class User {
     this.surname = user.surname;
     this.id = user.id;
     this.isAuth = true;
+    this.email = user.email;
     this.role = user.role;
     this.pageToRedirect =
       this.pageToRedirect !== "/" ? this.pageToRedirect : "/";

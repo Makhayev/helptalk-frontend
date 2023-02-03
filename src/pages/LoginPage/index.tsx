@@ -25,6 +25,7 @@ const Login = observer(() => {
         surname: "adminov",
         name: "admin",
         id: "admin@admin.com",
+        email: "admin@admin.com",
         isAuth: true,
         role: "admin",
       });
@@ -45,6 +46,7 @@ const Login = observer(() => {
             name: response?.data?.first_name,
             id: response?.data?.id,
             isAuth: true,
+            email: response?.data?.email,
             role: response?.data?.role,
           });
           alert.openAlert(4000, "success", "Login success");
@@ -83,6 +85,7 @@ const Login = observer(() => {
               name: response?.data?.first_name,
               id: response?.data?.id,
               isAuth: true,
+              email: response?.data?.email,
               role: response?.data?.role,
             });
             alert.openAlert(4000, "success", "Login success");

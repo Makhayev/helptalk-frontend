@@ -15,7 +15,7 @@ export interface bookingType {
   end_time: string;
   id: number;
   patient_id: number;
-  room_id: number;
+  room_id: string;
   specialist_id: number;
 }
 
@@ -55,6 +55,7 @@ const BookingsCalendar = ({
               end_time={booking.end_time}
               specialist_id={booking.specialist_id}
               patient_id={booking.patient_id}
+              room_id={booking.room_id}
             />
           ))
         ) : (

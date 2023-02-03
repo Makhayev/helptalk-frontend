@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Calendar } from "antd";
 import moment from "moment";
 import BookingCalendarCard from "../BookingCalendarCard";
 import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
 
 interface BookingsCalendarPropsType {
   bookings: bookingType[];
@@ -17,7 +16,7 @@ export interface bookingType {
   end_time: string;
   id: number;
   patient_id: number;
-  room_id: number;
+  room_id: string;
   specialist_id: number;
 }
 
@@ -150,6 +149,7 @@ const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
               end_time={booking.end_time}
               specialist_id={booking.specialist_id}
               patient_id={booking.patient_id}
+              room_id={booking.room_id}
             />
           ))}
         {unapprovedBookings?.length > 0 &&
@@ -167,6 +167,7 @@ const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
               end_time={booking.end_time}
               specialist_id={booking.specialist_id}
               patient_id={booking.patient_id}
+              room_id={booking.room_id}
             />
           ))}
       </div>

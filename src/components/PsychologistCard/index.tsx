@@ -110,6 +110,7 @@ const PsychologistCard = ({
                   patient_id={booking.patient_id}
                   specialist_id={booking.specialist_id}
                   comments={booking.comments}
+                  room_id={booking.room_id}
                 />
               ))
             ) : (

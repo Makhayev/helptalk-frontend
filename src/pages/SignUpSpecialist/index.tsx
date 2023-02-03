@@ -6,7 +6,7 @@ import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { createClient } from "@supabase/supabase-js";
 import api from "../../api/AxiosInstance";
-import { Button, Dropdown, Input, Menu, Space } from "antd";
+import { Button, Dropdown, Input, Menu, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 const signUpSpecialist = observer(() => {
@@ -21,7 +21,7 @@ const signUpSpecialist = observer(() => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [price, setPrice] = useState<number>();
-  const [specialization, setSpecialization] = useState<any>();
+  const [specialization, setSpecialization] = useState<any[]>();
   const [description, setDescription] = useState<string>("");
   const [fileToUpload, setFileToUpload] = useState<File>();
   const [socialMediaAcc, setSocialMediaAcc] = useState<string>("");
@@ -68,6 +68,7 @@ const signUpSpecialist = observer(() => {
         name: "admin",
         id: "admin@admin.com",
         isAuth: true,
+        email: "admin@admin.com",
         role: "specialist",
       });
       alert?.openAlert(5000, "success", "Welcome admin");
@@ -103,13 +104,14 @@ const signUpSpecialist = observer(() => {
       alert.openAlert(5000, "error", "Upload file!");
       return;
     }
+
     api
       .post(`/register/specialist`, {
         email: email,
         password: password,
         first_name: nameSurname[0],
         last_name: nameSurname[1],
-        specializations: [specialization.id],
+        specializations: specialization,
         price: price,
         description: description,
         path: filePath,
@@ -123,6 +125,7 @@ const signUpSpecialist = observer(() => {
           name: nameSurname[0],
           id: response.data.id,
           isAuth: true,
+          email: email,
           role: "specialist",
         });
         localStorage.setItem("accessToken", response?.data?.token?.accessToken);
@@ -181,14 +184,24 @@ const signUpSpecialist = observer(() => {
   const menuItems2 = specializations.map((spec: any) => {
     return {
       label: spec.name,
+      value: spec.name,
       key: spec.id,
-      onClick: () => {
-        setSpecialization(spec);
-      },
+      // onClick: () => {
+      //   console.log("clicked");
+      //   setSpecialization((spec: any) => [...(specialization || []), spec.id]);
+      // },
     };
   });
+
   const items2 = <Menu items={menuItems2} />;
   const items = <Menu items={menuItems} />;
+
+  const handleChooseSpecs = (spec: any) => {
+    console.log(spec);
+    //console.log("Spec", specialization);
+    setSpecialization(spec);
+  };
+
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
@@ -220,14 +233,34 @@ const signUpSpecialist = observer(() => {
             className={"tw-w-1/2 tw-my-2"}
           />
           <div className={"tw-w-1/2 tw-my-2"}>
-            <Dropdown overlay={items2} className={"tw-w-full"}>
+            {/* <Dropdown overlay={items2} className={"tw-w-full"}>
               <Button className={"tw-w-full"}>
                 <Space>
                   {specialization?.name ?? "Choose Specialization"}
                   <DownOutlined />
                 </Space>
               </Button>
-            </Dropdown>
+            </Dropdown> */}
+            <Space style={{ width: "100%" }} direction="vertical">
+              <Space>{"Choose Specialization"}</Space>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: "100%" }}
+                placeholder="Choose specialization(-s)"
+                onChange={handleChooseSpecs}
+                options={menuItems2}
+              />
+              {/* <Select
+                mode="multiple"
+                //disabled
+                style={{ width: "100%" }}
+                placeholder="Please select"
+                defaultValue={["a10", "c12"]}
+                //onChange={handleChange}
+                options={specializations}
+              /> */}
+            </Space>
           </div>
           <CustomInput
             setValue={setPrice}
