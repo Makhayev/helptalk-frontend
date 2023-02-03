@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Peer from "peerjs";
 import io from "socket.io-client";
 //@ts-ignore
-// const socket = io.connect("https://helptalk-backend.up.railway.app");
-const socket = io.connect("http://localhost:5431");
+const socket = io.connect("https://helptalk-backend.up.railway.app");
+// const socket = io.connect("http://localhost:5431");
 
 const Videochat = observer(() => {
   const params = useParams<{ id?: string }>();
