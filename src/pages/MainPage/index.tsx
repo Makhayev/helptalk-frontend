@@ -24,7 +24,7 @@ const MainPage = observer(() => {
     };
   }, []);
   return (
-    <div>
+    <div className="tw-flex-auto tw-justify-center">
       <div className="tw-h-96 tw-bg-secondary">
         <div className="tw-text-main tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full">
           <div>
@@ -48,6 +48,8 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
+      <div className="tw-flex tw-justify-center">
+    <div className="tw-w-3/4">
       <div className="tw-h-80 tw-mb-32">
         <div className="tw-text-center tw-flex tw-flex-col tw-items-center">
           <div className={"tw-font-bold tw-text-4xl tw-mt-16 tw-mb-8"}>
@@ -135,6 +137,8 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 });
