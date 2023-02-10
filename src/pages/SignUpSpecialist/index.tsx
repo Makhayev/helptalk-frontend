@@ -186,10 +186,6 @@ const signUpSpecialist = observer(() => {
       label: spec.name,
       value: spec.name,
       key: spec.id,
-      // onClick: () => {
-      //   console.log("clicked");
-      //   setSpecialization((spec: any) => [...(specialization || []), spec.id]);
-      // },
     };
   });
 
@@ -251,15 +247,6 @@ const signUpSpecialist = observer(() => {
                 onChange={handleChooseSpecs}
                 options={menuItems2}
               />
-              {/* <Select
-                mode="multiple"
-                //disabled
-                style={{ width: "100%" }}
-                placeholder="Please select"
-                defaultValue={["a10", "c12"]}
-                //onChange={handleChange}
-                options={specializations}
-              /> */}
             </Space>
           </div>
           <CustomInput

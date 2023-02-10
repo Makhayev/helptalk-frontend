@@ -17,32 +17,38 @@ const Collaborate = () => {
 
   useEffect(() => {
     setSearch(searchString.search);
-    api.get("/specialist/getAll").then((response) => {
-      setSpecialists(response.data);
-    });
+    // api.get("/specialist/getAll").then((response) => {
+    //   console.log(response.data);
+    //   setSpecialists(response.data);
+    // });
   }, []);
   const fetchStuff = () => {
     setLoad(true);
     setTagsShowed(false);
     api
-      .post(`https://helptalk-backend.up.railway.app/openai`, {
+      .post(`/openai`, {
         prompt: prompt,
       })
       .then((response) => {
         setLoad(false);
         setRankedSpecs([]);
-        setSpecVal(response?.data?.Specializations);
-        for (let spec in response?.data?.Specializations) {
-          // setRankedSpecs((prev) => [...prev, spec]);
+        setSpecVal(response?.data?.Specializations.Specializations);
+        for (let spec in response?.data?.Specializations.Specializations) {
           setRankedSpecs((prev) => [...prev, spec]);
         }
         setTagsShowed(true);
-        //{key : value}
+        setSpecialists(response?.data?.Specializations.Specialists);
       })
       .catch((err) => {
         alert(err);
         console.log(err);
       });
+  };
+  const handleKeypress = (e: any) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      fetchStuff();
+    }
   };
   return (
     <div>
@@ -59,6 +65,7 @@ const Collaborate = () => {
               setPrompt(e.target.value);
             }}
             value={search}
+            onKeyDown={handleKeypress}
           />
           <button
             className={"tw-bg-main tw-text-white tw-w-20 tw-h-10 tw-ml-4"}
@@ -78,7 +85,7 @@ const Collaborate = () => {
           <div className="tw-flex tw-flex-col tw-mt-5 tw-items-center tw-justify-center">
             <ul className="tw-flex tw-flex tw-justify-between">
               {rankedSpecs.map((spec) => (
-                <Tag label={spec} number={specVal[spec] * 15} />
+                <Tag label={spec} number={specVal[spec]} />
               ))}
             </ul>
             {tagsShowed && (
@@ -89,6 +96,7 @@ const Collaborate = () => {
                     pricing={String(specialist.price)}
                     description={specialist.description}
                     psychologistID={specialist.id}
+                    tags={specialist.specializations}
                   />
                 ))}
               </div>
