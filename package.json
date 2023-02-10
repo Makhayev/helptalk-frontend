@@ -19,6 +19,7 @@
     "@typescript-eslint/parser": "^5.39.0",
     "antd": "^4.23.5",
     "axios": "^1.1.3",
+    "clsx": "^1.2.1",
     "dotenv": "^16.0.3",
     "gapi-script": "^1.2.0",
     "mobx": "^6.6.2",

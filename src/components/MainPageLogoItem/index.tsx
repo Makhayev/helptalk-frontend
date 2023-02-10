@@ -13,8 +13,12 @@ const MainPageLogoItem = ({
   enableRightBar = true,
 }: MainPageLogoItemProps) => {
   return (
-    <div className={"tw-flex"}>
-      <div className={"tw-flex tw-flex-col tw-items-center tw-justify-between"}>
+    <div className={"tw-flex tw-my-2"}>
+      <div
+        className={
+          "tw-flex tw-flex-col tw-w-full tw-items-center tw-justify-between"
+        }
+      >
         <div
           className={
             "tw-bg-secondary tw-w-20 tw-h-20 tw-flex tw-justify-center tw-items-center"
