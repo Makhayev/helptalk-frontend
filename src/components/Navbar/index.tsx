@@ -21,6 +21,7 @@ const Navbar = observer(() => {
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });
+
   return (
     <React.Fragment>
       {alert.isOpen && (
@@ -46,7 +47,7 @@ const Navbar = observer(() => {
           mode={"horizontal"}
           selectable={false}
           multiple={false}
-          className="tw-items-center tw-w-1/2 tw-mr-16 tw-border-0"
+          className="tw-items-center tw-w-1/2 tw-border-0"
         >
           <Menu.Item key={"home"}>
             <Link

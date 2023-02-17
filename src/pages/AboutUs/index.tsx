@@ -1,4 +1,5 @@
 import React from "react";
+import MainPageProfileCard from "../../components/MainPageProfileCard";
 
 const AboutUs = () => {
   return (
@@ -27,6 +28,13 @@ const AboutUs = () => {
         <div className="tw-w-3/4 tw-font-bold tw-text-white">
           Our mission is to create a substantial mental health support for all generations breaking social stereotypes and taboos. We believe that making an access to help easier, we increase the number of people asking for help in case of such circumstances.
         </div>
+      </div>
+    </div>
+    <div>
+      <div className="tw-w-full tw-h-32"> </div>
+      <div className="tw-flex tw-w-full tw-justify-around tw-text-2xl tw-font-bold tw-h-32 tw-items-center">Meet our team</div>
+      <div className="tw-flex tw-w-full tw-justify-between">
+        <div className="tw-flex "></div>
       </div>
     </div>
   </div>);
