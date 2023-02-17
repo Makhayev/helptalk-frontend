@@ -1,5 +1,8 @@
 import React from "react";
-import { BsInstagram, BsFacebook, BsTelegram } from "react-icons/bs";
+import { BsInstagram, BsFacebook, BsTelegram, BsSlack } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { Menu, Button, Alert } from "antd";
+import { classicNameResolver } from "typescript";
 
 const Footer = () => {
   return (
@@ -32,25 +35,59 @@ const Footer = () => {
           <div className={"tw-mt-20 tw-font-extrabold tw-text-2xl"}>
             Important Links
           </div>
-          <div>Our services</div>
-          <div>Privacy</div>
-          <div>Contacts</div>
-          <div>Meet our team</div>
-          <div className={"tw-mb-8"}>Help desk</div>
+          
+
+        <div className="tw-flex tw-flex-col tw-w-64 tw-h-1/2 tw-justify-around">
+          <div>
+          <Link 
+              to={"/aboutUs"} className="tw-text-white">
+              {"Our services"}
+            </Link>
+          </div>
+          <div>
+          <Link 
+              to={"/aboutUs"} className="tw-text-white">
+              {"Privacy"}
+            </Link>
+          </div><div>
+          <Link 
+              to={"/aboutUs"} className="tw-text-white">
+              {"Contacts"}
+            </Link>
+          </div><div>
+          <Link 
+              to={"/aboutUs"} className="tw-text-white">
+              {"Meet our team"}
+            </Link>
+          </div><div>
+          <Link 
+              to={"/aboutUs"} className="tw-text-white">
+              {"Help desk"}
+            </Link>
+          </div>
+        </div>
+
+
         </div>
         <div className={"tw-flex tw-flex-col tw-w-80"}>
           <div className={"tw-text-2xl tw-mt-24 tw-font-bold tw-mb-4"}>
             Follow us on social media
           </div>
           <div className={"tw-flex tw-justify-between"}>
-            <div>
-              <BsInstagram className={"tw-h-20 tw-w-20"} />
+            <div >
+              <a href="https://www.instagram.com/helptalk_support/" className="tw-text-white">
+              <BsInstagram className={"tw-h-20 tw-w-20"}/>
+              </a>
             </div>
             <div>
+              <a href="https://www.facebook.com/profile.php?id=100090112790695" className="tw-text-white">
               <BsFacebook className={"tw-h-20 tw-w-20"} />
+              </a>
             </div>
             <div>
+              <a href="https://t.me/helptalk_support" className="tw-text-white">
               <BsTelegram className={"tw-h-20 tw-w-20"} />
+              </a>
             </div>
           </div>
         </div>
