@@ -7,6 +7,7 @@ class User {
   id: string = "";
   email: string = "";
   isAuth: boolean = false;
+  balance: number = 0;
   pageToRedirect: string = "/";
   role: "admin" | "specialist" | "patient" | "" = "";
   constructor() {
@@ -16,12 +17,14 @@ class User {
       api
         .get(`/loginByAccessToken`)
         .then((response) => {
-          const { first_name, last_name, role, email, id } = response?.data;
-          if (first_name && role && email && last_name) {
+          const { first_name, last_name, role, email, id, balance } =
+            response?.data;
+          if (first_name && role && email && last_name && balance) {
             this.assignUser({
               name: first_name,
               surname: last_name,
               id: id,
+              balance: balance,
               role: role,
               email: email,
               isAuth: true,
@@ -50,6 +53,7 @@ class User {
     this.surname = user.surname;
     this.id = user.id;
     this.isAuth = true;
+    this.balance = user.balance;
     this.email = user.email;
     this.role = user.role;
     this.pageToRedirect =

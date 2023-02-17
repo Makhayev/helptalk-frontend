@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import PsychologistInfo from "../../components/PsychologistInfo";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
 import PendingBookingCard from "../PendingBookingCard";
 import User from "../../mobx/user";
 import PsychologistModal from "../PsychologistModal";
+import { Button, Input, Modal } from "antd";
+import { NumericFormat, PatternFormat } from "react-number-format";
+import api from "../../api/AxiosInstance";
+import alert from "../../mobx/alert";
+import { EditOutlined } from "@ant-design/icons";
 
 interface psychologistPageProps {
   imageURL?: string;
@@ -20,6 +25,7 @@ interface psychologistPageProps {
   isProfile?: boolean;
   bookings?: any[];
   id: number;
+  balance?: number;
 }
 
 const PsychologistCard = ({
@@ -37,6 +43,64 @@ const PsychologistCard = ({
   bookings = [],
   id,
 }: psychologistPageProps) => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [cardNumber, setCardNumber] = useState<string>("");
+  const [nameSurname, setNameSurname] = useState<string>("");
+  const [cvc, setCvc] = useState<string>("");
+  const [money, setMoney] = useState<string>("");
+
+  const [moneyPerHour, setMoneyPerHour] = useState<string>(price);
+  const [socialMedia, setSocialMedia] = useState<string>(telegramUsername);
+  const [phone, setPhone] = useState<string>(number);
+
+  const addMoney = () => {
+    if (
+      money !== "" &&
+      cardNumber.trim().length === 19 &&
+      nameSurname.split(" ").length > 1 &&
+      cvc.trim().length === 3
+    ) {
+      api
+        .post("/specialist/withdraw", {
+          email: User.email,
+          balance: parseInt(money),
+        })
+        .then((response) => {
+          alert.openAlert(
+            5000,
+            "success",
+            "Money was withdrawn to your credit card!"
+          );
+          setTimeout(() => {
+            location.reload();
+          }, 3000);
+        });
+    } else {
+      alert.openAlert(
+        5000,
+        "error",
+        "Please check your credit card information..."
+      );
+    }
+  };
+  const submitProfileChanges = () => {
+    api
+      .post("/specialist/updateProfile", {
+        email: User.email,
+        socialmedia_account: socialMedia,
+        phone: phone,
+        price: moneyPerHour,
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert.openAlert(5000, "success", "Your info has been updated...");
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+      });
+  };
+
   const filteredBookings = bookings?.filter((booking) => !booking?.approved);
   return (
     <div className={"tw-flex tw-justify-center"}>
@@ -53,12 +117,53 @@ const PsychologistCard = ({
               "tw-flex tw-flex-col tw-justify-between tw-h-3/4 tw-ml-2"
             }
           >
-            <div className={"tw-text-xl tw-font-bold"}>{fullName}</div>
+            <div
+              className={"tw-text-xl tw-font-bold tw-flex tw-justify-between"}
+            >
+              <span>{fullName}</span>
+              {isProfile && (
+                <Button
+                  className="tw-mr-6"
+                  onClick={() => {
+                    setIsEditMode((prev) => !prev);
+                  }}
+                >
+                  <EditOutlined />
+                </Button>
+              )}
+            </div>
             <div className={"tw-font-medium tw-text-lg"}>{title}</div>
+            {isProfile && (
+              <div className={"tw-font-medium tw-text-lg"}>
+                My balance: {User.balance}
+                <Button
+                  style={{
+                    borderRadius: "0.5rem",
+                  }}
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                >
+                  Withdraw money
+                </Button>
+              </div>
+            )}
             <div className={"tw-text-secondary"}>___________</div>
             <div className={"tw-font-light tw-flex tw-items-center "}>
               <BsFillTelephoneFill color={"#5877C5"} size={20} />
-              <div className={"tw-text-lg tw-ml-2"}>{number}</div>
+              <div className={"tw-text-lg tw-ml-2"}>
+                {isEditMode ? (
+                  <NumericFormat
+                    value={phone}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                    className="tw-w-[150px] tw-inline tw-border-2 tw-border-secondary"
+                  />
+                ) : (
+                  number
+                )}
+              </div>
             </div>
             <div className={"tw-font-light tw-my-1  tw-flex tw-items-center "}>
               <GrMail color={"#5877C5"} size={20} />
@@ -66,7 +171,19 @@ const PsychologistCard = ({
             </div>
             <div className={"tw-font-light tw-my-1  tw-flex tw-items-center "}>
               <BsTelegram color={"#5877C5"} size={20} />
-              <div className={"tw-text-lg tw-ml-2"}>{telegramUsername}</div>
+              <div className={"tw-text-lg tw-ml-2"}>
+                {isEditMode ? (
+                  <input
+                    value={socialMedia}
+                    onChange={(e) => {
+                      setSocialMedia(e.target.value);
+                    }}
+                    className="tw-w-[150px] tw-inline tw-border-2 tw-border-secondary"
+                  />
+                ) : (
+                  telegramUsername
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -77,9 +194,22 @@ const PsychologistCard = ({
           <div className={"tw-flex tw-justify-between tw-my-8"}>
             <div>
               <img alt="money" src="/money.svg" className={"tw-inline"} />
-              <span className={"tw-ml-2 tw-text-main tw-text-lg"}>
-                {price}/hour
-              </span>
+              {isEditMode ? (
+                <span className={"tw-ml-2 tw-text-main tw-text-lg"}>
+                  <NumericFormat
+                    value={moneyPerHour}
+                    onChange={(e) => {
+                      setMoneyPerHour(e.target.value);
+                    }}
+                    className="tw-w-[100px] tw-inline tw-border-2 tw-border-secondary"
+                  />
+                  /hour
+                </span>
+              ) : (
+                <span className={"tw-ml-2 tw-text-main tw-text-lg"}>
+                  {price}/hour
+                </span>
+              )}
             </div>
             <div>
               <img alt={"stars"} src="/star.svg" className={"tw-inline"} />
@@ -91,6 +221,13 @@ const PsychologistCard = ({
         </div>
         {!isProfile && (
           <PsychologistModal psychologistName={fullName} psychologistID={id} />
+        )}
+        {isProfile && isEditMode && (
+          <div className="tw-my-8">
+            <Button onClick={submitProfileChanges}>
+              Submit profile changes
+            </Button>
+          </div>
         )}
         {isProfile && (
           <>
@@ -119,6 +256,52 @@ const PsychologistCard = ({
           </>
         )}
       </div>
+      <Modal
+        open={isOpen}
+        keyboard={true}
+        onCancel={() => setIsOpen(false)}
+        width={"550px"}
+        footer={null}
+      >
+        Enter your credit card information:
+        <div>Card Number:</div>
+        <PatternFormat
+          className="tw-block tw-w-full tw-my-4 tw-border-2 tw-border-secondary"
+          format="#### #### #### ####"
+          placeholder="1234 1234 1234 1234"
+          onChange={(e) => {
+            setCardNumber(e.target.value);
+          }}
+        />
+        <div>Cardholder's name:</div>
+        <input
+          className="tw-h-6 tw-w-full tw-border-2 tw-border-secondary"
+          placeholder="NAME SURNAME"
+          onChange={(e) => {
+            setNameSurname(e.target.value);
+          }}
+        />
+        <div className="tw-mt-4">CVC/CVV:</div>
+        <PatternFormat
+          className="tw-block tw-w-full tw-mb-4 tw-border-2 tw-border-secondary"
+          format="###"
+          placeholder="123"
+          onChange={(e) => {
+            setCvc(e.target.value);
+          }}
+        />
+        <div className="mt-4">Amount of money you want to withdraw:</div>
+        <NumericFormat
+          className="tw-w-full tw-border-2 tw-border-secondary"
+          onChange={(e) => {
+            setMoney(e.target.value);
+          }}
+          value={money}
+        />
+        <div className="tw-flex tw-justify-center tw-mt-4">
+          <Button onClick={addMoney}> Proceed</Button>
+        </div>
+      </Modal>
     </div>
   );
 };
