@@ -41,6 +41,8 @@ const PatientProfile = () => {
               email={patient?.email}
               fullName={`${patient?.first_name} ${patient?.last_name}`}
               telegramUsername={patient?.last_name}
+              balance={User.balance}
+              isProfile={true}
             />
           </div>
           <div className={"tw-w-1/4"}>
