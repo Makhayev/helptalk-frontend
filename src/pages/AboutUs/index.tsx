@@ -5,6 +5,7 @@ import clsx from "clsx";
 const AboutUs = () => {
   const isMobile = window.innerWidth < 1200;
   return (
+    <React.Fragment>
     <div
       className={clsx("tw-flex-auto", {
         "tw-pl-40 tw-pr-40": !isMobile,
@@ -60,7 +61,7 @@ const AboutUs = () => {
         <div className="tw-flex "></div>
       </div>
     </div>
-  </div>);
+  </React.Fragment>)
 };
 
 export default AboutUs;
