@@ -35,6 +35,9 @@ const ProtectedRoute = observer(
         );
       }
     } else {
+      if (path.includes(":")) {
+        path = path.replace(":id", location?.href?.split("/")?.at(-1) ?? "");
+      }
       User.assignPageToRedirect(path);
       return <Redirect to={"/logIn"} />;
     }

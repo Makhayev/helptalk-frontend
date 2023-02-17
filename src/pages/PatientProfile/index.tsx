@@ -10,7 +10,7 @@ const PatientProfile = () => {
   const [patient, setPatient] = useState<any>();
   const [gotBooking, setGotBooking] = useState<boolean>(false);
   const [gotPatient, setGotPatent] = useState<boolean>(false);
-  
+
   useEffect(() => {
     api
       .post("/book/getbypatientid", {
@@ -18,7 +18,7 @@ const PatientProfile = () => {
       })
       .then((resp) => {
         setBookings(resp.data);
-        setGotBooking(true)
+        setGotBooking(true);
       });
   }, []);
   useEffect(() => {
@@ -28,27 +28,32 @@ const PatientProfile = () => {
       })
       .then((resp) => {
         setPatient(resp.data);
-        setGotPatent(true)
+        setGotPatent(true);
       });
   }, []);
 
   return (
     <div>
-      {gotBooking && gotPatient ? <div className={"tw-flex tw-justify-center tw-my-4"}>
-        <div className={"tw-w-1/2"}>
-          <PatientCard
-            email={patient?.email}
-            fullName={`${patient?.first_name} ${patient?.last_name}`}
-            telegramUsername={patient?.last_name}
-          />
+      {gotBooking && gotPatient ? (
+        <div className={"tw-flex tw-justify-center tw-my-4"}>
+          <div className={"tw-w-1/2"}>
+            <PatientCard
+              email={patient?.email}
+              fullName={`${patient?.first_name} ${patient?.last_name}`}
+              telegramUsername={patient?.last_name}
+              balance={User.balance}
+              isProfile={true}
+            />
+          </div>
+          <div className={"tw-w-1/4"}>
+            <BookingsCalendar bookings={bookings} id={User.id} />
+          </div>
         </div>
-        <div className={"tw-w-1/4"}>
-          <BookingsCalendar bookings={bookings} id={User.id} />
+      ) : (
+        <div className="tw-h-96 tw-flex tw-justify-center tw-items-center">
+          <Spin size="large" />
         </div>
-      </div> : <div className="tw-h-96 tw-flex tw-justify-center tw-items-center">
-        <Spin size="large"></Spin>
-      </div> }
-
+      )}
     </div>
   );
 };

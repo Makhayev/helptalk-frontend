@@ -6,6 +6,7 @@ import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
+import clsx from "clsx";
 
 const Navbar = observer(() => {
   const history = useHistory();
@@ -18,6 +19,7 @@ const Navbar = observer(() => {
       );
     }
   };
+  const isMobile = window.innerWidth < 1200;
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });
@@ -44,12 +46,22 @@ const Navbar = observer(() => {
           <img src={"/helptalkLogo.svg"} alt="logo" />
         </Link>
         <Menu
-          mode={"horizontal"}
+          mode={isMobile ? "vertical" : "horizontal"}
           selectable={false}
           multiple={false}
-          className="tw-items-center tw-w-1/2 tw-border-0"
+          className={clsx({
+            "tw-items-end tw-w-1/4 tw-border-0": isMobile,
+            "tw-items-center tw-items-center tw-w-1/2 tw-mr-16 tw-border-0 tw-justify-center":
+              !isMobile,
+          })}
         >
-          <Menu.Item key={"home"}>
+          <Menu.Item
+            key={"home"}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Link
               to={"/"}
               onClick={() => {
@@ -59,7 +71,13 @@ const Navbar = observer(() => {
               {"Home"}
             </Link>
           </Menu.Item>
-          <Menu.Item key={"aboutUs"}>
+          <Menu.Item
+            key={"aboutUs"}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Link
               to={"/aboutUs"}
               onClick={() => {
@@ -70,7 +88,13 @@ const Navbar = observer(() => {
             </Link>
           </Menu.Item>
           {User.role === "admin" && (
-            <Menu.Item key={"collaborate"}>
+            <Menu.Item
+              key={"collaborate"}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Link
                 to={"/collaborate"}
                 onClick={() => {
@@ -81,7 +105,13 @@ const Navbar = observer(() => {
               </Link>
             </Menu.Item>
           )}
-          <Menu.Item key={"search"}>
+          <Menu.Item
+            key={"search"}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Link
               to={"/search"}
               onClick={() => {
@@ -98,11 +128,21 @@ const Navbar = observer(() => {
                 signOut();
                 alert.openAlert(5000, "success", "Log out successful");
               }}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
               Log Out
             </Menu.Item>
           ) : (
-            <Menu.Item key={"signUp"}>
+            <Menu.Item
+              key={"signUp"}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Link
                 to={"/signUp"}
                 onClick={() => {
@@ -113,12 +153,23 @@ const Navbar = observer(() => {
               </Link>
             </Menu.Item>
           )}
-          <Menu.Item key="logIn" className="tw-w-60">
+          <Menu.Item
+            key="logIn"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              height: isMobile ? "80px" : "",
+            }}
+          >
             {User.isAuth ? (
               <Button
-                className="tw-w-48"
+                className={clsx(isMobile ? "tw-w-32" : "tw-w-48")}
                 size="large"
-                style={{ borderRadius: "20px" }}
+                style={{
+                  borderRadius: "20px",
+                  whiteSpace: "pre-line",
+                  height: "fit-content",
+                }}
                 onClick={() => {
                   history.push("/profile");
                 }}
@@ -128,9 +179,9 @@ const Navbar = observer(() => {
             ) : (
               <Link to={"/login"}>
                 <Button
-                  className="tw-w-48"
+                  className={clsx(isMobile ? "tw-w-32" : "tw-w-48")}
                   size="large"
-                  style={{ borderRadius: "20px" }}
+                  style={{ borderRadius: "20px", height: "fit-content" }}
                 >
                   Log in
                 </Button>
