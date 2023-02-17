@@ -41,6 +41,7 @@ const SpecialistProfile = () => {
               price={String(specialist?.price)}
               fullName={`${specialist?.first_name} ${specialist?.last_name}`}
               bookings={bookings}
+              balance={specialist?.balance}
               description={specialist?.description}
               isProfile={true}
               email={specialist?.email}
