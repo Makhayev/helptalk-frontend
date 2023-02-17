@@ -23,6 +23,7 @@ const Navbar = observer(() => {
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });
+
   return (
     <React.Fragment>
       {alert.isOpen && (

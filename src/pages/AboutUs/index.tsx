@@ -1,9 +1,11 @@
 import React from "react";
+import MainPageProfileCard from "../../components/MainPageProfileCard";
 import clsx from "clsx";
 
 const AboutUs = () => {
   const isMobile = window.innerWidth < 1200;
   return (
+    <React.Fragment>
     <div
       className={clsx("tw-flex-auto", {
         "tw-pl-40 tw-pr-40": !isMobile,
@@ -52,7 +54,14 @@ const AboutUs = () => {
         </div>
       </div>
     </div>
-  );
+    <div>
+      <div className="tw-w-full tw-h-32"> </div>
+      <div className="tw-flex tw-w-full tw-justify-around tw-text-2xl tw-font-bold tw-h-32 tw-items-center">Meet our team</div>
+      <div className="tw-flex tw-w-full tw-justify-between">
+        <div className="tw-flex "></div>
+      </div>
+    </div>
+  </React.Fragment>)
 };
 
 export default AboutUs;
