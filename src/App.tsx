@@ -33,12 +33,8 @@ const App = observer(() => {
           <SignUpSpecialist />
         </Route>
         <ProtectedRoute path={"/search"}>
-          {/* <Search/> */}
           <Collaborate />
         </ProtectedRoute>
-        {/* <ProtectedRoute path={"/collaborate"}>
-          <Collaborate />
-        </ProtectedRoute> */}
         <Route path={"/aboutUs"}>
           <AboutUs />
         </Route>

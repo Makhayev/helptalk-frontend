@@ -17,10 +17,9 @@ const Collaborate = () => {
 
   useEffect(() => {
     setSearch(searchString.search);
-    // api.get("/specialist/getAll").then((response) => {
-    //   console.log(response.data);
-    //   setSpecialists(response.data);
-    // });
+    api.get("/specialist/getAll").then((response) => {
+      setSpecialists(response.data);
+    });
   }, []);
   const fetchStuff = () => {
     setLoad(true);
