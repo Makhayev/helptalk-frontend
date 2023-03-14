@@ -41,7 +41,7 @@ const Navbar = observer(() => {
           }}
         />
       )}
-      <div className={"tw-flex tw-justify-between"}>
+      <div className={"tw-flex tw-justify-between"} id="top">
         <Link to={"/"}>
           <img src={"/helptalkLogo.svg"} alt="logo" />
         </Link>

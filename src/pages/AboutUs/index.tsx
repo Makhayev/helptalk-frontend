@@ -6,6 +6,7 @@ const AboutUs = () => {
   const isMobile = window.innerWidth < 1200;
   return (
     <React.Fragment>
+      
     <div
       className={clsx("tw-flex-auto", {
         "tw-pl-40 tw-pr-40": !isMobile,
@@ -23,7 +24,7 @@ const AboutUs = () => {
       <div className="tw-flex tw-justify-around tw-h-[25rem]">
         <div className="tw-flex tw-bg-pink tw-w-1/4 tw-rounded-r-lg tw-items-center tw-justify-center">
           <div className="tw--rotate-90 tw-text-4xl tw-font-bold">
-            Abouts us
+            About us
           </div>
         </div>
         <div className="tw-flex tw-bg-white tw-w-1/2 tw-items-center tw-justify-center">
@@ -53,14 +54,56 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-    </div>
-    <div>
-      <div className="tw-w-full tw-h-32"> </div>
-      <div className="tw-flex tw-w-full tw-justify-around tw-text-2xl tw-font-bold tw-h-32 tw-items-center">Meet our team</div>
-      <div className="tw-flex tw-w-full tw-justify-between">
-        <div className="tw-flex "></div>
+      <div className="tw-w-full tw-h-16"></div>
+      <div className="tw-flex tw-justify-around" id="team">
+      <div className="tw-text-4xl tw-font-bold tw-italic" >Meet our team</div>
       </div>
+    <div>
+      <div className="tw-flex tw-justify-between">
+        <div>
+          <MainPageProfileCard
+                        logoPath={"/SpecialistAvatar2.svg"}
+                        fullname={"Yerkanat Makhayev"}
+                        title={""}
+                      />
+        </div>
+        <div>
+          <MainPageProfileCard
+                        logoPath={"/SpecialistAvatar2.svg"}
+                        fullname={"Aidana Imangozhina"}
+                        title={""}
+                      />
+        </div>
+        <div>
+          <MainPageProfileCard
+                        logoPath={"/SpecialistAvatar2.svg"}
+                        fullname={"Abay Kappassov"}
+                        title={""}
+                      />
+        </div>
+      </div>
+      <div className="tw-w-full tw-h-16"></div>
+      <div className="tw-flex tw-justify-evenly">
+        <div>
+          <MainPageProfileCard
+                        logoPath={"/SpecialistAvatar2.svg"}
+                        fullname={"Magzhan Esentaev"}
+                        title={""}
+                      />
+        </div>
+        <div>
+          <MainPageProfileCard
+                        logoPath={"/SpecialistAvatar2.svg"}
+                        fullname={"Dilnaz Amanzholova"}
+                        title={""}
+                      />
+        </div>
+      </div>
+      <div className="tw-w-full tw-h-16"></div>
+      <div className="tw-w-2/3"></div>
     </div>
+    </div>
+    
   </React.Fragment>)
 };
 

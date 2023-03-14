@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
 import CustomCarousel from "../../components/Carousel";
@@ -7,6 +7,12 @@ import searchString from "../../mobx/searchString";
 import { BsArrowUpCircle, BsArrowUpCircleFill, BsHandIndexThumb } from "react-icons/bs";
 import clsx from "clsx";
 
+const handleClickScroll = () => {
+  const element = document.getElementById('top');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 
 const MainPage = observer(() => {
   const history = useHistory();
@@ -14,12 +20,6 @@ const MainPage = observer(() => {
   const onSearchClick = () => {
     searchString.setSearchString(search);
     history.push("/search");
-  };
-  const handleClickScroll = () => {
-    const element = document.getElementById('top');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
   };
   const isMobile = window.innerWidth < 1200;
   useEffect(() => {
@@ -33,8 +33,9 @@ const MainPage = observer(() => {
       document.removeEventListener("keydown", eventHandler);
     };
   }, []);
+
   return (
-    <div className="tw-flex-auto tw-justify-center" id="top">
+    <div className="tw-flex-auto tw-justify-center">
       <div className="tw-h-96 tw-bg-secondary">
         <div className="tw-text-main tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full">
           <div>
@@ -58,11 +59,12 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
-      <div id="hero-section" className="tw-flex tw-fixed tw-justify-end tw-p-10">
+      {<div id="hero-section" className="tw-flex tw-fixed tw-justify-end tw-p-10">
         <button className="tw-flex btn-scroll" onClick={handleClickScroll}>
           <BsArrowUpCircleFill className={"tw-h-20 tw-w-10 tw-text-secondary"} />
         </button>
       </div>
+}
       <div className="tw-flex tw-justify-center">
         <div
           className={clsx({
@@ -175,6 +177,8 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
+
+
     </div>
   );
 });
