@@ -10,6 +10,7 @@ import { NumericFormat, PatternFormat } from "react-number-format";
 import api from "../../api/AxiosInstance";
 import alert from "../../mobx/alert";
 import { EditOutlined } from "@ant-design/icons";
+import { createClient } from "@supabase/supabase-js";
 
 interface psychologistPageProps {
   imageURL?: string;
@@ -43,6 +44,12 @@ const PsychologistCard = ({
   bookings = [],
   id,
 }: psychologistPageProps) => {
+  const supabase = createClient(
+    "https://tyzrmnbtpxpgasdzjmyg.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5enJtbmJ0cHhwZ2FzZHpqbXlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjkyMTM5MTUsImV4cCI6MTk4NDc4OTkxNX0.Hmd0phyJLNhgq5t0WZ6mQXpQ6Ercj8IFpxXUF8U4C0g"
+  );
+  const starterPath =
+    "https://tyzrmnbtpxpgasdzjmyg.supabase.co/storage/v1/object/public/files/";
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -53,6 +60,10 @@ const PsychologistCard = ({
   const [moneyPerHour, setMoneyPerHour] = useState<string>(price);
   const [socialMedia, setSocialMedia] = useState<string>(telegramUsername);
   const [phone, setPhone] = useState<string>(number);
+
+  const [fileToUpload, setFileToUpload] = useState<File>();
+  const [inputValue, setInputValue] = useState(1);
+  const [review, setReview] = useState<string>("");
 
   const addMoney = () => {
     if (
@@ -101,6 +112,65 @@ const PsychologistCard = ({
       });
   };
 
+  const submitReview = (appointment_id: string) => {
+    api
+      .post("/rating/submit", {
+        review: review,
+        rating: inputValue,
+        appointment_id: appointment_id,
+      })
+      .then((response) => {
+        alert.openAlert(5000, "success", "Your review has been submitted...");
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+      });
+  };
+
+  const onChange = (newValue: number | null) => {
+    setInputValue(newValue ?? 1);
+  };
+  const handleUpload = async () => {
+    if (!fileToUpload) {
+      return;
+    }
+    const { data, error } = await supabase.storage
+      .from("files")
+      .upload(
+        "public/" +
+          String(Math.round(Math.random() * 100)) +
+          fileToUpload?.name,
+        fileToUpload as File
+      );
+
+    if (data) {
+      return starterPath + data?.path;
+    } else if (error) {
+      console.log(error);
+    }
+  };
+
+  const initiateUpload = async () => {
+    if (!fileToUpload) {
+      alert.openAlert(5000, "error", "Please select a file to upload...");
+      return;
+    }
+    const filePath = await handleUpload();
+    if (!filePath) {
+      alert.openAlert(5000, "error", "Upload file!");
+      return;
+    }
+    console.log(filePath);
+    api
+      .post("/user/uploadAvatar", {
+        email: User.email,
+        avatar: filePath,
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
+  console.log(imageURL);
   const filteredBookings = bookings?.filter((booking) => !booking?.approved);
   return (
     <div className={"tw-flex tw-justify-center"}>
@@ -111,7 +181,26 @@ const PsychologistCard = ({
         }
       >
         <div className={"tw-flex tw-w-full tw-justify-start"}>
-          <img src={imageURL} style={{ width: "20vw" }} alt={imageAlt} />
+          <div>
+            {isEditMode ? (
+              <div className="flex flex-col">
+                <input
+                  type="file"
+                  accept="image/png,image/jpg"
+                  onChange={(e) => {
+                    setFileToUpload(e.target.files?.[0]);
+                  }}
+                />
+                <Button onClick={initiateUpload}>Upload Avatar</Button>
+              </div>
+            ) : (
+              <img
+                src={imageURL ?? "/defaultPsychologistImage.png"}
+                style={{ width: "20vw" }}
+                alt={imageAlt}
+              />
+            )}
+          </div>
           <div
             className={
               "tw-flex tw-flex-col tw-justify-between tw-h-3/4 tw-ml-2"

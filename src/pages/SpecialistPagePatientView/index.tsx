@@ -50,6 +50,7 @@ const SpecialistPagePatientView = () => {
               bookings={bookings}
               fullName={`${specialist?.first_name} ${specialist?.last_name}`}
               description={specialist?.description}
+              imageURL={specialist?.user?.avatar}
               id={parseInt(id)}
             />
           </div>
