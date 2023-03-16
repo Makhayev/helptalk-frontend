@@ -46,6 +46,7 @@ const SpecialistProfile = () => {
               isProfile={true}
               email={specialist?.email}
               id={parseInt(User.id)}
+              imageURL={specialist?.user?.avatar}
             />
           </div>
           <div className={"tw-w-1/4"}>

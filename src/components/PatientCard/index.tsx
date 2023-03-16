@@ -2,14 +2,27 @@ import React, { useRef, useState } from "react";
 import api from "../../api/AxiosInstance";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
-import { Button, Input, Modal } from "antd";
+import {
+  Button,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Slider,
+  Upload,
+  UploadFile,
+  UploadProps,
+} from "antd";
 import { NumericFormat, PatternFormat } from "react-number-format";
 import User from "../../mobx/user";
 import alert from "../../mobx/alert";
 import { EditOutlined } from "@ant-design/icons";
+import { RcFile, UploadChangeParam } from "antd/es/upload";
+import { createClient } from "@supabase/supabase-js";
+import moment from "moment";
 
 interface psychologistPageProps {
-  imageURL?: string;
+  imageURL?: string | null;
   imageAlt?: string;
   fullName?: string;
   number?: string;
@@ -17,6 +30,7 @@ interface psychologistPageProps {
   telegramUsername?: string;
   balance?: number;
   isProfile?: boolean;
+  bookings?: any;
 }
 
 const PsychologistCard = ({
@@ -28,7 +42,14 @@ const PsychologistCard = ({
   telegramUsername = "@Zhankin",
   balance,
   isProfile = false,
+  bookings = [],
 }: psychologistPageProps) => {
+  const supabase = createClient(
+    "https://tyzrmnbtpxpgasdzjmyg.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5enJtbmJ0cHhwZ2FzZHpqbXlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjkyMTM5MTUsImV4cCI6MTk4NDc4OTkxNX0.Hmd0phyJLNhgq5t0WZ6mQXpQ6Ercj8IFpxXUF8U4C0g"
+  );
+  const starterPath =
+    "https://tyzrmnbtpxpgasdzjmyg.supabase.co/storage/v1/object/public/files/";
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -37,6 +58,47 @@ const PsychologistCard = ({
   const [money, setMoney] = useState<string>("");
   const [phone, setPhone] = useState<string>(number);
   const [socialMedia, setSocialMedia] = useState<string>(telegramUsername);
+  const [fileToUpload, setFileToUpload] = useState<File>();
+  const [inputValue, setInputValue] = useState(1);
+  const [review, setReview] = useState<string>("");
+
+  const submitReview = (appointment_id: string) => {
+    api
+      .post("/rating/submit", {
+        review: review,
+        rating: inputValue,
+        appointment_id: appointment_id,
+      })
+      .then((response) => {
+        alert.openAlert(5000, "success", "Your review has been submitted...");
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+      });
+  };
+
+  const onChange = (newValue: number | null) => {
+    setInputValue(newValue ?? 1);
+  };
+  const handleUpload = async () => {
+    if (!fileToUpload) {
+      return;
+    }
+    const { data, error } = await supabase.storage
+      .from("files")
+      .upload(
+        "public/" +
+          String(Math.round(Math.random() * 100)) +
+          fileToUpload?.name,
+        fileToUpload as File
+      );
+
+    if (data) {
+      return starterPath + data?.path;
+    } else if (error) {
+      console.log(error);
+    }
+  };
 
   const addMoney = () => {
     if (
@@ -66,7 +128,6 @@ const PsychologistCard = ({
   };
 
   const submitProfileChanges = () => {
-    console.log(User.email);
     api
       .post("/patient/updateProfile", {
         email: User.email,
@@ -81,16 +142,58 @@ const PsychologistCard = ({
       });
   };
 
+  const initiateUpload = async () => {
+    if (!fileToUpload) {
+      alert.openAlert(5000, "error", "Please select a file to upload...");
+      return;
+    }
+    const filePath = await handleUpload();
+    if (!filePath) {
+      alert.openAlert(5000, "error", "Upload file!");
+      return;
+    }
+    console.log(filePath);
+    api
+      .post("/user/uploadAvatar", {
+        email: User.email,
+        avatar: filePath,
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
-        style={{ height: "35vh", width: "40vw" }}
+        style={{
+          height: bookings.length > 0 && isProfile ? "60vh" : "35vh",
+          width: "40vw",
+        }}
         className={
           "tw-border-secondary tw-border-2 tw-flex tw-flex-col tw-items-center tw-p-5"
         }
       >
         <div className={"tw-flex tw-w-full tw-justify-start"}>
-          <img src={imageURL} style={{ width: "20vw" }} alt={imageAlt} />
+          <div>
+            {isEditMode ? (
+              <div className="flex flex-col">
+                <input
+                  type="file"
+                  accept="image/png,image/jpg"
+                  onChange={(e) => {
+                    setFileToUpload(e.target.files?.[0]);
+                  }}
+                />
+                <Button onClick={initiateUpload}>Upload Avatar</Button>
+              </div>
+            ) : (
+              <img
+                src={imageURL ?? "/defaultPsychologistImage.png"}
+                style={{ width: "20vw" }}
+                alt={imageAlt}
+              />
+            )}
+          </div>
           <div
             className={
               "tw-flex tw-flex-col tw-justify-between tw-h-3/4 tw-ml-2"
@@ -169,6 +272,50 @@ const PsychologistCard = ({
             <Button onClick={submitProfileChanges}>
               Submit profile changes
             </Button>
+          </div>
+        )}
+        {isProfile && !isEditMode && (
+          <div className="tw-my-8">
+            {bookings
+              .filter((booking: any) =>
+                moment(booking.end_time).isAfter(Date.now())
+              )
+              .map((booking: any) => (
+                <>
+                  <div>specialist id: {booking.specialist_id}</div>
+                  <div>booking id: {booking.id}</div>
+                  <div>
+                    appointment start time:
+                    {moment(booking.appointed_at).format("DD.MM.YYYY")}
+                  </div>
+                  Review:
+                  <Input.TextArea
+                    onChange={(e) => {
+                      setReview(e.target.value);
+                    }}
+                  />
+                  <Slider
+                    min={1}
+                    max={5}
+                    onChange={onChange}
+                    value={inputValue}
+                  />
+                  <InputNumber
+                    min={1}
+                    max={5}
+                    style={{ margin: "0 16px" }}
+                    value={inputValue}
+                    onChange={onChange}
+                  />
+                  <Button
+                    onClick={() => {
+                      submitReview(booking.id);
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </>
+              ))}
           </div>
         )}
       </div>

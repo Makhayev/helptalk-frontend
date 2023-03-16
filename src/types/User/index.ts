@@ -4,6 +4,7 @@ export default interface UserType {
   email: string;
   id: string;
   balance: number;
+  avatar: string | null;
   role: "admin" | "specialist" | "patient";
   isAuth: boolean;
 }
