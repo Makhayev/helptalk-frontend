@@ -10,6 +10,7 @@ class User {
   balance: number = 0;
   pageToRedirect: string = "/";
   role: "admin" | "specialist" | "patient" | "" = "";
+  avatar: string | null = null;
   constructor() {
     makeAutoObservable(this);
     const jwtToken = localStorage.getItem("accessToken");
@@ -19,7 +20,13 @@ class User {
         .then((response) => {
           const { first_name, last_name, role, email, id, balance } =
             response?.data;
-          if (first_name && role && email && last_name && balance) {
+          if (
+            first_name &&
+            role &&
+            email &&
+            last_name &&
+            balance !== undefined
+          ) {
             this.assignUser({
               name: first_name,
               surname: last_name,
