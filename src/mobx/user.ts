@@ -18,9 +18,8 @@ class User {
       api
         .get(`/loginByAccessToken`)
         .then((response) => {
-          const { first_name, last_name, role, email, id, balance, avatar } =
+          const { first_name, last_name, role, email, id, balance } =
             response?.data;
-          console.log(avatar);
           if (
             first_name &&
             role &&
@@ -30,7 +29,6 @@ class User {
           ) {
             this.assignUser({
               name: first_name,
-              avatar: avatar,
               surname: last_name,
               id: id,
               balance: balance,
@@ -62,7 +60,6 @@ class User {
     this.surname = user.surname;
     this.id = user.id;
     this.isAuth = true;
-    this.avatar = user.avatar;
     this.balance = user.balance;
     this.email = user.email;
     this.role = user.role;
