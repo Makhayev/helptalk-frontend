@@ -43,6 +43,8 @@ const PatientProfile = () => {
               telegramUsername={patient?.last_name}
               balance={User.balance}
               isProfile={true}
+              bookings={bookings}
+              imageURL={patient?.user?.avatar}
             />
           </div>
           <div className={"tw-w-1/4"}>

@@ -46,6 +46,7 @@ const PatientPageSpecialistView = () => {
                 email={patient?.email}
                 fullName={`${patient?.first_name} ${patient?.last_name}`}
                 telegramUsername={patient?.last_name}
+                imageURL={patient?.user?.avatar}
               />
               <div className={"tw-w-3/4 tw-flex tw-flex-col tw-items-center"}>
                 <div>Notes on {patient?.first_name}:</div>
