@@ -6,7 +6,7 @@ import Peer from "peerjs";
 import io from "socket.io-client";
 import api from "../../api/AxiosInstance";
 //@ts-ignore
-const socket = io.connect("https://helptalk-backend.up.railway.app");
+const socket = io.connect("https://helptalk-backend.onrender.com");
 // const socket = io.connect("http://localhost:5431");
 
 const Videochat = observer(() => {
