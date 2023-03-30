@@ -51,6 +51,7 @@ const Login = observer(() => {
         id: "admin@admin.com",
         email: "admin@admin.com",
         isAuth: true,
+        balance: 0,
         role: "admin",
       });
       history.push(User.pageToRedirect);
@@ -69,6 +70,7 @@ const Login = observer(() => {
             surname: response?.data?.last_name,
             name: response?.data?.first_name,
             id: response?.data?.id,
+            balance: response?.data?.balance,
             isAuth: true,
             email: response?.data?.email,
             role: response?.data?.role,
@@ -112,6 +114,7 @@ const Login = observer(() => {
               name: response?.data?.first_name,
               id: response?.data?.id,
               isAuth: true,
+              balance: 0,
               email: response?.data?.email,
               role: response?.data?.role,
             });

@@ -53,6 +53,7 @@ const SignUp = observer(() => {
         name: "admin",
         id: "admin@admin.com",
         email: "admin@admin.com",
+        balance: 0,
         isAuth: true,
         role: "patient",
       });
@@ -95,6 +96,7 @@ const SignUp = observer(() => {
           id: response.data.id,
           isAuth: true,
           email,
+          balance: response.data.balance,
           role: "patient",
         });
         localStorage.setItem("accessToken", response?.data?.token?.accessToken);

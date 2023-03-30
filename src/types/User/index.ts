@@ -3,6 +3,7 @@ export default interface UserType {
   surname: string;
   email: string;
   id: string;
+  balance: number;
   role: "admin" | "specialist" | "patient";
   isAuth: boolean;
 }

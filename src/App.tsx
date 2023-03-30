@@ -18,6 +18,7 @@ import PatientPageSpecialistView from "./pages/PatientPageSpecialistView";
 import SpecialistPagePatientView from "./pages/SpecialistPagePatientView";
 import Videochat from "./pages/Videochat";
 import { ToastContainer, toast } from "react-toastify";
+import Terms from "./pages/Terms";
 const App = observer(() => {
   return (
     <BrowserRouter>
@@ -84,9 +85,6 @@ const App = observer(() => {
           />
           <Collaborate />
         </ProtectedRoute>
-        {/* <ProtectedRoute path={"/collaborate"}>
-          <Collaborate />
-        </ProtectedRoute> */}
         <Route path={"/aboutUs"}>
           <ToastContainer
             position="top-right"
@@ -188,6 +186,9 @@ const App = observer(() => {
             theme="light"
           />
           <MainPage />
+        </Route>
+        <Route path={"/terms"}>
+          <Terms />
         </Route>
       </Switch>
       <Footer />

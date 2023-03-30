@@ -19,6 +19,9 @@ const Collaborate = () => {
 
   useEffect(() => {
     setSearch(searchString.search);
+    api.get("/specialist/getAll").then((response) => {
+      setSpecialists(response.data);
+    });
   }, []);
 
   const notifyWarning = () =>

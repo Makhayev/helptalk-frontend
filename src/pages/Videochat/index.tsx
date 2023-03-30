@@ -31,7 +31,6 @@ const Videochat = observer(() => {
         }
       )
       .then((resp) => {
-        console.log(resp.data);
         const appointment = resp.data.find(
           (appointment: any) => appointment.room_id === params?.id
         );

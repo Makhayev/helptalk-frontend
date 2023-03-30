@@ -94,6 +94,7 @@ const signUpSpecialist = observer(() => {
         name: "admin",
         id: "admin@admin.com",
         isAuth: true,
+        balance: 0,
         email: "admin@admin.com",
         role: "specialist",
       });
@@ -152,6 +153,7 @@ const signUpSpecialist = observer(() => {
           id: response.data.id,
           isAuth: true,
           email: email,
+          balance: 0,
           role: "specialist",
         });
         localStorage.setItem("accessToken", response?.data?.token?.accessToken);
