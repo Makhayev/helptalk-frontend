@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import User from "../../mobx/user";
 import ReactEcharts from "echarts-for-react";
-import { doc, setDoc, Timestamp, collection, getDoc } from "firebase/firestore";
+import { doc, collection, getDoc } from "firebase/firestore";
 import db from "../Collaborate/db";
+import xlsx from "json-as-xlsx"
+import { AnyARecord } from "dns";
+
 const AdminProfile = () => {
   const [chartData, setChartData] = useState<any[]>([
     { value: 335, name: "Sample spec 1" },
@@ -11,6 +14,16 @@ const AdminProfile = () => {
     { value: 235, name: "Sample spec 4" },
     { value: 400, name: "Sample spec 5" },
   ]);
+  const [excelData, setExcelData] = useState<any[]>(
+    [
+      { value: 335, name: "Sample spec 1" },
+      { value: 310, name: "Sample spec 2" },
+      { value: 274, name: "Sample spec 3" },
+      { value: 235, name: "Sample spec 4" },
+      { value: 400, name: "Sample spec 5" },
+    ]
+  );
+
   useEffect(() => {
     (async () => {
       const docRef = doc(collection(db, "specs"), "2023");
@@ -18,6 +31,7 @@ const AdminProfile = () => {
 
       if (docSnap.exists()) {
         setChartData([]);
+        setExcelData([]);
         let sum = 0;
         for (let spec of Object.keys(docSnap.data())) {
           sum += docSnap.data()[spec];
@@ -31,8 +45,18 @@ const AdminProfile = () => {
               weight: docSnap.data()[spec] / sum,
             },
           ]);
+          setExcelData((prev : any) => [...prev, {name: spec, value: docSnap.data()[spec]}])
         }
       }
+      
+      // await chartData.map((item) => {
+      //   console.log(item.value)
+      //   setExcelData((prev : any) => [...prev, {name: item.name, value: item.value.toString()}])
+      // })
+      
+        
+      
+
     })();
   }, []);
 
@@ -94,7 +118,36 @@ const AdminProfile = () => {
       },
     ],
   };
-  return <ReactEcharts option={option} />;
+  let data = [
+  {
+    sheet: "Adults",
+    columns: [
+      { label: "Spec", value: "name" }, // Top level data
+      { label: "Quantity", value: (row : any) => row.value }, // Custom format
+      // { label: "Phone", value: (row :any) => (row.more ? row.more.phone || "" : "") }, // Run functions
+    ],
+     content: excelData
+    //[
+    //   // { name: "Andrea", value: 20 },
+    //   // { name: "Luis", value: 21 },
+
+    // ],
+  },
+  
+]
+
+let settings = {
+  fileName: "SpecsData", // Name of the resulting spreadsheet
+  extraLength: 3, // A bigger number means that columns will be wider
+  writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+  writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+   // Display the columns from right-to-left (the default value is false)
+}
+
+  return <div>
+    <ReactEcharts option={option} />
+    <button onClick={()=>xlsx(data, settings)}>Download data</button>
+  </div>;
 };
 
 export default AdminProfile;
