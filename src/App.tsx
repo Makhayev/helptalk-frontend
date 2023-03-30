@@ -11,7 +11,7 @@ import SignUp from "./pages/SignUp";
 import Footer from "./components/Footer";
 import SignUpSpecialist from "./pages/SignUpSpecialist";
 import Profile from "./pages/AdminProfile";
-import User from "./mobx/user";
+import User from "./store/user";
 import SpecialistProfile from "./pages/SpecialistProfile";
 import PatientProfile from "./pages/PatientProfile";
 import PatientPageSpecialistView from "./pages/PatientPageSpecialistView";

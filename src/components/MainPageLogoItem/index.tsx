@@ -1,11 +1,6 @@
 import React from "react";
+import { MainPageLogoItemProps } from "../../interfaces";
 
-interface MainPageLogoItemProps {
-  topText: string;
-  logoPath: string;
-  bottomText: string;
-  enableRightBar?: boolean;
-}
 const MainPageLogoItem = ({
   topText,
   logoPath,

@@ -1,37 +1,15 @@
-import React, { useRef, useState } from "react";
-import api from "../../api/AxiosInstance";
+import React, { useState } from "react";
+import api from "../../api";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
-import {
-  Button,
-  Input,
-  InputNumber,
-  message,
-  Modal,
-  Slider,
-  Upload,
-  UploadFile,
-  UploadProps,
-} from "antd";
+import { Button, Input, InputNumber, Modal, Slider } from "antd";
 import { NumericFormat, PatternFormat } from "react-number-format";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import alert from "../../store/alert";
 import { EditOutlined } from "@ant-design/icons";
-import { RcFile, UploadChangeParam } from "antd/es/upload";
 import { createClient } from "@supabase/supabase-js";
 import moment from "moment";
-
-interface psychologistPageProps {
-  imageURL?: string | null;
-  imageAlt?: string;
-  fullName?: string;
-  number?: string;
-  email?: string;
-  telegramUsername?: string;
-  balance?: number;
-  isProfile?: boolean;
-  bookings?: any;
-}
+import { patientCardProps } from "../../interfaces";
 
 const PsychologistCard = ({
   imageURL = "/defaultPsychologistImage.png",
@@ -43,7 +21,7 @@ const PsychologistCard = ({
   balance,
   isProfile = false,
   bookings = [],
-}: psychologistPageProps) => {
+}: patientCardProps) => {
   const supabase = createClient(
     "https://tyzrmnbtpxpgasdzjmyg.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5enJtbmJ0cHhwZ2FzZHpqbXlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjkyMTM5MTUsImV4cCI6MTk4NDc4OTkxNX0.Hmd0phyJLNhgq5t0WZ6mQXpQ6Ercj8IFpxXUF8U4C0g"
@@ -69,7 +47,7 @@ const PsychologistCard = ({
         rating: inputValue,
         appointment_id: appointment_id,
       })
-      .then((response) => {
+      .then(() => {
         alert.openAlert(5000, "success", "Your review has been submitted...");
         setTimeout(() => {
           location.reload();
@@ -152,15 +130,10 @@ const PsychologistCard = ({
       alert.openAlert(5000, "error", "Upload file!");
       return;
     }
-    console.log(filePath);
-    api
-      .post("/user/uploadAvatar", {
-        email: User.email,
-        avatar: filePath,
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+    api.post("/user/uploadAvatar", {
+      email: User.email,
+      avatar: filePath,
+    });
   };
   return (
     <div className={"tw-flex tw-justify-center"}>

@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BookingCalendarCard from "../BookingCalendarCard";
-import User from "../../mobx/user";
-
-interface BookingsCalendarPropsType {
-  bookings: bookingType[];
-  id: string | number;
-  patient_name: string;
-}
-
-export interface bookingType {
-  appointed_at: string;
-  approved: boolean;
-  comments: string;
-  end_time: string;
-  id: number;
-  patient_id: number;
-  room_id: string;
-  specialist_id: number;
-}
+import User from "../../store/user";
+import { BookingsNoCalendarPropsType } from "../../interfaces";
 
 const BookingsCalendar = ({
   bookings,
   patient_name,
-}: BookingsCalendarPropsType) => {
+}: BookingsNoCalendarPropsType) => {
   const filteredBookings = bookings.filter(
     (booking) =>
       booking.specialist_id === parseInt(User.id) ||

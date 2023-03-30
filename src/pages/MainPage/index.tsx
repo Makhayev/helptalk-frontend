@@ -1,16 +1,16 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import MainPageLogoItem from "../../components/MainPageLogoItem";
 import CustomCarousel from "../../components/Carousel";
 import { Link, useHistory } from "react-router-dom";
-import searchString from "../../mobx/searchString";
-import { BsArrowUpCircle, BsArrowUpCircleFill, BsHandIndexThumb } from "react-icons/bs";
+import searchString from "../../store/searchString";
+import { BsArrowUpCircleFill } from "react-icons/bs";
 import clsx from "clsx";
 
 const handleClickScroll = () => {
-  const element = document.getElementById('top');
+  const element = document.getElementById("top");
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView({ behavior: "smooth" });
   }
 };
 
@@ -59,12 +59,18 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
-      {<div id="hero-section" className="tw-flex tw-fixed tw-justify-end tw-p-10">
-        <button className="tw-flex btn-scroll" onClick={handleClickScroll}>
-          <BsArrowUpCircleFill className={"tw-h-20 tw-w-10 tw-text-secondary"} />
-        </button>
-      </div>
-}
+      {
+        <div
+          id="hero-section"
+          className="tw-flex tw-fixed tw-justify-end tw-p-10"
+        >
+          <button className="tw-flex btn-scroll" onClick={handleClickScroll}>
+            <BsArrowUpCircleFill
+              className={"tw-h-20 tw-w-10 tw-text-secondary"}
+            />
+          </button>
+        </div>
+      }
       <div className="tw-flex tw-justify-center">
         <div
           className={clsx({
@@ -177,8 +183,6 @@ const MainPage = observer(() => {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 });

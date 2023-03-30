@@ -2,18 +2,8 @@ import React, { useState } from "react";
 import Tag from "./Tags";
 import PsychologistModal from "../PsychologistModal";
 import { Modal } from "antd";
-import User from "../../mobx/user";
-import SpecialistPagePatientView from "../../pages/SpecialistPagePatientView";
-
-interface searchPageCardProps {
-  name?: string;
-  description?: string;
-  tags?: any; //string[]
-  pricing?: string;
-  score?: string;
-  imageURL?: string;
-  psychologistID?: number;
-}
+import User from "../../store/user";
+import { searchPageCardProps } from "../../interfaces";
 
 const SearchPageCard = ({
   name = "Arman Zhankin",
@@ -25,8 +15,6 @@ const SearchPageCard = ({
   psychologistID = 1,
 }: searchPageCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  //const specsNames = tags.map((spec: any) => spec.name);
-  //tags.filter((spec: any) => spec.name);
   tags = tags.map((spec: any) => spec.name);
   return (
     <div className="tw-z-0 tw-grid tw-grid-cols-4 tw-w-2/3 tw-h-48 tw-my-4 tw-border-2 tw-rounded-xl tw-border-secondary tw-drop-shadow-sm">

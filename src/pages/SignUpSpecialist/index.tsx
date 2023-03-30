@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../components/CustomInput";
 import { Link, useHistory } from "react-router-dom";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import alert from "../../store/alert";
 import { createClient } from "@supabase/supabase-js";
-import api from "../../api/AxiosInstance";
+import api from "../../api";
 import { Button, Dropdown, Input, Menu, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { ToastContainer, toast } from "react-toastify";

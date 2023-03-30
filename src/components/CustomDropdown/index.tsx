@@ -1,13 +1,7 @@
 import React from "react";
 import { Button, Dropdown, Space, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-
-interface timeslotPropType {
-  dropdownItems: string[];
-  header: string;
-  iconToShow?: any;
-  setHeader: React.Dispatch<React.SetStateAction<any>>;
-}
+import { timeslotPropType } from "../../interfaces";
 
 const CustomDropdown = ({
   dropdownItems,
