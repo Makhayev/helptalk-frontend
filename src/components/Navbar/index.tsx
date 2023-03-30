@@ -51,7 +51,7 @@ const Navbar = observer(() => {
           multiple={false}
           className={clsx({
             "tw-items-end tw-w-1/4 tw-border-0": isMobile,
-            "tw-items-center tw-items-center tw-w-1/2 tw-mr-16 tw-border-0 tw-justify-center":
+            "tw-items-center tw-w-1/2 tw-mr-16 tw-border-0 tw-justify-center":
               !isMobile,
           })}
         >

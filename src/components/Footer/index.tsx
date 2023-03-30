@@ -18,11 +18,14 @@ const handleClickScroll2 = () => {
   }
 };
 
+const isMobile = window.innerWidth < 1200;
+
+
 const Footer = () => {
   return (
     <div
       className={
-        "tw-bg-main tw-h-96 tw-flex tw-flex-col tw-justify-center tw-items-center"
+        "tw-bg-main tw-w-full tw-h-96 tw-flex tw-flex-col tw-justify-center tw-items-center"
       }
     >
       <div
@@ -44,7 +47,7 @@ const Footer = () => {
           <div>Monday-Friday</div>
         </div>
         <div
-          className={"tw-flex tw-flex-col tw-w-64 tw-h-full tw-justify-around"}
+          className={"tw-flex  tw-flex-col tw-w-64 tw-h-full tw-justify-around"}
         >
           <div className={"tw-mt-20 tw-font-extrabold tw-text-2xl"}>
             Important Links
