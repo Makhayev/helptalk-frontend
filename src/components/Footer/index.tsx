@@ -4,11 +4,28 @@ import { Link } from "react-router-dom";
 import { Menu, Button, Alert } from "antd";
 import { classicNameResolver } from "typescript";
 
+const handleClickScroll = () => {
+  const element = document.getElementById('team');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+const handleClickScroll2 = () => {
+  const element = document.getElementById('top');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+const isMobile = window.innerWidth < 1200;
+
+
 const Footer = () => {
   return (
     <div
       className={
-        "tw-bg-main tw-h-96 tw-flex tw-flex-col tw-justify-center tw-items-center"
+        "tw-bg-main tw-w-full tw-h-96 tw-flex tw-flex-col tw-justify-center tw-items-center"
       }
     >
       <div
@@ -30,7 +47,7 @@ const Footer = () => {
           <div>Monday-Friday</div>
         </div>
         <div
-          className={"tw-flex tw-flex-col tw-w-64 tw-h-full tw-justify-around"}
+          className={"tw-flex  tw-flex-col tw-w-64 tw-h-full tw-justify-around"}
         >
           <div className={"tw-mt-20 tw-font-extrabold tw-text-2xl"}>
             Important Links
@@ -39,31 +56,19 @@ const Footer = () => {
 
         <div className="tw-flex tw-flex-col tw-w-64 tw-h-1/2 tw-justify-around">
           <div>
+          <a href="https://drive.google.com/file/d/1iyXk_cQCYWkgNg2lVsd2FdzXuEj35eHs/view?usp=share_link" className="tw-text-white">Terms and Conditions</a>
+          </div><div>
           <Link 
-              to={"/aboutUs"} className="tw-text-white">
+              to={"/aboutUs"} className="tw-text-white" onClick={handleClickScroll2}>
               {"Our services"}
             </Link>
-          </div>
-          <div>
-          <Link 
-              to={"/aboutUs"} className="tw-text-white">
-              {"Privacy"}
-            </Link>
           </div><div>
           <Link 
-              to={"/aboutUs"} className="tw-text-white">
-              {"Contacts"}
-            </Link>
-          </div><div>
-          <Link 
-              to={"/aboutUs"} className="tw-text-white">
+              to={"/aboutUs"} className="tw-text-white" onClick={handleClickScroll}>
               {"Meet our team"}
             </Link>
           </div><div>
-          <Link 
-              to={"/aboutUs"} className="tw-text-white">
-              {"Help desk"}
-            </Link>
+            <a href="https://t.me/helptalk_support" className="tw-text-white">Help desk</a>
           </div>
         </div>
 
