@@ -1,10 +1,7 @@
 import React from "react";
 
 const Terms = () => {
-  return (
-  <div >
-    
-  </div>);
+  return <div></div>;
 };
 
 export default Terms;

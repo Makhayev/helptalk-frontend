@@ -1,12 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import api from "../../api";
+import alert from "../../store/alert";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Input, Menu, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = observer(() => {
   const [fullName, setFullName] = useState<string>("");
@@ -19,6 +21,31 @@ const SignUp = observer(() => {
   const [phone, setPhone] = useState<string>("");
 
   const history = useHistory();
+
+  const notifyFail = () =>
+    toast.error("Registration failed!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifySuccess = () => {
+    toast.success("Registration success!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const onHandleSubmit = () => {
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
@@ -77,12 +104,14 @@ const SignUp = observer(() => {
           "refreshToken",
           response?.data?.token?.refreshToken
         );
-        alert?.openAlert(5000, "success", "registration successful");
+        //alert?.openAlert(5000, "success", "registration successful");
+        notifySuccess();
         history.push("/");
       })
       .catch((err) => {
         console.log(err);
-        alert?.openAlert(5000, "error", "Could not register");
+        //alert?.openAlert(5000, "error", "Could not register");
+        notifyFail();
       });
   };
 

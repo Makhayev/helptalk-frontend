@@ -3,20 +3,21 @@ import React, { useRef } from "react";
 import MainPageProfileCard from "../MainPageProfileCard";
 import clsx from "clsx";
 
+const isMobile = window.innerWidth < 1200;
+
 const contentStyle: React.CSSProperties = {
   height: "400px",
   color: "#7B7B7B",
   lineHeight: "50px",
   textAlign: "center",
   background: "#FFFFFF",
-  paddingTop: "30px",
+  paddingTop: isMobile ? "10px" : "20px",
   width: "100%",
 };
 
 const CustomCarousel: React.FC = () => {
   const ref = useRef<any>();
 
-  const onChange = (currentSlide: number) => {};
   const isMobile = window.innerWidth < 1200;
   return (
     <React.Fragment>
@@ -37,7 +38,6 @@ const CustomCarousel: React.FC = () => {
 
         <div style={contentStyle}>
           <Carousel
-            afterChange={onChange}
             dots={false}
             effect={"scrollx"}
             arrows={true}
@@ -152,6 +152,7 @@ const CustomCarousel: React.FC = () => {
             src={"/arrow-right.svg"}
             onClick={() => ref?.current?.next()}
             className="tw-cursor-pointer tw-z-30"
+            alt="some Image"
           />
         )}
       </div>

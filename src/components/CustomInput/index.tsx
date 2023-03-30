@@ -1,15 +1,6 @@
 import React from "react";
 import { Input } from "antd";
-
-interface CustomInputProps {
-  placeholder: string;
-  topText: string;
-  setValue: React.Dispatch<React.SetStateAction<any>>;
-  isHidden?: boolean;
-  isPassword?: boolean;
-  className?: string;
-  inputProps?: object;
-}
+import { CustomInputProps } from "../../interfaces";
 
 const CustomInput = ({
   placeholder,

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PatientCard from "../../components/PatientCard";
 import { Input, Spin } from "antd";
-import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
+import User from "../../store/user";
+import api from "../../api";
 import BookingsNoCalendar from "../../components/BookingsNoCalendar";
 import { useHistory } from "react-router-dom";
 const PatientPageSpecialistView = () => {

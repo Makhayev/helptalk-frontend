@@ -1,15 +1,11 @@
 import React from "react";
+import { MainPageProfileCardProps } from "../../interfaces";
 
 const contentStyle: React.CSSProperties = {
   height: 300,
   width: 300,
 };
 
-interface MainPageProfileCardProps {
-  fullname: string;
-  logoPath: string;
-  title: string;
-}
 const MainPageProfileCard = ({
   fullname,
   logoPath,
