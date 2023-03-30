@@ -1,13 +1,12 @@
-import FormItemLabel from "antd/es/form/FormItemLabel";
 import React, { useState, useEffect } from "react";
-import api from "../../api/AxiosInstance";
+import api from "../../api";
 import SearchPageCard from "../../components/SearchPageCard";
 import Tag from "../../components/SearchPageCard/Tags";
-import searchString from "../../mobx/searchString";
-import User from "../../mobx/user";
+import searchString from "../../store/searchString";
+
 import db from "./db";
-import { doc, setDoc, Timestamp, collection, getDoc } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
+import { doc, setDoc, collection, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 const Collaborate = () => {
   const [prompt, setPrompt] = useState("");
   const [rankedSpecs, setRankedSpecs] = useState<any[]>([]);

@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import api from "../../api";
+import alert from "../../store/alert";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Dropdown, Input, Menu, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";

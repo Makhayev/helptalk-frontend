@@ -1,13 +1,9 @@
 import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
-interface protectedRouteProps {
-  path: string;
-  children: React.ReactNode;
-  checkRoles?: string[];
-}
+import User from "../../store/user";
+import alert from "../../store/alert";
+import { protectedRouteProps } from "../../interfaces";
 
 const ProtectedRoute = observer(
   ({ path, children, checkRoles }: protectedRouteProps) => {

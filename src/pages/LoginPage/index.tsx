@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
+import User from "../../store/user";
+import api from "../../api";
 import { useHistory } from "react-router-dom";
 import {
   GoogleLogin,
@@ -11,9 +11,10 @@ import {
   GoogleLogout,
 } from "react-google-login";
 import { gapi } from "gapi-script";
-import alert from "../../mobx/alert";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import alert from "../../store/alert";
+
 const clientId = import.meta.env.VITE_CLIENTID;
 
 const Login = observer(() => {
@@ -75,7 +76,6 @@ const Login = observer(() => {
             email: response?.data?.email,
             role: response?.data?.role,
           });
-          //alert.openAlert(4000, "success", "Login success");
           notifySuccess();
           localStorage.setItem(
             "accessToken",
@@ -88,13 +88,11 @@ const Login = observer(() => {
           history.push(User.pageToRedirect);
           User.pageToRedirect = "/";
         } else {
-          //alert.openAlert(4000, "error", "Login fail");
           notifyFail();
         }
       })
       .catch((err) => {
         console.log(err);
-        //alert.openAlert(4000, "error", "Login fail");
         notifyFail();
       });
   };
@@ -118,7 +116,6 @@ const Login = observer(() => {
               email: response?.data?.email,
               role: response?.data?.role,
             });
-            //alert.openAlert(4000, "success", "Login success");
             notifySuccess();
             localStorage.setItem(
               "accessToken",

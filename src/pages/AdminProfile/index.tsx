@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import User from "../../mobx/user";
 import ReactEcharts from "echarts-for-react";
 import { doc, collection, getDoc } from "firebase/firestore";
 import db from "../Collaborate/db";
 import xlsx from "json-as-xlsx"
-import { AnyARecord } from "dns";
 
 const AdminProfile = () => {
   const [chartData, setChartData] = useState<any[]>([

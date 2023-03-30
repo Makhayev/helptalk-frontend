@@ -2,11 +2,12 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { Menu, Button, Alert } from "antd";
 import { Link } from "react-router-dom";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import alert from "../../store/alert";
 import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
+import { isMobile } from "../../interfaces";
 
 const Navbar = observer(() => {
   const history = useHistory();
@@ -19,7 +20,6 @@ const Navbar = observer(() => {
       );
     }
   };
-  const isMobile = window.innerWidth < 1200;
   const { signOut } = useGoogleLogout({
     clientId: import.meta.env.VITE_CLIENTID,
   });

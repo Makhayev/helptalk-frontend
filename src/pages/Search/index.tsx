@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import SearchPageCard from "../../components/SearchPageCard";
-import searchString from "../../mobx/searchString";
-import api from "../../api/AxiosInstance";
+import searchString from "../../store/searchString";
+import api from "../../api";
 
 const Search = observer(() => {
   const [search, setSearch] = useState<string>("");

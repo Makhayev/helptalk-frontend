@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import User from "../../mobx/user";
+import User from "../../store/user";
 import React, { useEffect, useRef, useState } from "react";
 import Peer from "peerjs";
 import io from "socket.io-client";
-import api from "../../api/AxiosInstance";
+import api from "../../api";
 //@ts-ignore
 const socket = io.connect("https://helptalk-backend.onrender.com");
-// const socket = io.connect("http://localhost:5431");
 
 const Videochat = observer(() => {
   const params = useParams<{ id?: string }>();
@@ -19,7 +18,6 @@ const Videochat = observer(() => {
   const userVideo = useRef<HTMLVideoElement>(null);
   const [guestName, setGuestName] = useState<string>("");
   const myPeer = new Peer(User.email);
-  console.log(User.role);
   useEffect(() => {
     api
       .post(
@@ -82,10 +80,7 @@ const Videochat = observer(() => {
   });
   useEffect(() => {
     socket.on("chat-message", (data: any) => {
-      console.log(data.message);
-      console.log(messages);
       if (messages?.[messages?.length - 1] !== data.message) {
-        console.log("setter");
         setMessages((prev) => [
           ...prev,
           { msg: data.message, isFromMe: false },

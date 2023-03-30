@@ -2,23 +2,8 @@ import React, { useState } from "react";
 import { Calendar } from "antd";
 import moment from "moment";
 import BookingCalendarCard from "../BookingCalendarCard";
-import User from "../../mobx/user";
-
-interface BookingsCalendarPropsType {
-  bookings: bookingType[];
-  id: string | number;
-}
-
-export interface bookingType {
-  appointed_at: string;
-  approved: boolean;
-  comments: string;
-  end_time: string;
-  id: number;
-  patient_id: number;
-  room_id: string;
-  specialist_id: number;
-}
+import User from "../../store/user";
+import { BookingsCalendarPropsType } from "../../interfaces";
 
 const BookingsCalendar = ({ bookings, id }: BookingsCalendarPropsType) => {
   const appointmentDates = bookings

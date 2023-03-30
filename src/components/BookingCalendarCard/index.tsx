@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Button } from "antd";
-import api from "../../api/AxiosInstance";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import api from "../../api";
+import User from "../../store/user";
+import alert from "../../store/alert";
 import { Link } from "react-router-dom";
-
-export interface BookingCalendarCardType {
-  comments: string;
-  id: number;
-  appointed_at: string;
-  nameId: number;
-  end_time: string;
-  specialist_id?: number | string;
-  approved: boolean;
-  patient_id?: number | string;
-  room_id: string;
-}
+import { BookingCalendarCardType } from "../../interfaces";
 
 const BookingCalendarCard = ({
   comments,
