@@ -1,33 +1,16 @@
 import React, { useState } from "react";
-import PsychologistInfo from "../../components/PsychologistInfo";
 import { BsFillTelephoneFill, BsTelegram } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
 import PendingBookingCard from "../PendingBookingCard";
-import User from "../../mobx/user";
+import User from "../../store/user";
 import PsychologistModal from "../PsychologistModal";
-import { Button, Input, Modal } from "antd";
+import { Button, Modal } from "antd";
 import { NumericFormat, PatternFormat } from "react-number-format";
-import api from "../../api/AxiosInstance";
-import alert from "../../mobx/alert";
+import api from "../../api";
+import alert from "../../store/alert";
 import { EditOutlined } from "@ant-design/icons";
 import { createClient } from "@supabase/supabase-js";
-
-interface psychologistPageProps {
-  imageURL?: string;
-  imageAlt?: string;
-  fullName?: string;
-  title?: string;
-  number?: string;
-  email?: string;
-  telegramUsername?: string;
-  description?: string;
-  price?: string;
-  rating?: string;
-  isProfile?: boolean;
-  bookings?: any[];
-  id: number;
-  balance?: number;
-}
+import { psychologistPageProps } from "../../interfaces";
 
 const PsychologistCard = ({
   imageURL = "/defaultPsychologistImage.png",
@@ -103,8 +86,7 @@ const PsychologistCard = ({
         phone: phone,
         price: moneyPerHour,
       })
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
         alert.openAlert(5000, "success", "Your info has been updated...");
         setTimeout(() => {
           location.reload();
@@ -134,7 +116,7 @@ const PsychologistCard = ({
     if (!fileToUpload) {
       return;
     }
-    const { data, error } = await supabase.storage
+    const { data } = await supabase.storage
       .from("files")
       .upload(
         "public/" +
@@ -145,8 +127,6 @@ const PsychologistCard = ({
 
     if (data) {
       return starterPath + data?.path;
-    } else if (error) {
-      console.log(error);
     }
   };
 
@@ -160,17 +140,11 @@ const PsychologistCard = ({
       alert.openAlert(5000, "error", "Upload file!");
       return;
     }
-    console.log(filePath);
-    api
-      .post("/user/uploadAvatar", {
-        email: User.email,
-        avatar: filePath,
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+    api.post("/user/uploadAvatar", {
+      email: User.email,
+      avatar: filePath,
+    });
   };
-  console.log(imageURL);
   const filteredBookings = bookings?.filter((booking) => !booking?.approved);
   return (
     <div className={"tw-flex tw-justify-center"}>

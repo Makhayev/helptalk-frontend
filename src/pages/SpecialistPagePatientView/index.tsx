@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import BookingsCalendar from "../../components/BookingsCalendar";
-import User from "../../mobx/user";
-import api from "../../api/AxiosInstance";
+import User from "../../store/user";
+import api from "../../api";
 import { useHistory, useParams } from "react-router-dom";
 import BookingsNoCalendar from "../../components/BookingsNoCalendar";
 import PsychologistCard from "../../components/PsychologistCard";

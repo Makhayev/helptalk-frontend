@@ -1,13 +1,15 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../components/CustomInput";
 import { Link, useHistory } from "react-router-dom";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import User from "../../store/user";
+import alert from "../../store/alert";
 import { createClient } from "@supabase/supabase-js";
-import api from "../../api/AxiosInstance";
+import api from "../../api";
 import { Button, Dropdown, Input, Menu, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const signUpSpecialist = observer(() => {
   const supabase = createClient(
@@ -31,6 +33,30 @@ const signUpSpecialist = observer(() => {
   const [phone, setPhone] = useState<string>("");
 
   const history = useHistory();
+
+  const notifyFail = () =>
+    toast.error("Registration failed!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifySuccess = () => {
+    toast.success("Registration success!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
   const validatePassword = (pass: string) => {
     if (pass === "") {
@@ -135,12 +161,14 @@ const signUpSpecialist = observer(() => {
           "refreshToken",
           response?.data?.token?.refreshToken
         );
-        alert?.openAlert(5000, "success", "registration successful");
+        notifySuccess();
+        //alert?.openAlert(5000, "success", "registration successful");
         history.push("/");
       })
       .catch((err) => {
         console.log(err);
-        alert?.openAlert(5000, "error", "Could not register");
+        notifyFail();
+        //alert?.openAlert(5000, "error", "Could not register");
       });
   };
   const handleUpload = async () => {
@@ -273,7 +301,7 @@ const signUpSpecialist = observer(() => {
               </Button>
             </Dropdown>
           </div>
-          <div className={"tw-w-1/2"}>
+          <div className={"tw-w-1/2 tw-my-2"}>
             <div>Your Phone Number</div>
             <Input
               className="tw-w-full tw-my-2"
@@ -283,8 +311,9 @@ const signUpSpecialist = observer(() => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div>Description</div>
-          <div className={"tw-w-1/2 tw-"}>
+          
+          <div className={"tw-w-1/2 tw-my-2"}>
+            <div>Description</div>
             <Input.TextArea
               placeholder={"Describe Yourself in a few words..."}
               onChange={(e) => {

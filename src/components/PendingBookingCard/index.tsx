@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BookingCalendarCardType } from "../BookingCalendarCard";
+import { BookingCalendarCardType } from "../../interfaces";
 import moment from "moment/moment";
-import api from "../../api/AxiosInstance";
+import api from "../../api";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import alert from "../../mobx/alert";
+import alert from "../../store/alert";
 
 const PendingBookingCard = ({
   comments,
   id,
   appointed_at,
-  nameId,
   end_time,
   patient_id,
 }: BookingCalendarCardType) => {
@@ -39,7 +38,6 @@ const PendingBookingCard = ({
         }, 5000);
       })
       .catch((err) => {
-        console.log(err);
         alert.openAlert(5000, "error", "Something went wrong...");
       });
   };

@@ -4,16 +4,12 @@ import { Calendar, Input } from "antd";
 import { Moment } from "moment";
 import CustomDropdown from "../CustomDropdown";
 import { FieldTimeOutlined } from "@ant-design/icons";
-import api from "../../api/AxiosInstance";
-import User from "../../mobx/user";
-import alert from "../../mobx/alert";
+import api from "../../api";
+import User from "../../store/user";
+import alert from "../../store/alert";
+import { psychologistModalPropsType } from "../../interfaces";
+import { ToastContainer, toast } from "react-toastify";
 
-interface psychologistModalPropsType {
-  psychologistName: string;
-  psychologistID: number;
-  className?: string;
-  closeModal?: React.Dispatch<SetStateAction<boolean>>;
-}
 const mockTimeslots = [
   "13:00-14:00",
   "15:00-16:00",
@@ -33,6 +29,30 @@ const PsychologistModal = ({
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [subject, setSubject] = useState<string>();
   const [message, setMessage] = useState<string>();
+
+  const notifyFail = () =>
+    toast.error("Error, something went wrong!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifySuccess = () => {
+    toast.success("Appointment created!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
   const handleSubmit = () => {
     api
       .post("/book", {
@@ -44,11 +64,11 @@ const PsychologistModal = ({
         comments: message,
       })
       .then((res) => {
-        alert.openAlert(5000, "success", "Appointment Created");
+        notifySuccess();
       })
       .catch((err) => {
         console.log(err);
-        alert.openAlert(5000, "error", "Something went wrong...");
+        notifyFail();
       });
     if (closeModal) {
       closeModal(false);
