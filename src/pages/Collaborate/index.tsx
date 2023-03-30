@@ -5,7 +5,9 @@ import SearchPageCard from "../../components/SearchPageCard";
 import Tag from "../../components/SearchPageCard/Tags";
 import searchString from "../../mobx/searchString";
 import User from "../../mobx/user";
-
+import db from "./db";
+import { doc, setDoc, Timestamp, collection, getDoc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
 const Collaborate = () => {
   const [prompt, setPrompt] = useState("");
   const [rankedSpecs, setRankedSpecs] = useState<any[]>([]);
@@ -17,11 +19,45 @@ const Collaborate = () => {
 
   useEffect(() => {
     setSearch(searchString.search);
-    // api.get("/specialist/getAll").then((response) => {
-    //   console.log(response.data);
-    //   setSpecialists(response.data);
-    // });
   }, []);
+
+  const notifyWarning = () =>
+    toast.warn("Too many requests, please wait a minute", {
+      position: "top-right",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const uploadData = async (specs: any) => {
+    const docRef = doc(collection(db, "specs"), "2023");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let temp = docSnap.data();
+      for (let spec of Object.keys(specs)) {
+        temp[spec] += 1;
+      }
+      await setDoc(docRef, temp);
+    }
+
+    // await setDoc(docRef, {
+    //   Relationships: 0,
+    //   "Family Issues": 0,
+    //   "Self-esteem": 0,
+    //   Anxiety: 0,
+    //   Work: 0,
+    //   Emotional: 0,
+    //   Discrimination: 0,
+    //   Health: 0,
+    //   Trauma: 0,
+    // });
+  };
+
   const fetchStuff = () => {
     setLoad(true);
     setTagsShowed(false);
@@ -30,6 +66,8 @@ const Collaborate = () => {
         prompt: prompt,
       })
       .then((response) => {
+        console.log(response?.data?.Specializations.Specializations);
+        uploadData(response?.data?.Specializations.Specializations);
         setLoad(false);
         setRankedSpecs([]);
         setSpecVal(response?.data?.Specializations.Specializations);
@@ -40,12 +78,17 @@ const Collaborate = () => {
         setSpecialists(response?.data?.Specializations.Specialists);
       })
       .catch((err) => {
+        if (err.message == "Request failed with status code 429") {
+          notifyWarning();
+          setLoad(false);
+          setRankedSpecs([]);
+          return;
+        }
         alert(err);
         console.log(err);
       });
   };
   const handleKeypress = (e: any) => {
-    //it triggers by pressing the enter key
     if (e.keyCode === 13) {
       fetchStuff();
     }
