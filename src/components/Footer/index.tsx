@@ -38,7 +38,7 @@ const Footer = () => {
             HelpTalk is a service that helps you find and an appropriate
             psychological help or to find people that you could help.
           </div>
-          <div>Business Hour</div>
+          <div>Business Hours: 09:00 - 18:00</div>
           <div>Monday-Friday</div>
         </div>
         <div
@@ -111,11 +111,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <hr
-        className={
-          "tw-border-b-dark tw-border-dark tw-w-3/4 tw-h-1 tw-border-opacity-90"
-        }
-      />
       <div className={"tw-text-white tw-mb-4"}>
         All rights reserved by HelpTalk 2022
       </div>
