@@ -301,7 +301,7 @@ const signUpSpecialist = observer(() => {
               </Button>
             </Dropdown>
           </div>
-          <div className={"tw-w-1/2"}>
+          <div className={"tw-w-1/2 tw-my-2"}>
             <div>Your Phone Number</div>
             <Input
               className="tw-w-full tw-my-2"
@@ -311,8 +311,9 @@ const signUpSpecialist = observer(() => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div>Description</div>
-          <div className={"tw-w-1/2 tw-"}>
+          
+          <div className={"tw-w-1/2 tw-my-2"}>
+            <div>Description</div>
             <Input.TextArea
               placeholder={"Describe Yourself in a few words..."}
               onChange={(e) => {

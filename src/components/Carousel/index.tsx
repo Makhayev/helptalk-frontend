@@ -3,13 +3,15 @@ import React, { useRef } from "react";
 import MainPageProfileCard from "../MainPageProfileCard";
 import clsx from "clsx";
 
+const isMobile = window.innerWidth < 1200;
+
 const contentStyle: React.CSSProperties = {
   height: "400px",
   color: "#7B7B7B",
   lineHeight: "50px",
   textAlign: "center",
   background: "#FFFFFF",
-  paddingTop: "30px",
+  paddingTop: isMobile ? "10px" : "20px",
   width: "100%",
 };
 
