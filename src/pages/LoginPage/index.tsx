@@ -12,13 +12,37 @@ import {
 } from "react-google-login";
 import { gapi } from "gapi-script";
 import alert from "../../mobx/alert";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const clientId = import.meta.env.VITE_CLIENTID;
 
 const Login = observer(() => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const notifyFail = () =>
+    toast.error("Login failed!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifySuccess = () => {
+    toast.success("Login success!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
   const onHandleSubmit = () => {
     if (email === "admin" && password === "1234512345") {
       User.assignUser({
@@ -49,7 +73,8 @@ const Login = observer(() => {
             email: response?.data?.email,
             role: response?.data?.role,
           });
-          alert.openAlert(4000, "success", "Login success");
+          //alert.openAlert(4000, "success", "Login success");
+          notifySuccess();
           localStorage.setItem(
             "accessToken",
             response?.data?.token?.accessToken
@@ -61,12 +86,14 @@ const Login = observer(() => {
           history.push(User.pageToRedirect);
           User.pageToRedirect = "/";
         } else {
-          alert.openAlert(4000, "error", "Login fail");
+          //alert.openAlert(4000, "error", "Login fail");
+          notifyFail();
         }
       })
       .catch((err) => {
         console.log(err);
-        alert.openAlert(4000, "error", "Login fail");
+        //alert.openAlert(4000, "error", "Login fail");
+        notifyFail();
       });
   };
 
@@ -88,7 +115,8 @@ const Login = observer(() => {
               email: response?.data?.email,
               role: response?.data?.role,
             });
-            alert.openAlert(4000, "success", "Login success");
+            //alert.openAlert(4000, "success", "Login success");
+            notifySuccess();
             localStorage.setItem(
               "accessToken",
               response?.data?.token?.accessToken

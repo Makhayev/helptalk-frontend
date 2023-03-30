@@ -8,6 +8,8 @@ import { createClient } from "@supabase/supabase-js";
 import api from "../../api/AxiosInstance";
 import { Button, Dropdown, Input, Menu, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const signUpSpecialist = observer(() => {
   const supabase = createClient(
@@ -31,6 +33,30 @@ const signUpSpecialist = observer(() => {
   const [phone, setPhone] = useState<string>("");
 
   const history = useHistory();
+
+  const notifyFail = () =>
+    toast.error("Registration failed!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifySuccess = () => {
+    toast.success("Registration success!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
   const validatePassword = (pass: string) => {
     if (pass === "") {
@@ -133,12 +159,14 @@ const signUpSpecialist = observer(() => {
           "refreshToken",
           response?.data?.token?.refreshToken
         );
-        alert?.openAlert(5000, "success", "registration successful");
+        notifySuccess();
+        //alert?.openAlert(5000, "success", "registration successful");
         history.push("/");
       })
       .catch((err) => {
         console.log(err);
-        alert?.openAlert(5000, "error", "Could not register");
+        notifyFail();
+        //alert?.openAlert(5000, "error", "Could not register");
       });
   };
   const handleUpload = async () => {
