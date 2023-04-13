@@ -8,9 +8,9 @@ import { createClient } from "@supabase/supabase-js";
 import api from "../../api";
 import { Button, Dropdown, Input, Menu, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const signUpSpecialist = observer(() => {
   const supabase = createClient(
@@ -35,13 +35,13 @@ const signUpSpecialist = observer(() => {
 
   const history = useHistory();
 
-  const addUUIDToFileName = (fileName : string) => {
+  const addUUIDToFileName = (fileName: string) => {
     const uuid = uuidv4(); // Assumes there's a function that generates a UUID
-    const fileNameParts = fileName.split('.');
-    const fileNameWithoutFormat = fileNameParts.slice(0, -1).join('.');
+    const fileNameParts = fileName.split(".");
+    const fileNameWithoutFormat = fileNameParts.slice(0, -1).join(".");
     const format = fileNameParts[fileNameParts.length - 1];
     return `${fileNameWithoutFormat}-${uuid}.${format}`;
-  }
+  };
 
   const notifyFail = () =>
     toast.error("Registration failed!", {
@@ -186,7 +186,10 @@ const signUpSpecialist = observer(() => {
     }
     const { data, error } = await supabase.storage
       .from("files")
-      .upload("public/" + addUUIDToFileName(fileToUpload?.name), fileToUpload as File);
+      .upload(
+        "public/" + addUUIDToFileName(fileToUpload?.name),
+        fileToUpload as File
+      );
 
     if (data) {
       return starterPath + data?.path;
@@ -321,7 +324,7 @@ const signUpSpecialist = observer(() => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          
+
           <div className={"tw-w-1/2 tw-my-2"}>
             <div>Description</div>
             <Input.TextArea

@@ -87,24 +87,6 @@ const Navbar = observer(() => {
               {"About Us"}
             </Link>
           </Menu.Item>
-          {User.role === "admin" && (
-            <Menu.Item
-              key={"collaborate"}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Link
-                to={"/collaborate"}
-                onClick={() => {
-                  onHandleClick(true, "collaborate");
-                }}
-              >
-                {"OpenAI"}
-              </Link>
-            </Menu.Item>
-          )}
           <Menu.Item
             key={"search"}
             style={{
