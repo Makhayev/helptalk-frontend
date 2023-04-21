@@ -38,13 +38,18 @@ const Search = observer(() => {
         </div>
       </div>
       <div className="tw-flex tw-flex-col tw-items-center tw-justify-center">
-        {specialists.map((specialist: any) => (
-          <SearchPageCard
-            name={`${specialist.first_name} ${specialist.last_name}`}
-            pricing={String(specialist.price)}
-            description={specialist.email}
-          />
-        ))}
+        {specialists
+          ?.filter((spec) => {
+            console.log(spec);
+            return spec.confirmed;
+          })
+          .map((specialist: any) => (
+            <SearchPageCard
+              name={`${specialist.first_name} ${specialist.last_name}`}
+              pricing={String(specialist.price)}
+              description={specialist.email}
+            />
+          ))}
       </div>
     </div>
   );

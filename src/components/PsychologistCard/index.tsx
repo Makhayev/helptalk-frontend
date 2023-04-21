@@ -13,6 +13,7 @@ import { createClient } from "@supabase/supabase-js";
 import { psychologistPageProps } from "../../interfaces";
 
 const PsychologistCard = ({
+  appointments,
   imageURL = "/defaultPsychologistImage.png",
   imageAlt = "zhankin",
   fullName = "Arman Zhankin",
@@ -22,7 +23,7 @@ const PsychologistCard = ({
   telegramUsername = "@Zhankin",
   description = "Hello! My name is Arman, I am a psychologist with 5 years of experience. I have worked for NU counselling and focus on people with eating disorders.",
   price = "100$",
-  rating = "4.8",
+  rating,
   isProfile = false,
   bookings = [],
   id,
@@ -146,6 +147,7 @@ const PsychologistCard = ({
     });
   };
   const filteredBookings = bookings?.filter((booking) => !booking?.approved);
+  console.log(appointments);
   return (
     <div className={"tw-flex tw-justify-center"}>
       <div
@@ -277,13 +279,28 @@ const PsychologistCard = ({
             <div>
               <img alt={"stars"} src="/star.svg" className={"tw-inline"} />
               <span className={"tw-ml-2 tw-text-main tw-text-lg tw-ml-6"}>
-                {rating}/5
+                {rating ? <span>{rating}/5</span> : <span>No ratings yet</span>}
               </span>
             </div>
           </div>
         </div>
         {!isProfile && (
-          <PsychologistModal psychologistName={fullName} psychologistID={id} />
+          <>
+            <PsychologistModal
+              psychologistName={fullName}
+              psychologistID={id}
+            />
+            <div className="">
+              <div className="tw-font-bold tw-text-lg">
+                Reviews for this psychologist:
+              </div>
+              {appointments?.map((app, index) => (
+                <div className="tw-text-center">
+                  {index + 1}) {app?.reviews?.[0]?.review}
+                </div>
+              ))}
+            </div>
+          </>
         )}
         {isProfile && isEditMode && (
           <div className="tw-my-8">

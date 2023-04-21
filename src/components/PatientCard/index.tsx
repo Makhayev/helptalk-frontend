@@ -39,7 +39,7 @@ const PsychologistCard = ({
   const [fileToUpload, setFileToUpload] = useState<File>();
   const [inputValue, setInputValue] = useState(1);
   const [review, setReview] = useState<string>("");
-
+  console.log(bookings);
   const submitReview = (appointment_id: string) => {
     api
       .post("/rating/submit", {
@@ -139,7 +139,7 @@ const PsychologistCard = ({
     <div className={"tw-flex tw-justify-center"}>
       <div
         style={{
-          height: bookings.length > 0 && isProfile ? "60vh" : "35vh",
+          height: bookings.length > 0 && isProfile ? "100vh" : "35vh",
           width: "40vw",
         }}
         className={
@@ -250,12 +250,16 @@ const PsychologistCard = ({
         {isProfile && !isEditMode && (
           <div className="tw-my-8">
             {bookings
+              .filter((booking: any) => booking.reviews.length === 0)
               .filter((booking: any) =>
                 moment(booking.end_time).isAfter(Date.now())
               )
               .map((booking: any) => (
                 <>
-                  <div>specialist id: {booking.specialist_id}</div>
+                  <div>
+                    {booking.specialist?.first_name}{" "}
+                    {booking?.specialist?.last_name}
+                  </div>
                   <div>booking id: {booking.id}</div>
                   <div>
                     appointment start time:
