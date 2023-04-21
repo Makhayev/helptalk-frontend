@@ -4,13 +4,14 @@ import PsychologistModal from "../PsychologistModal";
 import { Modal } from "antd";
 import User from "../../store/user";
 import { searchPageCardProps } from "../../interfaces";
+import { Link } from "react-router-dom";
 
 const SearchPageCard = ({
   name = "Arman Zhankin",
   description = "Hello! My name is Arman, I am a psychologist with 5 years of experience. I have worked for NU counselling and focus on people with eating disorders.",
   tags = ["Eating Disorders", "Professional", "Young People"],
   pricing = "100$ per hour",
-  score = "4.8",
+  score,
   imageURL = "defaultPsychologistImage.png",
   psychologistID = 1,
 }: searchPageCardProps) => {
@@ -26,9 +27,11 @@ const SearchPageCard = ({
         />
       </div>
       <div className={"tw-col-span-2 tw-flex tw-flex-col tw-justify-around"}>
-        <div className={"tw-text-main tw-text-lg tw-underline tw-mt-4"}>
-          {name}
-        </div>
+        <Link to={`/specialist/${psychologistID}`}>
+          <div className={"tw-text-main tw-text-lg tw-underline tw-mt-4"}>
+            {name}
+          </div>
+        </Link>
         <div>{description}</div>
         <div className={"tw-flex tw-flex-row"}>
           {tags?.map((tag: any) => (
@@ -46,7 +49,7 @@ const SearchPageCard = ({
         <div className="tw-flex tw-justify-end tw-items-center tw-ml-2">
           <img src="star.svg" className={"tw-inline"} />
           <span className={"tw-ml-2 tw-text-main tw-text-lg tw-ml-6"}>
-            {score}/5
+            {score ? <span>{score}5</span> : <span>No ratings yet</span>}
           </span>
         </div>
         {User.role === "patient" && (

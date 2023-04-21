@@ -1,6 +1,7 @@
 import React, { SetStateAction } from "react";
 
 export interface psychologistPageProps {
+  appointments?: any[];
   imageURL?: string;
   imageAlt?: string;
   fullName?: string;
@@ -11,6 +12,7 @@ export interface psychologistPageProps {
   description?: string;
   price?: string;
   rating?: string;
+  ratings?: any;
   isProfile?: boolean;
   bookings?: any[];
   id: number;

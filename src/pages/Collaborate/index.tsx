@@ -46,18 +46,6 @@ const Collaborate = () => {
       }
       await setDoc(docRef, temp);
     }
-
-    // await setDoc(docRef, {
-    //   Relationships: 0,
-    //   "Family Issues": 0,
-    //   "Self-esteem": 0,
-    //   Anxiety: 0,
-    //   Work: 0,
-    //   Emotional: 0,
-    //   Discrimination: 0,
-    //   Health: 0,
-    //   Trauma: 0,
-    // });
   };
 
   const fetchStuff = () => {
@@ -68,7 +56,6 @@ const Collaborate = () => {
         prompt: prompt,
       })
       .then((response) => {
-        console.log(response?.data?.Specializations.Specializations);
         uploadData(response?.data?.Specializations.Specializations);
         setLoad(false);
         setRankedSpecs([]);
@@ -135,15 +122,17 @@ const Collaborate = () => {
             </ul>
             {tagsShowed && (
               <div className="tw-flex tw-flex-col tw-mt-5 tw-items-center tw-justify-center">
-                {specialists.map((specialist: any) => (
-                  <SearchPageCard
-                    name={`${specialist.first_name} ${specialist.last_name}`}
-                    pricing={String(specialist.price)}
-                    description={specialist.description}
-                    psychologistID={specialist.id}
-                    tags={specialist.specializations}
-                  />
-                ))}
+                {specialists
+                  .filter((spec) => spec?.confirmed)
+                  .map((specialist: any) => (
+                    <SearchPageCard
+                      name={`${specialist.first_name} ${specialist.last_name}`}
+                      pricing={String(specialist.price)}
+                      description={specialist.description}
+                      psychologistID={specialist.id}
+                      tags={specialist.specializations}
+                    />
+                  ))}
               </div>
             )}
           </div>
