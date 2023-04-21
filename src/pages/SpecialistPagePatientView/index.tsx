@@ -36,17 +36,20 @@ const SpecialistPagePatientView = () => {
         setGotPatent(true);
       });
   }, []);
+  console.log(specialist);
   return (
     <div className={"tw-flex tw-justify-center tw-my-4"}>
       {gotBooking && gotPatient ? (
         <>
           <div className={"tw-w-1/2"}>
             <PsychologistCard
+              appointments={specialist?.appointments}
               number={specialist?.user?.phone}
               telegramUsername={specialist?.user?.socialmedia_account}
               price={specialist?.price}
               email={specialist?.email}
               bookings={bookings}
+              rating={specialist?.ratings?.[0]?.rating}
               fullName={`${specialist?.first_name} ${specialist?.last_name}`}
               description={specialist?.description}
               imageURL={specialist?.user?.avatar}
