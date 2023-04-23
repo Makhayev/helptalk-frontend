@@ -136,8 +136,8 @@ Firstly, install the latest version of ```npm```.
    npm run dev
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-<!-- CONTRIBUTING -->
-## Contributing
+
+### Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
