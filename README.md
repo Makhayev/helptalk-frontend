@@ -94,7 +94,9 @@ This project aims to create a platform that utilizes GPT-3 natural language proc
 * [![TypeScript][Typescript]][Typescript-url]
 * [![Tailwind][Tailwindcss.com]][Tailwindcss-url]
 * [![Ant][Ant]][Ant-url]
+* ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
 * [![Vite][Vite]][Vite-url]
+* ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -121,14 +123,20 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/Makhayev/helptalk-frontend.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install --legacy-peer-deps
    ```
-4. Set up your environmental variables
+3. Set up your environmental variables
 
+
+### Starting
+
+1. Clone the repo
+   ```sh
+   npm run dev
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- CONTRIBUTING -->
 ## Contributing
 
