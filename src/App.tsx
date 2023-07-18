@@ -26,7 +26,7 @@ const App = observer(() => {
       <Switch>
         <Route exact path={"/login"}>
           <ToastContainer
-            position="top-right"
+            position="top-left"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
