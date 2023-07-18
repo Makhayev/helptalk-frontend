@@ -27,7 +27,7 @@ const App = observer(() => {
         <Route exact path={"/login"}>
           <ToastContainer
             position="top-left"
-            autoClose={10000}
+            autoClose={3228}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
